@@ -4,26 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#90CAF9"
+    android:textAlignment="viewStart"
     tools:context=".MainActivity">
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="212dp"
+        android:background="@drawable/redondear"
         android:ems="10"
-        android:hint="email"
+        android:hint="Email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usuario" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/iniciarSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="440dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="#E0E0E0"
         android:onClick="pasoInicio"
         android:text="Iniciar Sesion"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +62,7 @@
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/white"
         android:text="No tiene usuario, crealo"
-        android:textAlignment="viewStart"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="#9b9b9b"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,50 +70,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iniciarSesion" />
 
-    <TextView
-        android:id="@+id/usuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="184dp"
-        android:text="Email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <EditText
         android:id="@+id/editTextTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/redondear"
         android:ems="10"
-        android:hint="contraseña"
+        android:hint="Contraseña"
         android:inputType="textPassword"
         android:minHeight="48dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contraseña" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
 
     <TextView
         android:id="@+id/error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
         android:layout_marginTop="8dp"
         android:text="El usuario o la contraseña son incorrectos."
         android:textColor="#FD0000"
         android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
         tools:visibility="invisible" />
-
-    <TextView
-        android:id="@+id/contraseña"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="28dp"
-        android:text="Contraseña"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
