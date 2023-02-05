@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void pasoInicio(View v){
 
-        Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
+        Intent intent = new Intent(v.getContext(), SeleccionarPaciente.class);
         EditText email = (EditText) findViewById(R.id.editTextTextEmailAddress);
 
         EditText password = (EditText) findViewById(R.id.editTextTextPassword);
