@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_blue"
+    android:background="@color/background_gray"
     tools:context=".SeleccionarPaciente">
 
     <ImageButton
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profile_foreground"
-        app:tint="@color/background_blue" />
+        app:tint="@color/background_gray" />
 
     <ImageButton
         android:id="@+id/returnButton3"
@@ -27,7 +27,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#90CAF9"
+        android:backgroundTint="@color/background_gray"
 
         android:contentDescription="returnButton"
         android:onClick="botonVolver"
@@ -36,7 +36,7 @@
         app:srcCompat="@drawable/back_foreground" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/imagenapp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -63,7 +63,7 @@
         android:layout_height="67dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="192dp"
-        android:backgroundTint="@color/background_blue"
+        android:backgroundTint="@color/background_gray"
         android:contentDescription="searchButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -78,6 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
         android:text="El paciente es: x / No se ha encontrado el paciente"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
@@ -87,6 +88,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
         android:onClick="botonNext"
         android:text="Entrar"
         app:layout_constraintEnd_toEndOf="parent"

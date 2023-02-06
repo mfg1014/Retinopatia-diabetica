@@ -20,7 +20,17 @@ public class Ojos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ojos);
     }
+    public void botonVolver(View v){
 
+        finish();
+
+    }
+    public void botonPerfil(View v){
+
+        Intent intent = new Intent(v.getContext(), Perfil.class);
+        startActivity(intent);
+
+    }
     public void botonEscoger(View v){
 
         Intent intent = new Intent(v.getContext(), SeleccionarRNE.class);

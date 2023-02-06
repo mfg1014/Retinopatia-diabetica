@@ -16,6 +16,12 @@ public class Foto extends AppCompatActivity {
     public void botonVolver(View v){
         finish();
     }
+    public void botonPerfil(View v){
+
+        Intent intent = new Intent(v.getContext(), Perfil.class);
+        startActivity(intent);
+
+    }
     public void botonDerecho(View v){
 
         Intent intent = new Intent(v.getContext(), Ojos.class);

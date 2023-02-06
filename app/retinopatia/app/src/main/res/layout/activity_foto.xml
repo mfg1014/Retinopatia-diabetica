@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_blue"
+    android:background="@color/background_gray"
     tools:context=".Foto">
 
     <ImageButton
@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profile_foreground"
-        app:tint="@color/background_blue" />
+        app:tint="@color/background_gray" />
 
     <ImageButton
         android:id="@+id/returnButton3"
@@ -27,7 +27,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#90CAF9"
+        android:backgroundTint="@color/background_gray"
 
         android:contentDescription="returnButton"
         android:onClick="botonVolver"
@@ -36,7 +36,7 @@
         app:srcCompat="@drawable/back_foreground" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/imagenapp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -52,6 +52,7 @@
         android:layout_marginTop="180dp"
         android:text="Selecciona sobre que ojo se haran las fotos"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +63,10 @@
         android:layout_height="108dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="80dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
         android:onClick="botonIzquierdo"
+
         android:text="Izquierdo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
@@ -72,6 +76,8 @@
         android:layout_width="95dp"
         android:layout_height="108dp"
         android:layout_marginTop="256dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
         android:onClick="botonAmbos"
         android:text="Ambos"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,6 +91,8 @@
         android:layout_marginStart="104dp"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="52dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
         android:onClick="botonDerecho"
         android:text="Derecho"
         app:layout_constraintEnd_toEndOf="parent"

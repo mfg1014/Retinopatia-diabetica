@@ -4,8 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_blue"
+    android:background="@color/background_gray"
     tools:context=".Resultados">
+
+    <TextView
+        android:id="@+id/foto3"
+        android:layout_width="78dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="432dp"
+        android:text="Foto3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fecha3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="432dp"
+        android:text="Fecha"
+        app:layout_constraintStart_toEndOf="@+id/foto1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/info3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="272dp"
+        android:text="Informacion sobre el estudio"
+        app:layout_constraintStart_toEndOf="@+id/foto1"
+        app:layout_constraintTop_toBottomOf="@+id/fecha1" />
+
+    <TextView
+        android:id="@+id/result3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="272dp"
+        android:text="Resultado/Resultados"
+        app:layout_constraintStart_toEndOf="@+id/foto1"
+        app:layout_constraintTop_toBottomOf="@+id/info1" />
+
+    <TextView
+        android:id="@+id/foto2"
+        android:layout_width="78dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="292dp"
+        android:text="Foto2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fecha2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="292dp"
+        android:text="Fecha"
+        app:layout_constraintStart_toEndOf="@+id/foto1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/info2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="132dp"
+        android:text="Informacion sobre el estudio"
+        app:layout_constraintStart_toEndOf="@+id/foto1"
+        app:layout_constraintTop_toBottomOf="@+id/fecha1" />
+
+    <TextView
+        android:id="@+id/result2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="132dp"
+        android:text="Resultado/Resultados"
+        app:layout_constraintStart_toEndOf="@+id/foto1"
+        app:layout_constraintTop_toBottomOf="@+id/info1" />
 
     <ImageButton
         android:id="@+id/profileButton3"
@@ -19,7 +99,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profile_foreground"
-        app:tint="@color/background_blue" />
+        app:tint="@color/background_gray" />
 
     <ImageButton
         android:id="@+id/returnButton3"
@@ -27,7 +107,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="#90CAF9"
+        android:backgroundTint="@color/background_gray"
 
         android:contentDescription="returnButton"
         android:onClick="botonVolver"
@@ -36,7 +116,7 @@
         app:srcCompat="@drawable/back_foreground" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/imagenapp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -44,4 +124,44 @@
         app:layout_constraintEnd_toStartOf="@+id/profileButton3"
         app:layout_constraintStart_toEndOf="@+id/returnButton3"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/foto1"
+        android:layout_width="78dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="168dp"
+        android:text="Foto1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fecha1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="168dp"
+        android:text="Fecha"
+        app:layout_constraintStart_toEndOf="@+id/foto1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/info1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text="Informacion sobre el estudio"
+        app:layout_constraintStart_toEndOf="@+id/foto1"
+        app:layout_constraintTop_toBottomOf="@+id/fecha1" />
+
+    <TextView
+        android:id="@+id/result1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text="Resultado/Resultados"
+        app:layout_constraintStart_toEndOf="@+id/foto1"
+        app:layout_constraintTop_toBottomOf="@+id/info1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

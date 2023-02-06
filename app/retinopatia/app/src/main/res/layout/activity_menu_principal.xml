@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_blue"
+    android:background="@color/background_gray"
     tools:context=".MenuPrincipal">
 
     <ImageButton
@@ -19,15 +19,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/profile_foreground"
-        app:tint="@color/background_blue" />
+        app:tint="@color/background_gray" />
 
     <ImageButton
-        android:id="@+id/returnButton"
+        android:id="@+id/returnButton3"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/background_blue"
+        android:backgroundTint="@color/background_gray"
 
         android:contentDescription="returnButton"
         android:onClick="botonVolver"
@@ -37,10 +37,11 @@
 
     <Button
         android:id="@+id/PhotoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="212dp"
+        android:layout_height="47dp"
         android:layout_marginTop="212dp"
         android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
         android:onClick="botonFotoUsuario"
         android:text="Sacar foto al paciente"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,9 +51,11 @@
 
     <Button
         android:id="@+id/info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="212dp"
+        android:layout_height="47dp"
         android:layout_marginTop="32dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
         android:onClick="botonDatos"
         android:text="Datos del paciente"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,9 +65,11 @@
 
     <Button
         android:id="@+id/ResultsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="212dp"
+        android:layout_height="47dp"
         android:layout_marginTop="32dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
         android:onClick="botonResultados"
         android:text="Resultados del paciente"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,14 +88,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/imagenapp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:text="Imagen app"
-
         app:layout_constraintEnd_toStartOf="@+id/profileButton3"
-        app:layout_constraintStart_toEndOf="@+id/returnButton"
+        app:layout_constraintStart_toEndOf="@+id/returnButton3"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
