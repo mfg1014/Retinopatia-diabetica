@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
-    tools:context=".MenuPrincipal">
+    tools:context=".Foto">
 
     <ImageButton
         android:id="@+id/profileButton3"
@@ -35,58 +35,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back_foreground" />
 
-    <Button
-        android:id="@+id/PhotoButton"
-        android:layout_width="212dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="212dp"
-        android:background="@drawable/redondear"
-        android:backgroundTint="@color/background_blue"
-        android:onClick="botonFotoUsuario"
-        android:text="Sacar foto al paciente"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/info"
-        android:layout_width="212dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/redondear"
-        android:backgroundTint="@color/background_blue"
-        android:onClick="botonDatos"
-        android:text="Datos del paciente"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ResultsButton" />
-
-    <Button
-        android:id="@+id/ResultsButton"
-        android:layout_width="212dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/redondear"
-        android:backgroundTint="@color/background_blue"
-        android:onClick="botonResultados"
-        android:text="Resultados del paciente"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PhotoButton" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="233dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="116dp"
-        android:text="Paciente(cambiar nombre)"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/imagenapp"
         android:layout_width="wrap_content"
@@ -96,5 +44,59 @@
         app:layout_constraintEnd_toStartOf="@+id/profileButton3"
         app:layout_constraintStart_toEndOf="@+id/returnButton3"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/elegirOjo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:text="Selecciona sobre que ojo se haran las fotos"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/Boton_Izq"
+        android:layout_width="95dp"
+        android:layout_height="108dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
+        android:onClick="botonIzquierdo"
+
+        android:text="Izquierdo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
+
+    <Button
+        android:id="@+id/Boton_ambos"
+        android:layout_width="95dp"
+        android:layout_height="108dp"
+        android:layout_marginTop="256dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
+        android:onClick="botonAmbos"
+        android:text="Ambos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
+
+    <Button
+        android:id="@+id/Boton_Der"
+        android:layout_width="95dp"
+        android:layout_height="108dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="52dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
+        android:onClick="botonDerecho"
+        android:text="Derecho"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Boton_Izq"
+        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
