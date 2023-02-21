@@ -7,6 +7,17 @@
     android:background="@color/background_gray"
     tools:context=".SeleccionarRNE">
 
+    <ImageView
+        android:id="@+id/logo2"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/profileButton3"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toEndOf="@+id/returnButton3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
     <ImageButton
         android:id="@+id/profileButton3"
         android:layout_width="50dp"
@@ -36,16 +47,6 @@
         app:srcCompat="@drawable/back_foreground" />
 
     <TextView
-        android:id="@+id/imagenapp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Imagen app"
-        app:layout_constraintEnd_toStartOf="@+id/profileButton3"
-        app:layout_constraintStart_toEndOf="@+id/returnButton3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textView6"
         android:layout_width="265dp"
         android:layout_height="48dp"
@@ -70,34 +71,26 @@
         android:id="@+id/radioButton5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="168dp"
+        android:layout_marginTop="116dp"
         android:minHeight="48dp"
         android:text="Todas"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton4" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <RadioButton
         android:id="@+id/radioButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="228dp"
+        android:layout_marginEnd="80dp"
         android:minHeight="48dp"
         android:text="RNE2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton" />
-
-    <RadioButton
-        android:id="@+id/radioButton4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="4dp"
-        android:minHeight="48dp"
-        android:text="RNE3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton2" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/radioButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button"

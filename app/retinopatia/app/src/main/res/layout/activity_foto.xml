@@ -7,6 +7,17 @@
     android:background="@color/background_gray"
     tools:context=".Foto">
 
+    <ImageView
+        android:id="@+id/logo2"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/profileButton3"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toEndOf="@+id/returnButton3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
     <ImageButton
         android:id="@+id/profileButton3"
         android:layout_width="50dp"
@@ -36,16 +47,6 @@
         app:srcCompat="@drawable/back_foreground" />
 
     <TextView
-        android:id="@+id/imagenapp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Imagen app"
-        app:layout_constraintEnd_toStartOf="@+id/profileButton3"
-        app:layout_constraintStart_toEndOf="@+id/returnButton3"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/elegirOjo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,46 +58,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/Boton_Izq"
-        android:layout_width="95dp"
-        android:layout_height="108dp"
+    <ImageButton
+        android:id="@+id/BotonOjoDerecho"
+        android:layout_width="141dp"
+        android:layout_height="150dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/redondear"
-        android:backgroundTint="@color/background_blue"
-        android:onClick="botonIzquierdo"
-
-        android:text="Izquierdo"
+        android:layout_marginTop="72dp"
+        android:scaleType="centerInside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
+        app:layout_constraintTop_toBottomOf="@+id/elegirOjo"
+        tools:srcCompat="@drawable/ojoDerecho" />
 
-    <Button
-        android:id="@+id/Boton_ambos"
-        android:layout_width="95dp"
-        android:layout_height="108dp"
-        android:layout_marginTop="256dp"
-        android:background="@drawable/redondear"
-        android:backgroundTint="@color/background_blue"
-        android:onClick="botonAmbos"
-        android:text="Ambos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
-
-    <Button
-        android:id="@+id/Boton_Der"
-        android:layout_width="95dp"
-        android:layout_height="108dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="80dp"
+    <ImageButton
+        android:id="@+id/botonOjoIzquierdo"
+        android:layout_width="141dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="52dp"
-        android:background="@drawable/redondear"
-        android:backgroundTint="@color/background_blue"
-        android:onClick="botonDerecho"
-        android:text="Derecho"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Boton_Izq"
-        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/BotonOjoDerecho"
+        app:layout_constraintTop_toBottomOf="@+id/elegirOjo"
+        tools:srcCompat="@drawable/ojoIzquierdo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,11 +31,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
 
-            Button olvPass = (Button) findViewById(R.id.BotonPassOlv);
+
             TextView usuarioIncorrecto = (TextView) findViewById(R.id.error);
-            if(olvPass.getVisibility() == View.INVISIBLE){
-                olvPass.setVisibility(View.VISIBLE);
-            }
             if(usuarioIncorrecto.getVisibility() == View.INVISIBLE){
                 usuarioIncorrecto.setVisibility(View.VISIBLE);
 
