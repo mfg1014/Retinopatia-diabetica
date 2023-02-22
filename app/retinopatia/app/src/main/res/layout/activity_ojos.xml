@@ -56,50 +56,45 @@
         android:onClick="botonHacerFoto"
         android:text="Sacar nueva foto"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imagenSeleccionada" />
 
     <Button
-        android:id="@+id/BotonAceptarImg"
+        android:id="@+id/botonGaleria"
+        android:layout_width="146dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="124dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
+        android:onClick="botonEscogerFoto"
+        android:text="Escoger foto galeria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagenSeleccionada" />
+
+    <Button
+        android:id="@+id/BotonMandarImg"
         android:layout_width="146dp"
         android:layout_height="48dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="40dp"
         android:background="@drawable/redondear"
         android:backgroundTint="@color/background_blue"
-        android:onClick="botonEscoger"
-        android:text="Escoger imagen"
+        android:onClick="botonMandarImagen"
+        android:text="Mandar imagen"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/BotonRepetir"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imagenSeleccionada" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imagenSeleccionada"
         android:layout_width="249dp"
         android:layout_height="293dp"
         android:layout_marginStart="80dp"
         android:layout_marginTop="88dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="226dp"
-        android:layout_height="91dp"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="140dp"
-        android:text="Cambiar por fotos del dispositivo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="12dp"
-        android:text="Cambiar por foto seleccionada en el momento"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
