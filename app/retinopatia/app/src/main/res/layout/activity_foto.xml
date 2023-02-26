@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/background_gray"
     tools:context=".Foto">
-
     <ImageView
         android:id="@+id/logo2"
         android:layout_width="75dp"
@@ -46,42 +45,56 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back_foreground" />
 
-    <TextView
-        android:id="@+id/elegirOjo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:text="Selecciona sobre que ojo se haran las fotos"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/black"
+    <Button
+        android:id="@+id/BotonRepetir"
+        android:layout_width="146dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
+        android:onClick="botonHacerFoto"
+        android:text="Sacar nueva foto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagenSeleccionada" />
+
+    <Button
+        android:id="@+id/botonGaleria"
+        android:layout_width="146dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="124dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
+        android:onClick="botonEscogerFoto"
+        android:text="Escoger foto galeria"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagenSeleccionada" />
+
+    <Button
+        android:id="@+id/botonMandarImg"
+        android:layout_width="146dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/redondear"
+        android:backgroundTint="@color/background_blue"
+        android:onClick="botonMandarImagen"
+        android:text="Mandar imagen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/BotonRepetir"
+        app:layout_constraintTop_toBottomOf="@+id/imagenSeleccionada" />
+
+    <ImageView
+        android:id="@+id/imagenSeleccionada"
+        android:layout_width="249dp"
+        android:layout_height="293dp"
+        android:layout_marginTop="104dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/BotonOjoDerecho"
-        android:layout_width="141dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="72dp"
-        android:background="@drawable/ojo_derecho"
-        android:onClick="botonDerecho"
-        android:scaleType="centerInside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
-
-    <ImageButton
-        android:id="@+id/botonOjoIzquierdo"
-        android:layout_width="141dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="52dp"
-        android:background="@drawable/ojo_derecho"
-        android:onClick="botonIzquierdo"
-        android:scaleType="centerInside"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/BotonOjoDerecho"
-        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

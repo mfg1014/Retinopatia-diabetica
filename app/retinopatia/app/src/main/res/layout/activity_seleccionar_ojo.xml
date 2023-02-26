@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
-    tools:context=".SeleccionarRNE">
+    tools:context=".SeleccionarOjo">
 
     <ImageView
         android:id="@+id/logo2"
@@ -47,69 +47,67 @@
         app:srcCompat="@drawable/back_foreground" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="265dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="152dp"
-        android:text="Seleccionar la Red neuronal a utilizar, se puede seleccionar más de una, haciendo que se muestren los resultados."
+        android:id="@+id/elegirOjo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:text="Selecciona sobre que ojo se haran las fotos"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/botonObtenerResultados"
-        android:layout_width="170dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="476dp"
-        android:background="@drawable/redondear"
-        android:backgroundTint="@color/background_blue"
-        android:onClick="botonResultados"
-        android:text="Obtener resultados"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageButton
+        android:id="@+id/BotonOjoDerecho"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="96dp"
+        android:background="@drawable/ojo_derecho"
+        android:contentDescription="OjoDerecho"
+        android:onClick="botonDerecho"
+        android:scaleType="centerInside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="314dp"
-        android:layout_height="53dp"
-
-        android:layout_marginTop="236dp"
-        android:orientation="horizontal"
+    <ImageButton
+        android:id="@+id/botonOjoIzquierdo"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/ojo_izquierdo"
+        android:contentDescription="OjoIzquierdo"
+        android:onClick="botonIzquierdo"
+        android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/BotonOjoDerecho"
+        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
+
+    <TextView
+        android:id="@+id/OjoDerechoTexto"
+        android:layout_width="110dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="64dp"
+        android:text="Ojo Derecho"
+        android:textAlignment="center"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/BotonOjoDerecho" />
 
-        <CheckBox
-            android:id="@+id/checkBoxRNE1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="1"
-
-            android:onClick="opcionRNE1"
-            android:text="RNE1" />
-
-        <CheckBox
-            android:id="@+id/checkBoxRNE2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1"
-            android:onClick="opcionRNE2"
-            android:text="RNE2" />
-    </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/checkBoxTodas"
-        android:layout_width="137dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="40dp"
-        android:onClick="opcionTodos"
-        android:text="Todas"
+    <TextView
+        android:id="@+id/ojoIzquierdoTexto"
+        android:layout_width="110dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="64dp"
+        android:text="Ojo Izquierdo"
+        android:textAlignment="center"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/OjoDerechoTexto"
+        app:layout_constraintTop_toBottomOf="@+id/botonOjoIzquierdo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

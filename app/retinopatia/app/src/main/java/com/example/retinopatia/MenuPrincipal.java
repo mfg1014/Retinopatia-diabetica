@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class MenuPrincipal extends AppCompatActivity {
@@ -16,6 +14,15 @@ public class MenuPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
+        Intent intent = getIntent();
+        TextView nombrePaciente = (TextView) findViewById(R.id.nombrePaciente);
+        if(intent.getStringExtra("DNI").equals("invitado")) {
+            nombrePaciente.setVisibility(View.INVISIBLE);
+            Button datosPaciente = (Button) findViewById(R.id.datosPaciente);
+            datosPaciente.setVisibility(View.INVISIBLE);
+        }else{
+            nombrePaciente.setText(intent.getStringExtra("usuario"));
+        }
     }
 
     public void botonVolver(View v){
@@ -31,7 +38,7 @@ public class MenuPrincipal extends AppCompatActivity {
     }
     public void botonFotoUsuario(View v){
 
-        Intent intent = new Intent(v.getContext(), Foto.class);
+        Intent intent = new Intent(v.getContext(), SeleccionarOjo.class);
         startActivity(intent);
 
     }

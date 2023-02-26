@@ -8,7 +8,7 @@
     tools:context=".MenuPrincipal">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/nombrePaciente"
         android:layout_width="233dp"
         android:layout_height="63dp"
         android:layout_marginTop="148dp"
@@ -47,10 +47,10 @@
         app:layout_constraintTop_toBottomOf="@+id/PhotoButton" />
 
     <Button
-        android:id="@+id/info"
+        android:id="@+id/datosPaciente"
         android:layout_width="212dp"
         android:layout_height="48dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/redondear"
         android:backgroundTint="@color/background_blue"
         android:onClick="botonDatos"

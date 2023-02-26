@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
     public void pasoInicio(View v){
 
         Intent intent = new Intent(v.getContext(), SeleccionarPaciente.class);
-        EditText email = (EditText) findViewById(R.id.editTextTextEmailAddress);
+        EditText email = findViewById(R.id.editTextTextEmailAddress);
 
-        EditText password = (EditText) findViewById(R.id.editTextTextPassword);
+        EditText password =findViewById(R.id.editTextTextPassword);
 
         if(comprobarUsuario(email,password)){
             startActivity(intent);
@@ -32,13 +31,19 @@ public class MainActivity extends AppCompatActivity {
         else {
 
 
-            TextView usuarioIncorrecto = (TextView) findViewById(R.id.error);
+            TextView usuarioIncorrecto = findViewById(R.id.error);
             if(usuarioIncorrecto.getVisibility() == View.INVISIBLE){
                 usuarioIncorrecto.setVisibility(View.VISIBLE);
 
             }
 
         }
+    }
+    public void iniciarSesionInvitado(View v){
+
+        Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
+        intent.putExtra("DNI","invitado");
+        startActivity(intent);
     }
     public boolean comprobarUsuario(EditText email,EditText password){
         if(TextUtils.isEmpty(email.getText().toString()) || TextUtils.isEmpty(password.getText().toString())){
