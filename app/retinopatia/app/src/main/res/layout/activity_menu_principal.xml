@@ -2,10 +2,22 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/actividadMenuPrincipal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
     tools:context=".MenuPrincipal">
+
+    <Switch
+        android:id="@+id/switchModoOscuro2"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="20dp"
+        android:onClick="botonModoOscuro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/nombrePaciente"
@@ -19,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/PhotoButton"
+        android:id="@+id/botonFoto"
         android:layout_width="212dp"
         android:layout_height="48dp"
         android:layout_marginTop="244dp"
@@ -33,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/ResultsButton"
+        android:id="@+id/botonResultados"
         android:layout_width="212dp"
         android:layout_height="48dp"
         android:layout_marginTop="40dp"
@@ -44,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PhotoButton" />
+        app:layout_constraintTop_toBottomOf="@+id/botonFoto" />
 
     <Button
         android:id="@+id/datosPaciente"
@@ -58,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ResultsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/botonResultados" />
 
     <ImageView
         android:id="@+id/logo2"

@@ -40,7 +40,8 @@
         <activity
             android:name=".Perfil"
             android:exported="false" />
-        <activity android:name=".MenuPrincipal" />
+        <activity
+            android:name=".MenuPrincipal" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

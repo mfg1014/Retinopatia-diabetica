@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/actividadSeleccionarOjo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
@@ -32,6 +33,17 @@
         app:srcCompat="@drawable/profile_foreground"
         app:tint="@color/background_gray" />
 
+    <Switch
+        android:id="@+id/switchModoOscuro2"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="20dp"
+        android:onClick="botonModoOscuro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/returnButton3"
         android:layout_width="50dp"
@@ -59,7 +71,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/BotonOjoDerecho"
+        android:id="@+id/botonOjoDerecho"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:layout_marginStart="64dp"
@@ -83,11 +95,11 @@
         android:scaleType="centerInside"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/BotonOjoDerecho"
+        app:layout_constraintStart_toEndOf="@+id/botonOjoDerecho"
         app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
 
     <TextView
-        android:id="@+id/OjoDerechoTexto"
+        android:id="@+id/ojoDerechoTexto"
         android:layout_width="110dp"
         android:layout_height="25dp"
         android:layout_marginStart="64dp"
@@ -95,7 +107,7 @@
         android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BotonOjoDerecho" />
+        app:layout_constraintTop_toBottomOf="@+id/botonOjoDerecho" />
 
     <TextView
         android:id="@+id/ojoIzquierdoTexto"
@@ -107,7 +119,7 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/OjoDerechoTexto"
+        app:layout_constraintStart_toEndOf="@+id/ojoDerechoTexto"
         app:layout_constraintTop_toBottomOf="@+id/botonOjoIzquierdo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

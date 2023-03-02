@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/actividadSeleccionarPaciente"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
@@ -32,6 +33,17 @@
         app:srcCompat="@drawable/profile_foreground"
         app:tint="@color/background_gray" />
 
+    <Switch
+        android:id="@+id/switchModoOscuro2"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="20dp"
+        android:onClick="botonModoOscuro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/returnButton3"
         android:layout_width="50dp"
@@ -47,7 +59,7 @@
         app:srcCompat="@drawable/back_foreground" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextDNI"
         android:layout_width="222dp"
         android:layout_height="67dp"
         android:layout_marginStart="56dp"
@@ -59,7 +71,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/botonBuscar"
         android:layout_width="62dp"
         android:layout_height="67dp"
         android:layout_marginStart="32dp"
@@ -68,13 +80,13 @@
         android:contentDescription="searchButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toEndOf="@+id/editTextDNI"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_search"
         app:tint="@color/black" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/textViewMensajeDNI"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
@@ -82,10 +94,10 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextDNI" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/botonEntrarMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
@@ -95,5 +107,5 @@
         android:text="Entrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewMensajeDNI" />
 </androidx.constraintlayout.widget.ConstraintLayout>
