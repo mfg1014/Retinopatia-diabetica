@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/actividadDatos"
+    android:id="@+id/actividadSeleccionarOjo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
-    tools:context=".Datos">
+    tools:context=".SeleccionarOjo">
 
     <ImageView
         android:id="@+id/logo2"
@@ -59,72 +59,67 @@
         app:srcCompat="@drawable/back_foreground" />
 
     <TextView
-        android:id="@+id/nombre"
+        android:id="@+id/elegirOjo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="184dp"
-        android:text="Nombre"
+        android:layout_marginTop="180dp"
+        android:text="Selecciona sobre que ojo se haran las fotos"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/apellidos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton
+        android:id="@+id/botonOjoDerecho"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="28dp"
-        android:text="Apellidos"
+        android:layout_marginTop="96dp"
+        android:background="@drawable/ojo_derecho"
+        android:contentDescription="OjoDerecho"
+        android:onClick="botonDerecho"
+        android:scaleType="centerInside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombre" />
+        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
+
+    <ImageButton
+        android:id="@+id/botonOjoIzquierdo"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/ojo_izquierdo"
+        android:contentDescription="OjoIzquierdo"
+        android:onClick="botonIzquierdo"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/botonOjoDerecho"
+        app:layout_constraintTop_toBottomOf="@+id/elegirOjo" />
 
     <TextView
-        android:id="@+id/fecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/ojoDerechoTexto"
+        android:layout_width="110dp"
+        android:layout_height="25dp"
         android:layout_marginStart="64dp"
-        android:layout_marginTop="28dp"
-        android:text="Fecha de Nacimiento"
+        android:text="Ojo Derecho"
+        android:textAlignment="center"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apellidos" />
+        app:layout_constraintTop_toBottomOf="@+id/botonOjoDerecho" />
 
     <TextView
-        android:id="@+id/estado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="28dp"
-        android:text="Estado"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/centro" />
+        android:id="@+id/ojoIzquierdoTexto"
+        android:layout_width="110dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="64dp"
+        android:text="Ojo Izquierdo"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/ojoDerechoTexto"
+        app:layout_constraintTop_toBottomOf="@+id/botonOjoIzquierdo" />
 
-    <TextView
-        android:id="@+id/DNI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="28dp"
-        android:text="DNI/ numero medico"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fecha" />
-
-    <TextView
-        android:id="@+id/centro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="28dp"
-        android:text="Centro Medico"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DNI" />
-
-    <TextView
-        android:id="@+id/infoPaciente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="28dp"
-        android:text="Informacion del paciente"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/estado" />
 </androidx.constraintlayout.widget.ConstraintLayout>

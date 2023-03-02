@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/actividadResultados"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
@@ -14,6 +15,17 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="432dp"
         android:text="Foto3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switchModoOscuro2"
+        android:layout_width="59dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="20dp"
+        android:onClick="botonModoOscuro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,6 +99,17 @@
         app:layout_constraintStart_toEndOf="@+id/foto1"
         app:layout_constraintTop_toBottomOf="@+id/info1" />
 
+    <ImageView
+        android:id="@+id/logo2"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/profileButton3"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toEndOf="@+id/returnButton3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
     <ImageButton
         android:id="@+id/profileButton3"
         android:layout_width="50dp"
@@ -114,16 +137,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/back_foreground" />
-
-    <TextView
-        android:id="@+id/imagenapp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Imagen app"
-        app:layout_constraintEnd_toStartOf="@+id/profileButton3"
-        app:layout_constraintStart_toEndOf="@+id/returnButton3"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/foto1"

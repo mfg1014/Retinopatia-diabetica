@@ -10,5 +10,5 @@
     <color name="background_gray">#FFE0E0E0</color>
     <color name="background_blue">#FF90CAF9</color>
     <color name="background_green">#FF76C26B</color>
-    <color name="background_darkblue">#FF3942BA</color>
+    <color name="background_darkmode_gray">#FF353740</color>
 </resources>
