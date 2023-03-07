@@ -64,7 +64,8 @@ public class Foto extends AppCompatActivity {
             public void onActivityResult(Uri result) {
 
                 if (null != result) {
-                    imagenSeleccionada.setImageURI(result);}
+                    imagenSeleccionada.setImageURI(result);
+                }
             }
         });
         cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),

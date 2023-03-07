@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import DataBase.BaseDeDatos;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button iniciarSesion;
     Switch modoOscuro;
     View root;
+    BaseDeDatos baseDeDatos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,19 +36,19 @@ public class MainActivity extends AppCompatActivity {
         root = findViewById(R.id.actividadInicioSesion);
         guestMode = findViewById(R.id.botonInvitado);
         iniciarSesion = findViewById(R.id.botonIniciarSesion);
+        baseDeDatos = BaseDeDatos.getBaseDeDatos();
     }
     public void pasoInicio(View v){
 
         Intent intent = new Intent(v.getContext(), SeleccionarPaciente.class);
 
         if(comprobarUsuario()){
+            intent.putExtra("email",email.getText().toString());
+            usuarioIncorrecto.setVisibility(View.INVISIBLE);
             intentModoOscuro(intent);
             startActivity(intent);
         }
         else {
-
-
-
             if(usuarioIncorrecto.getVisibility() == View.INVISIBLE){
                 usuarioIncorrecto.setVisibility(View.VISIBLE);
 
@@ -57,15 +59,20 @@ public class MainActivity extends AppCompatActivity {
     public void iniciarSesionInvitado(View v){
 
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
-        intent.putExtra("DNI","invitado");
+        intent.putExtra("email","invitado");
         intentModoOscuro(intent);
         startActivity(intent);
     }
     public boolean comprobarUsuario(){
-        if(TextUtils.isEmpty(email.getText().toString()) || TextUtils.isEmpty(password.getText().toString())){
+        String emailUsuario = email.getText().toString();
+        String contraseña = password.getText().toString();
+        if(TextUtils.isEmpty(emailUsuario)|| TextUtils.isEmpty(contraseña)){
             return false;
         }
-        return true;
+        if(baseDeDatos.getContraseña(emailUsuario).equals(contraseña) ){
+            return true;
+        }
+        return false;
     }
     public void botonModoOscuro(View v){
         int oscuro = getResources().getColor(R.color.background_darkmode_gray);
