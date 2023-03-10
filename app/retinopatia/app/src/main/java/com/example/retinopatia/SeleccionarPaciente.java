@@ -25,6 +25,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
     Button botonPasarSiguiente;
     TextView mensaje;
     BaseDeDatos baseDeDatos;
+    int numeroDNI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
         DNI = findViewById(R.id.editTextDNI);
         mensaje = findViewById(R.id.textViewMensajeDNI);
         Intent intent = getIntent();
+        intent.putExtra("email",intent.getStringExtra("email"));
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -47,7 +49,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
     }
     public void botonNext (View v){
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
-        intent.putExtra("DNI","");
+        intent.putExtra("DNI",numeroDNI);
         intentModoOscuro(intent);
         startActivity(intent);
 
@@ -93,8 +95,8 @@ public class SeleccionarPaciente extends AppCompatActivity {
     public void botonBuscarPaciente(View v){
         try{
             String DNIPaciente = DNI.getText().toString();
-            int numero = Integer.parseInt(DNIPaciente);
-            String nombrePaciente = baseDeDatos.getPaciente(numero);
+            numeroDNI = Integer.parseInt(DNIPaciente);
+            String nombrePaciente = baseDeDatos.getPaciente(numeroDNI);
             if(nombrePaciente.equals("")){
                 mensaje.setTextColor(getResources().getColor(R.color.error_red));
                 mensaje.setText("El paciente no se ha encontrado, ejemplo  de DNI: 12345678");

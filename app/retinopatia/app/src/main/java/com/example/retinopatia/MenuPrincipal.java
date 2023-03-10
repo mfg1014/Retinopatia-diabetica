@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import DataBase.BaseDeDatos;
+
 public class MenuPrincipal extends AppCompatActivity {
 
     Switch modoOscuro;
@@ -21,6 +23,7 @@ public class MenuPrincipal extends AppCompatActivity {
     Button datosPaciente;
     Button fotoPaciente;
     Button resultados;
+    BaseDeDatos baseDeDatos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,16 +37,18 @@ public class MenuPrincipal extends AppCompatActivity {
         perfil = findViewById(R.id.profileButton3);
         fotoPaciente = findViewById(R.id.botonFoto);
         resultados = findViewById(R.id.botonResultados);
+        baseDeDatos = BaseDeDatos.getBaseDeDatos();
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        if(intent.getStringExtra("DNI").equals("invitado")) {
+        if(intent.getIntExtra("DNI",-1) == -1) {
             nombrePaciente.setVisibility(View.INVISIBLE);
-
+            perfil.setVisibility(View.INVISIBLE);
             datosPaciente.setVisibility(View.INVISIBLE);
         }else{
-            nombrePaciente.setText(intent.getStringExtra("usuario"));
+            String nombre = baseDeDatos.getPaciente( intent.getIntExtra("DNI",-1));
+            nombrePaciente.setText(nombre);
         }
     }
 

@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     public void iniciarSesionInvitado(View v){
 
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
+        intent.putExtra("DNI","invitado");
         intent.putExtra("email","invitado");
         intentModoOscuro(intent);
         startActivity(intent);
