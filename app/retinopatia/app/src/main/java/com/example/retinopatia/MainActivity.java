@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         root = findViewById(R.id.actividadInicioSesion);
         guestMode = findViewById(R.id.botonInvitado);
         iniciarSesion = findViewById(R.id.botonIniciarSesion);
-        baseDeDatos = BaseDeDatos.getBaseDeDatos();
+        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
     }
     public void pasoInicio(View v){
 

@@ -24,6 +24,8 @@ public class MenuPrincipal extends AppCompatActivity {
     Button fotoPaciente;
     Button resultados;
     BaseDeDatos baseDeDatos;
+    int DNI;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,7 @@ public class MenuPrincipal extends AppCompatActivity {
         perfil = findViewById(R.id.profileButton3);
         fotoPaciente = findViewById(R.id.botonFoto);
         resultados = findViewById(R.id.botonResultados);
-        baseDeDatos = BaseDeDatos.getBaseDeDatos();
+        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -47,9 +49,12 @@ public class MenuPrincipal extends AppCompatActivity {
             perfil.setVisibility(View.INVISIBLE);
             datosPaciente.setVisibility(View.INVISIBLE);
         }else{
-            String nombre = baseDeDatos.getPaciente( intent.getIntExtra("DNI",-1));
+            DNI = intent.getIntExtra("DNI",-1);
+            String nombre = baseDeDatos.getPaciente(DNI);
             nombrePaciente.setText(nombre);
         }
+
+
     }
 
     public void botonVolver(View v){
@@ -75,6 +80,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Resultados.class);
         intentModoOscuro(intent);
+        intent.putExtra("DNI", DNI);
         startActivity(intent);
 
     }

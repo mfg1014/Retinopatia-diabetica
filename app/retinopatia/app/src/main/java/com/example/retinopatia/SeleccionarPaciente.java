@@ -45,7 +45,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        baseDeDatos = BaseDeDatos.getBaseDeDatos();
+        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
     }
     public void botonNext (View v){
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);

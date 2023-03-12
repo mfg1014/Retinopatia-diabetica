@@ -2,11 +2,12 @@ package DataBase;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Paciente extends Usuario {
 
-    private ArrayList<Informe> informePaciente;
+    private List<Informe> informePaciente;
     private String informacion;
     private String estado;
     public Paciente(String nombre, String apellido, String correo, int DNI, LocalDateTime fechaNacimiento,String informacion, String estado) {
@@ -21,7 +22,7 @@ public class Paciente extends Usuario {
     public void agregarInforme(Informe nuevoInforme){
         informePaciente.add(nuevoInforme);
     }
-    public ArrayList<Informe> getInformePaciente(){return informePaciente;}
+    public List<Informe> getInformePaciente(){return informePaciente;}
     public void setInformacion(String informacion){
         this.informacion=informacion;
     }
