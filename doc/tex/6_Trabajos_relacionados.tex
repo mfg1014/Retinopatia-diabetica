@@ -1,3 +1,53 @@
 \capitulo{6}{Trabajos relacionados}
 
-Este apartado sería parecido a un estado del arte de una tesis o tesina. En un trabajo final grado no parece obligada su presencia, aunque se puede dejar a juicio del tutor el incluir un pequeño resumen comentado de los trabajos y proyectos ya realizados en el campo del proyecto en curso. 
+\section{Proyectos}
+    \subsection{Ret-iN CaM}
+    Ret-iN CaM es la aplicación que se ha tomado de referencia para hacer el proyecto. Es una aplicación iOS que posteriormente saco una versión para Android. Es una aplicación que permite realizar imágenes y vídeos de la retina con una gran resolución, proporcionando los informes del paciente, los cuales se pueden exportar para ser compartidos con otros especialistas.
+    A su vez, tiene una interfaz simple e intuitiva, lo que facilita a los usuarios interactuar fácilmente con ella. Principal motivo por el que se ha escogido esta aplicación.
+
+    \subsection{D-EYE 2.0}
+    Es un proyecto que permite la toma de imágenes y vídeos de alta calidad; permite a los médicos ver el nervio óptico sin necesidad de dilatar las pupilas; permite a los médicos ver si el paciente tiene trastornos neurológicos relacionados con el ojo.
+
+\newpage
+
+\section{Comparativa del proyecto}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Características & RetinAI & Ret-iN CaM & D-EYE 2.0 \\
+\midrule
+ 
+Aplicación Android & X & X & \\
+Aplicación iOS & & X & X \\
+Creación de usuarios  & & & X \\
+Cambio de modo oscuro y claro & X & & \\
+Permite iniciar sesión como invitado & X &   &   \\
+Permite guardar la sesión  &  & X & X \\
+Permite elegir el paciente & X & X & X \\
+Ver historial del paciente & X & X & X \\
+Crear nuevos informes & X & X & X \\
+Permite diferenciar entre ojos  & X & X & X \\
+Permite hacer imágenes & X & X & X \\
+Permite hacer vídeos & & X & X \\
+Escoger imágenes desde la galería & X &  & \\
+Red neuronal para los resultados & X &  &  \\
+Versión gratuita & X & X & X \\
+
+\bottomrule
+\end{tabular}
+\caption{Comparativa de las características de los proyectos.}
+\label{comparativa-proyectos}
+\end{table}
+
+De esta forma, se puede ver las ventajas que ofrece el proyecto.
+\begin{itemize}
+    \item Actualmente, hay más móviles con sistema operativo Android que con iOS, por tanto, se ha realizado la aplicación en un sistema Android por este motivo.
+    \item No se permite la creación de usuarios, puesto que como la aplicación esta destinada a médicos de la sanidad publica, la entidad encargada les proporcionará las cuentas para la aplicación.
+    \item La aplicación tiene la opción de cambiar entre modo oscuro y modo claro, de esta forma, permite al usuario adaptarla a su preferencia.
+    \item Al iniciar sesión como usuario, los médicos podrán tener un diagnostico rápido de un paciente, sin que se almacene el informe en la base de datos.
+    \item A la hora de seleccionar pacientes, se ha considerado la protección de datos de los pacientes y para que el médico seleccione a uno, tendrá que poner el DNI.
+    \item Como es posible que se analice una foto tomada desde otro dispositivo. Se ha considerado esta idea mostrando en el explorador de archivos las imágenes.
+    \item Ofrece una red neuronal ya entrenada, la cual determina el grado de retinopatía diabética que tiene el paciente. Característica en la que se basa la aplicación.
+    
+\end{itemize}
