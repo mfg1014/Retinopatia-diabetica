@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import DataBase.BaseDeDatos;
+
 public class SeleccionarPaciente extends AppCompatActivity {
 
     Switch modoOscuro;
@@ -22,6 +24,8 @@ public class SeleccionarPaciente extends AppCompatActivity {
     ImageButton botonBuscar;
     Button botonPasarSiguiente;
     TextView mensaje;
+    BaseDeDatos baseDeDatos;
+    int numeroDNI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +40,16 @@ public class SeleccionarPaciente extends AppCompatActivity {
         DNI = findViewById(R.id.editTextDNI);
         mensaje = findViewById(R.id.textViewMensajeDNI);
         Intent intent = getIntent();
+        intent.putExtra("email",intent.getStringExtra("email"));
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
+        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
     }
     public void botonNext (View v){
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
-        intent.putExtra("DNI","");
+        intent.putExtra("DNI",numeroDNI);
         intentModoOscuro(intent);
         startActivity(intent);
 
@@ -70,6 +76,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             perfil.setColorFilter(oscuro);
             DNI.setTextColor(textoOscuro);
+            DNI.setHintTextColor(textoOscuro);
             botonBuscar.setColorFilter(textoOscuro);
             botonBuscar.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
@@ -78,11 +85,35 @@ public class SeleccionarPaciente extends AppCompatActivity {
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
             perfil.setColorFilter(claro);
             DNI.setTextColor(textoClaro);
+            DNI.setHintTextColor(textoClaro);
             botonBuscar.setColorFilter(textoClaro);
             botonBuscar.setBackgroundTintList(ColorStateList.valueOf(claro));
             botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
         }
 
+    }
+    public void botonBuscarPaciente(View v){
+        try{
+            String DNIPaciente = DNI.getText().toString();
+            numeroDNI = Integer.parseInt(DNIPaciente);
+            String nombrePaciente = baseDeDatos.getPaciente(numeroDNI);
+            if(nombrePaciente.equals("")){
+                mensaje.setTextColor(getResources().getColor(R.color.error_red));
+                mensaje.setText("El paciente no se ha encontrado, ejemplo  de DNI: 12345678");
+
+            }else{
+                if(modoOscuro.isChecked()){
+                    mensaje.setTextColor(getResources().getColor(R.color.background_gray));
+                }else{
+                    mensaje.setTextColor(getResources().getColor(R.color.black));
+                }
+
+                mensaje.setText("Paciente: "+nombrePaciente);
+            }
+
+        }catch (NumberFormatException ex){
+            mensaje.setText("Inserte solo los numeros del DNI, ejemplo  de DNI: 12345678");
+        }
     }
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){

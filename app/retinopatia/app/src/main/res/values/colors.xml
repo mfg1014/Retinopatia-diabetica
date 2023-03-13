@@ -11,4 +11,5 @@
     <color name="background_blue">#FF90CAF9</color>
     <color name="background_green">#FF76C26B</color>
     <color name="background_darkmode_gray">#FF353740</color>
+    <color name="error_red">#FFB00020</color>
 </resources>

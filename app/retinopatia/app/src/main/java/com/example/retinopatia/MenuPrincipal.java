@@ -11,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import DataBase.BaseDeDatos;
+
 public class MenuPrincipal extends AppCompatActivity {
 
     Switch modoOscuro;
@@ -21,6 +23,9 @@ public class MenuPrincipal extends AppCompatActivity {
     Button datosPaciente;
     Button fotoPaciente;
     Button resultados;
+    BaseDeDatos baseDeDatos;
+    int DNI;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,17 +39,22 @@ public class MenuPrincipal extends AppCompatActivity {
         perfil = findViewById(R.id.profileButton3);
         fotoPaciente = findViewById(R.id.botonFoto);
         resultados = findViewById(R.id.botonResultados);
+        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        if(intent.getStringExtra("DNI").equals("invitado")) {
+        if(intent.getIntExtra("DNI",-1) == -1) {
             nombrePaciente.setVisibility(View.INVISIBLE);
-
+            perfil.setVisibility(View.INVISIBLE);
             datosPaciente.setVisibility(View.INVISIBLE);
         }else{
-            nombrePaciente.setText(intent.getStringExtra("usuario"));
+            DNI = intent.getIntExtra("DNI",-1);
+            String nombre = baseDeDatos.getPaciente(DNI);
+            nombrePaciente.setText(nombre);
         }
+
+
     }
 
     public void botonVolver(View v){
@@ -70,6 +80,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Resultados.class);
         intentModoOscuro(intent);
+        intent.putExtra("DNI", DNI);
         startActivity(intent);
 
     }
