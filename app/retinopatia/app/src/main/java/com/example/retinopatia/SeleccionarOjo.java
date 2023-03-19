@@ -13,15 +13,16 @@ import android.widget.TextView;
 
 public class SeleccionarOjo extends AppCompatActivity {
 
-    Switch modoOscuro;
-    View root;
-    TextView mensaje;
-    TextView textoOjoDerecho;
-    TextView textoOjoIzquierdo;
-    ImageButton volver;
-    ImageButton perfil;
-    ImageButton botonOjoDerecho;
-    ImageButton botonOjoIzquierdo;
+    private Switch modoOscuro;
+    private View root;
+    private TextView mensaje;
+    private TextView textoOjoDerecho;
+    private TextView textoOjoIzquierdo;
+    private ImageButton volver;
+    private ImageButton perfil;
+    private ImageButton botonOjoDerecho;
+    private ImageButton botonOjoIzquierdo;
+    private int DNI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class SeleccionarOjo extends AppCompatActivity {
         botonOjoIzquierdo = findViewById(R.id.botonOjoIzquierdo);
 
         Intent intent = getIntent();
+        DNI = intent.getIntExtra("DNI",-1);
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -58,6 +60,8 @@ public class SeleccionarOjo extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Foto.class);
         intentModoOscuro(intent);
+        intent.putExtra("ojo","derecho");
+        intent.putExtra("DNI", DNI);
         startActivity(intent);
 
     }
@@ -65,6 +69,8 @@ public class SeleccionarOjo extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Foto.class);
         intentModoOscuro(intent);
+        intent.putExtra("ojo","izquierdo");
+        intent.putExtra("DNI", DNI);
         startActivity(intent);
 
     }

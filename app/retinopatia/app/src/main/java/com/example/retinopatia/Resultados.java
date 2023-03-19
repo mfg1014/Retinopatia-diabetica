@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,16 +20,20 @@ import DataBase.Informe;
 
 public class Resultados extends AppCompatActivity {
 
-    View root;
-    Switch modoOscuro;
-    ImageButton volver;
-    ImageButton perfil;
-    BaseDeDatos baseDeDatos;
-    List<Informe> informes;
-    Button retroceder;
-    Button avanzar;
-    TextView paginas;
-    ImageView foto1;
+    private View root;
+    private Switch modoOscuro;
+    private ImageButton volver;
+    private ImageButton perfil;
+    private BaseDeDatos baseDeDatos;
+    private List<Informe> informes;
+    private Button retroceder;
+    private Button avanzar;
+    private TextView paginas;
+    private ImageView foto1;
+    private ImageView foto2;
+    private ImageView foto3;
+    private int pestañas;
+    private int pestañaActual;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +47,8 @@ public class Resultados extends AppCompatActivity {
         avanzar = findViewById(R.id.botonAvanzar);
         paginas = findViewById(R.id.textoPaginas);
         foto1 = findViewById(R.id.imagen1);
+        foto2 = findViewById(R.id.imagen2);
+        foto3 = findViewById(R.id.imagen3);
 
         Intent intent = getIntent();
         if(intent.getBooleanExtra("modoOscuro",false)){
@@ -57,18 +64,20 @@ public class Resultados extends AppCompatActivity {
             retroceder.setVisibility(View.INVISIBLE);
             avanzar.setVisibility(View.INVISIBLE);
         }else{
-            int pestañas = (int) informes.size()/3;
+            pestañas = (int) (informes.size()-1)/3;
             pestañas += 1;
+            pestañaActual = 1;
             if(pestañas == 1){
                 paginas.setText("1/1");
                 paginas.setVisibility(View.INVISIBLE);
                 retroceder.setVisibility(View.INVISIBLE);
                 avanzar.setVisibility(View.INVISIBLE);
-//                Bitmap imagen = informes.get(0).getImagenDelInforme();
-//                foto1.setImageBitmap(imagen);
+
             }else{
                 paginas.setText("1/"+Integer.toString(pestañas));
             }
+            cargarFotos(pestañaActual);
+
         }
 
 
@@ -97,8 +106,6 @@ public class Resultados extends AppCompatActivity {
             retroceder.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             avanzar.setBackgroundTintList(ColorStateList.valueOf(oscuro));
 
-
-
         }else{
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
@@ -109,11 +116,49 @@ public class Resultados extends AppCompatActivity {
 
         }
     }
+    public void botonAvanzar(View v){
+        pestañaActual += 1;
+        cargarFotos(pestañaActual);
+
+    }
+    public void botonRetroceder(View v){
+        pestañaActual -= 1;
+        cargarFotos(pestañaActual);
+
+    }
+
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){
             intent.putExtra("modoOscuro",true);
         }else{
             intent.putExtra("modoOscuro",false);
+        }
+    }
+    public void cargarFotos(int pestañaActual){
+        int primeraFoto = (pestañaActual - 1) * 3;
+        if(informes.size() > primeraFoto) {
+            Bitmap imagen = informes.get(informes.size()-primeraFoto-1).getImagenDelInforme();
+            foto1.setImageBitmap(imagen);
+            foto1.setVisibility(View.VISIBLE);
+            if(informes.size()>(pestañaActual - 1) * 3 + 1) {
+                Bitmap imagen2 = informes.get(informes.size()-primeraFoto-2).getImagenDelInforme();
+                foto2.setImageBitmap(imagen2);
+                foto2.setVisibility(View.VISIBLE);
+                if(informes.size()>(pestañaActual - 1) * 3 + 2) {
+                    Bitmap imagen3 = informes.get(informes.size()-primeraFoto-3).getImagenDelInforme();
+                    foto3.setImageBitmap(imagen3);
+                    foto3.setVisibility(View.VISIBLE);
+                }else{
+                    foto3.setVisibility(View.INVISIBLE);
+                }
+            }else{
+                foto2.setVisibility(View.INVISIBLE);
+                foto3.setVisibility(View.INVISIBLE);
+            }
+        }else{
+            foto1.setVisibility(View.INVISIBLE);
+            foto2.setVisibility(View.INVISIBLE);
+            foto3.setVisibility(View.INVISIBLE);
         }
     }
 }

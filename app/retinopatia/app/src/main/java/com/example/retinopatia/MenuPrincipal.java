@@ -15,16 +15,16 @@ import DataBase.BaseDeDatos;
 
 public class MenuPrincipal extends AppCompatActivity {
 
-    Switch modoOscuro;
-    View root;
-    TextView nombrePaciente;
-    ImageButton volver;
-    ImageButton perfil;
-    Button datosPaciente;
-    Button fotoPaciente;
-    Button resultados;
-    BaseDeDatos baseDeDatos;
-    int DNI;
+    private Switch modoOscuro;
+    private View root;
+    private TextView nombrePaciente;
+    private ImageButton volver;
+    private ImageButton perfil;
+    private Button datosPaciente;
+    private Button fotoPaciente;
+    private Button resultados;
+    private BaseDeDatos baseDeDatos;
+    private int DNI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), SeleccionarOjo.class);
         intentModoOscuro(intent);
+        intent.putExtra("DNI", DNI);
         startActivity(intent);
 
     }

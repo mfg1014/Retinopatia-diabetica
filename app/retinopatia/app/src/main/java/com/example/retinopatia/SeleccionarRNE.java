@@ -14,15 +14,16 @@ import android.widget.TextView;
 
 
 public class SeleccionarRNE extends AppCompatActivity {
-    Switch modoOscuro;
-    View root;
-    ImageButton volver;
-    ImageButton perfil;
-    Button botonResultados;
-    CheckBox RNE1;
-    CheckBox RNE2;
-    CheckBox todos;
-    TextView mensaje;
+    private Switch modoOscuro;
+    private View root;
+    private ImageButton volver;
+    private ImageButton perfil;
+    private Button botonResultados;
+    private CheckBox RNE1;
+    private CheckBox RNE2;
+    private CheckBox todos;
+    private TextView mensaje;
+    private int DNI;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,7 @@ public class SeleccionarRNE extends AppCompatActivity {
         mensaje = findViewById(R.id.textViewMensajeRNE);
 
         Intent intent = getIntent();
+        DNI = intent.getIntExtra("DNI",-1);
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -60,12 +62,11 @@ public class SeleccionarRNE extends AppCompatActivity {
         Intent intent = new Intent(v.getContext(), SeleccionarOjo.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intentModoOscuro(intent);
+        intent.putExtra("DNI",DNI);
         startActivity(intent);
 
     }
     public void opcionRNE1(View v){
-
-
         if(RNE1.isChecked()){
             botonResultados.setEnabled(true);
 

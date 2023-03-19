@@ -12,15 +12,15 @@ import android.widget.TextView;
 
 public class Perfil extends AppCompatActivity {
 
-    View root;
-    Switch modoOscuro;
-    ImageButton volver;
-    TextView nombre;
-    TextView apellidos;
-    TextView fecha;
-    TextView DNI;
-    TextView centro;
-    TextView password;
+    private View root;
+    private Switch modoOscuro;
+    private ImageButton volver;
+    private TextView nombre;
+    private TextView apellidos;
+    private TextView fecha;
+    private TextView DNI;
+    private TextView centro;
+    private TextView password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

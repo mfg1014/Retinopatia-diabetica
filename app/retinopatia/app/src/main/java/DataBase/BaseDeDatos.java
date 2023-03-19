@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+
 import com.example.retinopatia.R;
+
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ public class BaseDeDatos  {
     private Map<String, Usuario> usuarioMapEmail;
     private Map<Integer, Paciente> pacienteMapDNI;
     private Context context;
+    private int contadorInformes;
 
     public static BaseDeDatos getBaseDeDatos(Context context){
         if(bbdd == null){
@@ -30,6 +33,7 @@ public class BaseDeDatos  {
         this.context=context;
         usuarioMapEmail = new HashMap<String,Usuario>();
         pacienteMapDNI = new HashMap<Integer, Paciente>();
+        contadorInformes = 0;
 
         Medico m1 = new Medico("Medico1","Es el Medico 1", "medico1@gmail.com",11111111, LocalDateTime.MIN,"contraseña","San Agustín");
         usuarioMapEmail.put("medico1@gmail.com",m1);
@@ -40,7 +44,7 @@ public class BaseDeDatos  {
 
         Bitmap imagenHistorial = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo) ;
 
-        Informe i1 = new Informe(1,12345678,imagenHistorial,"Derecho",3);
+        Informe i1 = new Informe(contadorInformes++,12345678,imagenHistorial,"Derecho",3);
         p1.agregarInforme(i1);
         pacienteMapDNI.put(12345678,p1);
     }
@@ -71,5 +75,10 @@ public class BaseDeDatos  {
             return null;
         }
         return pacienteMapDNI.get(DNI).getInformePaciente();
+    }
+    public void añadirInforme(Bitmap foto,int DNI,String ojo, int resultado){
+        Informe nuevoInforme = new Informe(contadorInformes++,DNI,foto,ojo,resultado);
+        pacienteMapDNI.get(DNI).agregarInforme(nuevoInforme);
+
     }
 }

@@ -11,14 +11,14 @@ public class Informe {
     public Informe(int idInforme, int DNIPaciente, Bitmap imagen, String ojo, int resultado){
         this.idInforme = idInforme;
         this.DNIPaciente = DNIPaciente;
-        imagenDelInforme = imagen;
-        ojoImagen = ojo;
+        this.imagenDelInforme = imagen;
+        this.ojoImagen = ojo;
         this.resultado = resultado;
     }
     public Informe(int idInforme, Bitmap imagen, String ojo, int resultado){
         this.idInforme = idInforme;
-        imagenDelInforme = imagen;
-        ojoImagen = ojo;
+        this.imagenDelInforme = imagen;
+        this.ojoImagen = ojo;
         this.resultado = resultado;
     }
 

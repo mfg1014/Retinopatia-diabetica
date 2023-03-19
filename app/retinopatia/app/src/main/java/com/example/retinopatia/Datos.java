@@ -11,17 +11,17 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 public class Datos extends AppCompatActivity {
-    View root;
-    Switch modoOscuro;
-    ImageButton volver;
-    ImageButton perfil;
-    TextView nombre;
-    TextView apellidos;
-    TextView fecha;
-    TextView DNI;
-    TextView centro;
-    TextView estado;
-    TextView infoPaciente;
+    private View root;
+    private Switch modoOscuro;
+    private ImageButton volver;
+    private ImageButton perfil;
+    private TextView nombre;
+    private TextView apellidos;
+    private TextView fecha;
+    private TextView DNI;
+    private TextView centro;
+    private TextView estado;
+    private TextView infoPaciente;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,8 @@ public class Datos extends AppCompatActivity {
         if(modoOscuro.isChecked()){
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            volver.setColorFilter(textoOscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
             perfil.setColorFilter(oscuro);
             nombre.setTextColor(textoOscuro);
             apellidos.setTextColor(textoOscuro);
@@ -68,6 +70,8 @@ public class Datos extends AppCompatActivity {
         }else{
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
+            volver.setColorFilter(textoClaro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
             perfil.setColorFilter(claro);
             nombre.setTextColor(textoClaro);
             apellidos.setTextColor(textoClaro);

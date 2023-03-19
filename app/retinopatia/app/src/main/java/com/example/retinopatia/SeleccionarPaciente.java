@@ -16,16 +16,16 @@ import DataBase.BaseDeDatos;
 
 public class SeleccionarPaciente extends AppCompatActivity {
 
-    Switch modoOscuro;
-    View root;
-    ImageButton volver;
-    ImageButton perfil;
-    EditText DNI;
-    ImageButton botonBuscar;
-    Button botonPasarSiguiente;
-    TextView mensaje;
-    BaseDeDatos baseDeDatos;
-    int numeroDNI;
+    private Switch modoOscuro;
+    private View root;
+    private ImageButton volver;
+    private ImageButton perfil;
+    private EditText DNI;
+    private ImageButton botonBuscar;
+    private Button botonPasarSiguiente;
+    private TextView mensaje;
+    private BaseDeDatos baseDeDatos;
+    private int numeroDNI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
