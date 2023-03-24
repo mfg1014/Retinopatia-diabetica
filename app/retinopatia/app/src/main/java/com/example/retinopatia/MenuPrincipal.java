@@ -25,6 +25,7 @@ public class MenuPrincipal extends AppCompatActivity {
     private Button resultados;
     private BaseDeDatos baseDeDatos;
     private int DNI;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,13 @@ public class MenuPrincipal extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        if(intent.getIntExtra("DNI",-1) == -1) {
+        email = intent.getStringExtra("email");
+        DNI = intent.getIntExtra("DNI",-1);
+        if(DNI == -1) {
             nombrePaciente.setVisibility(View.INVISIBLE);
             perfil.setVisibility(View.INVISIBLE);
             datosPaciente.setVisibility(View.INVISIBLE);
         }else{
-            DNI = intent.getIntExtra("DNI",-1);
             String nombre = baseDeDatos.getPaciente(DNI);
             nombrePaciente.setText(nombre);
         }
@@ -66,6 +68,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Perfil.class);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
         startActivity(intent);
 
     }
@@ -73,6 +76,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), SeleccionarOjo.class);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
         intent.putExtra("DNI", DNI);
         startActivity(intent);
 
@@ -81,6 +85,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Resultados.class);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
         intent.putExtra("DNI", DNI);
         startActivity(intent);
 
@@ -89,6 +94,8 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Datos.class);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
+        intent.putExtra("DNI", DNI);
         startActivity(intent);
 
     }
@@ -102,6 +109,8 @@ public class MenuPrincipal extends AppCompatActivity {
         if(modoOscuro.isChecked()){
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            volver.setColorFilter(textoOscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
             perfil.setColorFilter(oscuro);
             resultados.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
             fotoPaciente.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
@@ -111,6 +120,8 @@ public class MenuPrincipal extends AppCompatActivity {
         }else{
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
+            volver.setColorFilter(textoClaro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
             perfil.setColorFilter(claro);
             resultados.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
             fotoPaciente.setBackgroundTintList(ColorStateList.valueOf(botonClaro));

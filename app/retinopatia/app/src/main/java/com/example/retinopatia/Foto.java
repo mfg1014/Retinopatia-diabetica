@@ -43,6 +43,7 @@ public class Foto extends AppCompatActivity {
     private BaseDeDatos baseDeDatos;
     private int DNI;
     private String ojo;
+    private String email;
 
 
     @Override
@@ -59,6 +60,7 @@ public class Foto extends AppCompatActivity {
         botonHacerFoto = findViewById(R.id.botonHacerFoto);
         botonEscogerFoto = findViewById(R.id.botonGaleria);
         Intent intent = getIntent();
+        email = intent.getStringExtra("email");
         DNI = intent.getIntExtra("DNI",-1);
         ojo = intent.getStringExtra("ojo");
         if(intent.getBooleanExtra("modoOscuro",false)){
@@ -104,6 +106,7 @@ public class Foto extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Perfil.class);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
         startActivity(intent);
 
     }
@@ -111,6 +114,7 @@ public class Foto extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), SeleccionarRNE.class);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
         Drawable drawable = imagenSeleccionada.getDrawable();
         BitmapDrawable bd = (BitmapDrawable) drawable;
         Bitmap foto = bd.getBitmap();
@@ -159,6 +163,8 @@ public class Foto extends AppCompatActivity {
         if(modoOscuro.isChecked()){
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            volver.setColorFilter(textoOscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
             perfil.setColorFilter(oscuro);
             botonHacerFoto.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
             botonEscogerFoto.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
@@ -167,6 +173,8 @@ public class Foto extends AppCompatActivity {
         }else{
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
+            volver.setColorFilter(textoClaro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
             perfil.setColorFilter(claro);
             botonHacerFoto.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
             botonEscogerFoto.setBackgroundTintList(ColorStateList.valueOf(botonClaro));

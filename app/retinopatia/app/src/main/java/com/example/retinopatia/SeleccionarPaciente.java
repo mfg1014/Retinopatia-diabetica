@@ -26,6 +26,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
     private TextView mensaje;
     private BaseDeDatos baseDeDatos;
     private int numeroDNI;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
         DNI = findViewById(R.id.editTextDNI);
         mensaje = findViewById(R.id.textViewMensajeDNI);
         Intent intent = getIntent();
-        intent.putExtra("email",intent.getStringExtra("email"));
+        email = intent.getStringExtra("email");
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -49,8 +50,9 @@ public class SeleccionarPaciente extends AppCompatActivity {
     }
     public void botonNext (View v){
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
-        intent.putExtra("DNI",numeroDNI);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
+        intent.putExtra("DNI",numeroDNI);
         startActivity(intent);
 
     }
@@ -61,6 +63,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Perfil.class);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
         startActivity(intent);
 
     }
@@ -74,18 +77,24 @@ public class SeleccionarPaciente extends AppCompatActivity {
         if(modoOscuro.isChecked()){
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            volver.setColorFilter(textoOscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
             perfil.setColorFilter(oscuro);
             DNI.setTextColor(textoOscuro);
             DNI.setHintTextColor(textoOscuro);
+            mensaje.setTextColor(textoOscuro);
             botonBuscar.setColorFilter(textoOscuro);
             botonBuscar.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
         }else{
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
+            volver.setColorFilter(textoClaro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
             perfil.setColorFilter(claro);
             DNI.setTextColor(textoClaro);
             DNI.setHintTextColor(textoClaro);
+            mensaje.setTextColor(textoClaro);
             botonBuscar.setColorFilter(textoClaro);
             botonBuscar.setBackgroundTintList(ColorStateList.valueOf(claro));
             botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(botonClaro));

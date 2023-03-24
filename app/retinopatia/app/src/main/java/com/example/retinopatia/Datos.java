@@ -10,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import DataBase.BaseDeDatos;
+
 public class Datos extends AppCompatActivity {
     private View root;
     private Switch modoOscuro;
@@ -22,6 +24,9 @@ public class Datos extends AppCompatActivity {
     private TextView centro;
     private TextView estado;
     private TextView infoPaciente;
+    private BaseDeDatos baseDeDatos;
+    private int DNIPaciente;
+    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,18 +39,28 @@ public class Datos extends AppCompatActivity {
         apellidos = findViewById(R.id.apellidos);
         fecha = findViewById(R.id.fecha);
         DNI = findViewById(R.id.DNI);
-        centro = findViewById(R.id.centro);
+        //centro = findViewById(R.id.centro);
         estado = findViewById(R.id.estado);
         infoPaciente = findViewById(R.id.infoPaciente);
+        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+        DNIPaciente = intent.getIntExtra("DNI",-1);
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
+        cargarDatos();
 
     }
     public void botonVolver(View v){
         finish();
+    }
+    public void botonPerfil(View v){
+        Intent intent = new Intent(v.getContext(), Perfil.class);
+        intentModoOscuro(intent);
+        intent.putExtra("email",email);
+        startActivity(intent);
     }
 
     public void botonModoOscuro(View v){
@@ -90,4 +105,16 @@ public class Datos extends AppCompatActivity {
             intent.putExtra("modoOscuro",false);
         }
     }
+    public void cargarDatos(){
+        nombre.setText(baseDeDatos.getNombrePaciente(DNIPaciente));
+        apellidos.setText(baseDeDatos.getApellidoPaciente(DNIPaciente));
+        fecha.setText(baseDeDatos.getFechaNacimientoPaciente(DNIPaciente));
+        DNI.setText(Integer.toString(DNIPaciente));
+        estado.setText(baseDeDatos.getEstado(DNIPaciente));
+        infoPaciente.setText(baseDeDatos.getInformacionPaciente(DNIPaciente));
+
+
+
+    }
+
 }

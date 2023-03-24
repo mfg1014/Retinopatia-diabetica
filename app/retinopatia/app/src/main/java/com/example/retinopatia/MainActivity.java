@@ -48,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(v.getContext(), SeleccionarPaciente.class);
 
         if(comprobarUsuario()){
-            intent.putExtra("email",email.getText().toString());
+
             usuarioIncorrecto.setVisibility(View.INVISIBLE);
             intentModoOscuro(intent);
+            intent.putExtra("email",email.getText().toString());
             startActivity(intent);
         }
         else {

@@ -34,6 +34,7 @@ public class Resultados extends AppCompatActivity {
     private ImageView foto3;
     private int pestañas;
     private int pestañaActual;
+    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,7 @@ public class Resultados extends AppCompatActivity {
         foto3 = findViewById(R.id.imagen3);
 
         Intent intent = getIntent();
+        email = intent.getStringExtra("email");
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -90,6 +92,7 @@ public class Resultados extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Perfil.class);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
         startActivity(intent);
 
     }
@@ -101,6 +104,8 @@ public class Resultados extends AppCompatActivity {
         if(modoOscuro.isChecked()){
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            volver.setColorFilter(textoOscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
             perfil.setColorFilter(oscuro);
             paginas.setTextColor(textoOscuro);
             retroceder.setBackgroundTintList(ColorStateList.valueOf(oscuro));
@@ -109,6 +114,8 @@ public class Resultados extends AppCompatActivity {
         }else{
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
+            volver.setColorFilter(textoClaro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
             perfil.setColorFilter(claro);
             paginas.setTextColor(textoClaro);
             retroceder.setBackgroundTintList(ColorStateList.valueOf(claro));

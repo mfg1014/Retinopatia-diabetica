@@ -1,6 +1,8 @@
 package DataBase;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Usuario {
 
@@ -9,9 +11,9 @@ public class Usuario {
     private String correo;
     private int DNI;
     private String tipoUsuario;
-    private LocalDateTime fechaNacimiento;
+    private LocalDate fechaNacimiento;
 
-    public Usuario(String nombre, String apellido, String correo,int DNI, LocalDateTime fechaNacimiento) {
+    public Usuario(String nombre, String apellido, String correo,int DNI, LocalDate fechaNacimiento) {
 
         this.nombre = nombre;
         this.apellido = apellido;
@@ -53,8 +55,8 @@ public class Usuario {
     }
     public String getTipoUsuario(){return tipoUsuario;}
     public int getDNI(){return  DNI;}
-    public LocalDateTime getFechaNacimiento(){return  fechaNacimiento;}
-    public void setFechaNacimiento(LocalDateTime fechaNacimiento){this.fechaNacimiento = fechaNacimiento;}
+    public LocalDate getFechaNacimiento(){return  fechaNacimiento;}
+    public void setFechaNacimiento(LocalDate fechaNacimiento){this.fechaNacimiento = fechaNacimiento;}
     public Medico getMedico(){
         if(this instanceof Medico){
             Medico medico = (Medico) this;
