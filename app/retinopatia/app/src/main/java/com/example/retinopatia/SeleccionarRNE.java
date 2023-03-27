@@ -14,15 +14,17 @@ import android.widget.TextView;
 
 
 public class SeleccionarRNE extends AppCompatActivity {
-    Switch modoOscuro;
-    View root;
-    ImageButton volver;
-    ImageButton perfil;
-    Button botonResultados;
-    CheckBox RNE1;
-    CheckBox RNE2;
-    CheckBox todos;
-    TextView mensaje;
+    private Switch modoOscuro;
+    private View root;
+    private ImageButton volver;
+    private ImageButton perfil;
+    private Button botonResultados;
+    private CheckBox RNE1;
+    private CheckBox RNE2;
+    private CheckBox todos;
+    private TextView mensaje;
+    private int DNI;
+    private String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,8 @@ public class SeleccionarRNE extends AppCompatActivity {
         mensaje = findViewById(R.id.textViewMensajeRNE);
 
         Intent intent = getIntent();
+        email = intent.getStringExtra("email");
+        DNI = intent.getIntExtra("DNI",-1);
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -52,6 +56,7 @@ public class SeleccionarRNE extends AppCompatActivity {
 
         Intent intent = new Intent(v.getContext(), Perfil.class);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
         startActivity(intent);
 
     }
@@ -60,12 +65,12 @@ public class SeleccionarRNE extends AppCompatActivity {
         Intent intent = new Intent(v.getContext(), SeleccionarOjo.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intentModoOscuro(intent);
+        intent.putExtra("email",email);
+        intent.putExtra("DNI",DNI);
         startActivity(intent);
 
     }
     public void opcionRNE1(View v){
-
-
         if(RNE1.isChecked()){
             botonResultados.setEnabled(true);
 
@@ -109,6 +114,8 @@ public class SeleccionarRNE extends AppCompatActivity {
         if(modoOscuro.isChecked()){
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            volver.setColorFilter(textoOscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
             perfil.setColorFilter(oscuro);
             RNE1.setTextColor(textoOscuro);
             RNE2.setTextColor(textoOscuro);
@@ -118,6 +125,8 @@ public class SeleccionarRNE extends AppCompatActivity {
         }else{
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
+            volver.setColorFilter(textoClaro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
             perfil.setColorFilter(claro);
             RNE1.setTextColor(textoClaro);
             RNE2.setTextColor(textoClaro);
