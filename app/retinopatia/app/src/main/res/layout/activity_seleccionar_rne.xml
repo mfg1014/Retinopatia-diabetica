@@ -63,6 +63,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="152dp"
         android:text="Seleccionar la Red neuronal a utilizar, se puede seleccionar más de una, haciendo que se muestren los resultados."
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
