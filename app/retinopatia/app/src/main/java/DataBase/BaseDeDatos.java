@@ -38,14 +38,18 @@ public class BaseDeDatos  {
         Medico m1 = new Medico("Medico1","Es el Medico 1", "medico1@gmail.com",11111111, LocalDate.of(1990,5,2),"contraseña","San Agustín");
         medicoMapEmail.put("medico1@gmail.com",m1);
 
+        Medico m2 = new Medico ("Juan", "Gomez Perez", "juan@gmail.com",33333333, LocalDate.of(1984,12,29),"1234","Comuneros");
+        medicoMapEmail.put("juan@gmail.com",m2);
         Paciente p1 = new Paciente("Paciente1","Es paciente", "paciente1@gmail.com",12345678,LocalDate.of(2005,1,25),"El paciente tiene diabetes", "NPDR");
 
-
+        //Se usa una imagen que exista dentro de la applicacion, se cambiará por imagen de retina.
         Bitmap imagenHistorial = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo) ;
 
-        Informe i1 = new Informe(contadorInformes++,12345678,imagenHistorial,"Derecho",3);
+        Informe i1 = new Informe(contadorInformes++,12345678,imagenHistorial,"Derecho",3,LocalDate.now());
         p1.agregarInforme(i1);
         pacienteMapDNI.put(12345678,p1);
+        Paciente p2 = new Paciente("Pepe", "Garcia","pepe@gmail.com",22222222, LocalDate.of(1973,6,3),"No tiene ninguna patologia", "NPDR leve");
+        pacienteMapDNI.put(22222222,p2);
     }
 
     public String getCorreo(Usuario user){
@@ -72,7 +76,7 @@ public class BaseDeDatos  {
         return pacienteMapDNI.get(DNI).getInformePaciente();
     }
     public void añadirInforme(Bitmap foto,int DNI,String ojo, int resultado){
-        Informe nuevoInforme = new Informe(contadorInformes++,DNI,foto,ojo,resultado);
+        Informe nuevoInforme = new Informe(contadorInformes++,DNI,foto,ojo,resultado,LocalDate.now());
         pacienteMapDNI.get(DNI).agregarInforme(nuevoInforme);
 
     }

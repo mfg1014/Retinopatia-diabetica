@@ -32,6 +32,15 @@ public class Resultados extends AppCompatActivity {
     private ImageView foto1;
     private ImageView foto2;
     private ImageView foto3;
+    private TextView fecha1;
+    private TextView fecha2;
+    private TextView fecha3;
+    private TextView informacion1;
+    private TextView informacion2;
+    private TextView informacion3;
+    private TextView resultados1;
+    private TextView resultados2;
+    private TextView resultados3;
     private int pestañas;
     private int pestañaActual;
     private String email;
@@ -50,6 +59,15 @@ public class Resultados extends AppCompatActivity {
         foto1 = findViewById(R.id.imagen1);
         foto2 = findViewById(R.id.imagen2);
         foto3 = findViewById(R.id.imagen3);
+        fecha1 = findViewById(R.id.fecha1);
+        informacion1 = findViewById(R.id.info1);
+        resultados1 = findViewById(R.id.result1);
+        fecha2 = findViewById(R.id.fecha2);
+        informacion2 = findViewById(R.id.info2);
+        resultados2 = findViewById(R.id.result2);
+        fecha3 = findViewById(R.id.fecha3);
+        informacion3 = findViewById(R.id.info3);
+        resultados3 = findViewById(R.id.result3);
 
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
@@ -79,6 +97,7 @@ public class Resultados extends AppCompatActivity {
                 paginas.setText("1/"+Integer.toString(pestañas));
             }
             cargarFotos(pestañaActual);
+            cargarTextos(pestañaActual);
 
         }
 
@@ -126,11 +145,13 @@ public class Resultados extends AppCompatActivity {
     public void botonAvanzar(View v){
         pestañaActual += 1;
         cargarFotos(pestañaActual);
+        cargarTextos(pestañaActual);
 
     }
     public void botonRetroceder(View v){
         pestañaActual -= 1;
         cargarFotos(pestañaActual);
+        cargarTextos(pestañaActual);
 
     }
 
@@ -166,6 +187,54 @@ public class Resultados extends AppCompatActivity {
             foto1.setVisibility(View.INVISIBLE);
             foto2.setVisibility(View.INVISIBLE);
             foto3.setVisibility(View.INVISIBLE);
+        }
+    }
+    public void cargarTextos(int pestañaActual){
+        int primerInforme = (pestañaActual - 1) * 3;
+        if(informes.size() > primerInforme) {
+            fecha1.setText(informes.get(informes.size()-primerInforme-1).getFecha().toString());
+            informacion1.setText("ojo "+informes.get(informes.size()-primerInforme-1).getOjoImagen());
+            resultados1.setText(Integer.toString(informes.get(informes.size()-primerInforme-1).getResultado()));
+            fecha1.setVisibility(View.VISIBLE);
+            informacion1.setVisibility(View.VISIBLE);
+            resultados1.setVisibility(View.VISIBLE);
+            if(informes.size()>(pestañaActual - 1) * 3 + 1) {
+                fecha2.setText(informes.get(informes.size()-primerInforme-2).getFecha().toString());
+                informacion2.setText("ojo "+informes.get(informes.size()-primerInforme-2).getOjoImagen());
+                resultados2.setText(Integer.toString(informes.get(informes.size()-primerInforme-2).getResultado()));
+                fecha2.setVisibility(View.VISIBLE);
+                informacion2.setVisibility(View.VISIBLE);
+                resultados2.setVisibility(View.VISIBLE);
+                if(informes.size()>(pestañaActual - 1) * 3 + 2) {
+                    fecha3.setText(informes.get(informes.size()-primerInforme-3).getFecha().toString());
+                    informacion3.setText("ojo "+informes.get(informes.size()-primerInforme-3).getOjoImagen());
+                    resultados3.setText(Integer.toString(informes.get(informes.size()-primerInforme-3).getResultado()));
+                    fecha3.setVisibility(View.VISIBLE);
+                    informacion3.setVisibility(View.VISIBLE);
+                    resultados3.setVisibility(View.VISIBLE);
+                }else{
+                    fecha3.setVisibility(View.INVISIBLE);
+                    informacion3.setVisibility(View.INVISIBLE);
+                    resultados3.setVisibility(View.INVISIBLE);
+                }
+            }else{
+                fecha2.setVisibility(View.INVISIBLE);
+                informacion2.setVisibility(View.INVISIBLE);
+                resultados2.setVisibility(View.INVISIBLE);
+                fecha3.setVisibility(View.INVISIBLE);
+                informacion3.setVisibility(View.INVISIBLE);
+                resultados3.setVisibility(View.INVISIBLE);
+            }
+        }else{
+            fecha1.setVisibility(View.INVISIBLE);
+            informacion1.setVisibility(View.INVISIBLE);
+            resultados1.setVisibility(View.INVISIBLE);
+            fecha2.setVisibility(View.INVISIBLE);
+            informacion2.setVisibility(View.INVISIBLE);
+            resultados2.setVisibility(View.INVISIBLE);
+            fecha3.setVisibility(View.INVISIBLE);
+            informacion3.setVisibility(View.INVISIBLE);
+            resultados3.setVisibility(View.INVISIBLE);
         }
     }
 }
