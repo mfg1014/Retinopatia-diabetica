@@ -10,21 +10,17 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import DataBase.BaseDeDatos;
-
 public class Perfil extends AppCompatActivity {
 
-    private View root;
-    private Switch modoOscuro;
-    private ImageButton volver;
-    private TextView nombre;
-    private TextView apellidos;
-    private TextView fecha;
-    private TextView DNI;
-    private TextView centro;
-    private TextView password;
-    private BaseDeDatos baseDeDatos;
-    private String email;
+    View root;
+    Switch modoOscuro;
+    ImageButton volver;
+    TextView nombre;
+    TextView apellidos;
+    TextView fecha;
+    TextView DNI;
+    TextView centro;
+    TextView password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +34,11 @@ public class Perfil extends AppCompatActivity {
         DNI = findViewById(R.id.DNI);
         centro = findViewById(R.id.centro);
         password = findViewById(R.id.password);
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         Intent intent = getIntent();
-        email = intent.getStringExtra("email");
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        cargarDatos();
-
 
     }
     public void botonVolver(View v){
@@ -61,7 +53,6 @@ public class Perfil extends AppCompatActivity {
         if(modoOscuro.isChecked()){
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            volver.setColorFilter(textoOscuro);
             nombre.setTextColor(textoOscuro);
             apellidos.setTextColor(textoOscuro);
             fecha.setTextColor(textoOscuro);
@@ -71,7 +62,6 @@ public class Perfil extends AppCompatActivity {
         }else{
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
-            volver.setColorFilter(textoClaro);
             nombre.setTextColor(textoClaro);
             apellidos.setTextColor(textoClaro);
             fecha.setTextColor(textoClaro);
@@ -81,15 +71,11 @@ public class Perfil extends AppCompatActivity {
         }
 
     }
-
-    public void cargarDatos(){
-        nombre.setText(baseDeDatos.getNombreMedico(email));
-        apellidos.setText(baseDeDatos.getApellidoMedico(email));
-        fecha.setText(baseDeDatos.getFechaNacimientoMedico(email));
-        DNI.setText(Integer.toString( baseDeDatos.getDNIMedico(email)));
-        password.setText(baseDeDatos.getContraseña(email));
-        centro.setText(baseDeDatos.getCentroMedico(email));
-
-
+    public void intentModoOscuro(Intent intent){
+        if(modoOscuro.isChecked()){
+            intent.putExtra("modoOscuro",true);
+        }else{
+            intent.putExtra("modoOscuro",false);
+        }
     }
 }

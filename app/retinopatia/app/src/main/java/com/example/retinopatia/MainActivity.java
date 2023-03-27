@@ -12,25 +12,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-
-
 import DataBase.BaseDeDatos;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private EditText email;
-    private EditText password;
-    private TextView usuarioIncorrecto;
-    private Button guestMode;
-    private Button iniciarSesion;
-    private Switch modoOscuro;
-    private View root;
-    private BaseDeDatos baseDeDatos;
-
+    EditText email;
+    EditText password;
+    TextView usuarioIncorrecto;
+    Button guestMode;
+    Button iniciarSesion;
+    Switch modoOscuro;
+    View root;
+    BaseDeDatos baseDeDatos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         email = findViewById(R.id.editTextTextEmailAddress);
@@ -42,16 +38,14 @@ public class MainActivity extends AppCompatActivity {
         iniciarSesion = findViewById(R.id.botonIniciarSesion);
         baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
     }
-
     public void pasoInicio(View v){
 
         Intent intent = new Intent(v.getContext(), SeleccionarPaciente.class);
 
         if(comprobarUsuario()){
-
+            intent.putExtra("email",email.getText().toString());
             usuarioIncorrecto.setVisibility(View.INVISIBLE);
             intentModoOscuro(intent);
-            intent.putExtra("email",email.getText().toString());
             startActivity(intent);
         }
         else {
@@ -92,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             root.setBackgroundColor(oscuro);
             email.setTextColor(textoOscuro);
             password.setTextColor(textoOscuro);
-            modoOscuro.setTextColor(textoOscuro);
             email.setHintTextColor(textoOscuro);
             password.setHintTextColor(textoOscuro);
             guestMode.setTextColor(textoOscuro);
@@ -104,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
             root.setBackgroundColor(claro);
             email.setTextColor(textoClaro);
             password.setTextColor(textoClaro);
-            modoOscuro.setTextColor(textoClaro);
             email.setHintTextColor(textoClaro);
             password.setHintTextColor(textoClaro);
             guestMode.setTextColor(textoClaro);
