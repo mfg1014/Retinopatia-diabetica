@@ -1,6 +1,21 @@
 \capitulo{4}{Técnicas y herramientas}
 
-Esta parte de la memoria tiene como objetivo presentar las técnicas metodológicas y las herramientas de desarrollo que se han utilizado para llevar a cabo el proyecto. Si se han estudiado diferentes alternativas de metodologías, herramientas, bibliotecas se puede hacer un resumen de los aspectos más destacados de cada alternativa, incluyendo comparativas entre las distintas opciones y una justificación de las elecciones realizadas. 
-No se pretende que este apartado se convierta en un capítulo de un libro dedicado a cada una de las alternativas, sino comentar los aspectos más destacados de cada opción, con un repaso somero a los fundamentos esenciales y referencias bibliográficas para que el lector pueda ampliar su conocimiento sobre el tema.
+\section{Metodologías}
+\textbf{SCRUM}\newline
+ SCRUM es una metodología ágil basada en una estrategia continua e incremental, cuyo objetivo es proporcionar un producto funcional al final de cada periodo de trabajo planeado (\textit{sprint}), haciendo reuniones diarias y antes y después de cada \textit{sprint} otras reuniones donde se explican los problemas que se han tenido y como se va a planear el siguiente.
+
+El impedimento más notorio de esta metodología, es que hay un equipo de personas entre las que se encuentra el \textit{product owner}, el \textit{SCRUM master} y el equipo de desarrollo. Además el equipo se recomienda ser de entre 3 a 9 personas para un buen desarrollo, por tanto, en este trabajo ha sido complicado ir haciendo todas las acciones que se piden en la metodología SCRUM.
+
+\textbf{GitFlow}\newline
+GitFlow es un flujo de trabajo, en el cual se ramifica el proyecto en \textit{branches} donde cada una, contiene una parte del proyecto; de esta forma, se puede dejar una parte funcional sin modificar que seria la rama principal, y otras ramas, donde se van realizando los cambios, cuando en estas ramas, se termina la tarea que se esta realizando, haciendo un producto funcional, se realiza una operación de \textit{pull request} para combinar ambas ramas. Esta operación es aceptada o denegada por el equipo de desarrollo que no haya participado en la realización de esta rama.
+
+En mi proyecto, se han creado tres \textit{branches}, que son:
+\begin{itemize}
+    \item \textit{main}: es la rama principal, donde se alberga la versión estable del proyecto.
+    \item boceto: es una rama secundaria, donde se realizan los cambios que se están realizando en la aplicación móvil.
+    \item latex: es la rama secundaria donde se realizan los cambios que se están realizando en el documento LaTeX.
+\end{itemize}
+
+
 
 
