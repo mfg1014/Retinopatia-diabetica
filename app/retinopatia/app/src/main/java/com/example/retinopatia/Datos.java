@@ -46,6 +46,9 @@ public class Datos extends AppCompatActivity {
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         DNIPaciente = intent.getIntExtra("DNI",-1);
+        if(DNIPaciente == -1){
+            perfil.setVisibility(View.INVISIBLE);
+        }
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -72,13 +75,13 @@ public class Datos extends AppCompatActivity {
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
-            perfil.setColorFilter(oscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            perfil.setColorFilter(textoOscuro);
             nombre.setTextColor(textoOscuro);
             apellidos.setTextColor(textoOscuro);
             fecha.setTextColor(textoOscuro);
             DNI.setTextColor(textoOscuro);
-            centro.setTextColor(textoOscuro);
+            //centro.setTextColor(textoOscuro);
             estado.setTextColor(textoOscuro);
             infoPaciente.setTextColor(textoOscuro);
 
@@ -86,13 +89,13 @@ public class Datos extends AppCompatActivity {
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
             volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
-            perfil.setColorFilter(claro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
+            perfil.setColorFilter(textoClaro);
             nombre.setTextColor(textoClaro);
             apellidos.setTextColor(textoClaro);
             fecha.setTextColor(textoClaro);
             DNI.setTextColor(textoClaro);
-            centro.setTextColor(textoClaro);
+            //centro.setTextColor(textoClaro);
             estado.setTextColor(textoClaro);
             infoPaciente.setTextColor(textoClaro);
         }

@@ -110,8 +110,8 @@ public class MenuPrincipal extends AppCompatActivity {
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
-            perfil.setColorFilter(oscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            perfil.setColorFilter(textoOscuro);
             resultados.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
             fotoPaciente.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
             datosPaciente.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
@@ -121,8 +121,8 @@ public class MenuPrincipal extends AppCompatActivity {
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
             volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
-            perfil.setColorFilter(claro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
+            perfil.setColorFilter(textoClaro);
             resultados.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
             fotoPaciente.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
             datosPaciente.setBackgroundTintList(ColorStateList.valueOf(botonClaro));

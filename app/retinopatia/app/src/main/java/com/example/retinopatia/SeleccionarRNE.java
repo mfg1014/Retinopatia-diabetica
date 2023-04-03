@@ -44,6 +44,9 @@ public class SeleccionarRNE extends AppCompatActivity {
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         DNI = intent.getIntExtra("DNI",-1);
+        if(DNI == -1){
+            perfil.setVisibility(View.INVISIBLE);
+        }
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -115,8 +118,8 @@ public class SeleccionarRNE extends AppCompatActivity {
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
-            perfil.setColorFilter(oscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            perfil.setColorFilter(textoOscuro);
             RNE1.setTextColor(textoOscuro);
             RNE2.setTextColor(textoOscuro);
             todos.setTextColor(textoOscuro);
@@ -126,8 +129,8 @@ public class SeleccionarRNE extends AppCompatActivity {
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
             volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
-            perfil.setColorFilter(claro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
+            perfil.setColorFilter(textoClaro);
             RNE1.setTextColor(textoClaro);
             RNE2.setTextColor(textoClaro);
             todos.setTextColor(textoClaro);
