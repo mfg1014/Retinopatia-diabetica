@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
 import android.widget.ImageButton;
+
 import android.widget.Switch;
 import android.widget.TextView;
+
 
 public class SeleccionarOjo extends AppCompatActivity {
 
@@ -38,10 +40,12 @@ public class SeleccionarOjo extends AppCompatActivity {
         textoOjoIzquierdo = findViewById(R.id.ojoIzquierdoTexto);
         botonOjoDerecho = findViewById(R.id.botonOjoDerecho);
         botonOjoIzquierdo = findViewById(R.id.botonOjoIzquierdo);
-
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         DNI = intent.getIntExtra("DNI",-1);
+        if(DNI == -1){
+            perfil.setVisibility(View.INVISIBLE);
+        }
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -78,6 +82,23 @@ public class SeleccionarOjo extends AppCompatActivity {
         intent.putExtra("DNI", DNI);
         startActivity(intent);
 
+
+    }
+
+    public void botonCambiarOrden(View v){
+        int margenDerecho = botonOjoDerecho.getRight();;
+        int margenIzquierdo = botonOjoDerecho.getLeft();
+        botonOjoDerecho.setLeft(botonOjoIzquierdo.getLeft());
+        botonOjoDerecho.setRight(botonOjoIzquierdo.getRight());
+        textoOjoDerecho.setLeft(botonOjoIzquierdo.getLeft());
+        textoOjoDerecho.setRight(botonOjoIzquierdo.getRight());
+        botonOjoIzquierdo.setLeft(margenIzquierdo);
+        botonOjoIzquierdo.setRight(margenDerecho);
+        textoOjoIzquierdo.setLeft(margenIzquierdo);
+        textoOjoIzquierdo.setRight(margenDerecho);
+
+
+
     }
     public void botonModoOscuro(View v){
         int oscuro = getResources().getColor(R.color.background_darkmode_gray);
@@ -90,8 +111,8 @@ public class SeleccionarOjo extends AppCompatActivity {
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
-            perfil.setColorFilter(oscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            perfil.setColorFilter(textoOscuro);
             mensaje.setTextColor(textoOscuro);
             textoOjoDerecho.setTextColor(textoOscuro);
             textoOjoIzquierdo.setTextColor(textoOscuro);
@@ -100,8 +121,8 @@ public class SeleccionarOjo extends AppCompatActivity {
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
             volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
-            perfil.setColorFilter(claro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
+            perfil.setColorFilter(textoClaro);
             mensaje.setTextColor(textoClaro);
             textoOjoDerecho.setTextColor(textoClaro);
             textoOjoIzquierdo.setTextColor(textoClaro);

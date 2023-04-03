@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
         intent.putExtra("DNI","invitado");
         intent.putExtra("email","invitado");
+        baseDeDatos.addInvitado();
         intentModoOscuro(intent);
         startActivity(intent);
     }

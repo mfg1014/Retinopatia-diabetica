@@ -42,11 +42,13 @@ public class SeleccionarPaciente extends AppCompatActivity {
         mensaje = findViewById(R.id.textViewMensajeDNI);
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
+
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
         baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        botonPasarSiguiente.setEnabled(false);
     }
     public void botonNext (View v){
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
@@ -78,8 +80,8 @@ public class SeleccionarPaciente extends AppCompatActivity {
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
-            perfil.setColorFilter(oscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            perfil.setColorFilter(textoOscuro);
             DNI.setTextColor(textoOscuro);
             DNI.setHintTextColor(textoOscuro);
             mensaje.setTextColor(textoOscuro);
@@ -90,8 +92,8 @@ public class SeleccionarPaciente extends AppCompatActivity {
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
             volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
-            perfil.setColorFilter(claro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
+            perfil.setColorFilter(textoClaro);
             DNI.setTextColor(textoClaro);
             DNI.setHintTextColor(textoClaro);
             mensaje.setTextColor(textoClaro);
@@ -103,9 +105,10 @@ public class SeleccionarPaciente extends AppCompatActivity {
     }
     public void botonBuscarPaciente(View v){
         try{
+            int DNIProporcionado;
             String DNIPaciente = DNI.getText().toString();
-            numeroDNI = Integer.parseInt(DNIPaciente);
-            String nombrePaciente = baseDeDatos.getPaciente(numeroDNI);
+            DNIProporcionado = Integer.parseInt(DNIPaciente);
+            String nombrePaciente = baseDeDatos.getPaciente(DNIProporcionado);
             if(nombrePaciente.equals("")){
                 mensaje.setTextColor(getResources().getColor(R.color.error_red));
                 mensaje.setText("El paciente no se ha encontrado, ejemplo  de DNI: 12345678");
@@ -116,8 +119,9 @@ public class SeleccionarPaciente extends AppCompatActivity {
                 }else{
                     mensaje.setTextColor(getResources().getColor(R.color.black));
                 }
-
+                numeroDNI = DNIProporcionado;
                 mensaje.setText("Paciente: "+nombrePaciente);
+                botonPasarSiguiente.setEnabled(true);
             }
 
         }catch (NumberFormatException ex){

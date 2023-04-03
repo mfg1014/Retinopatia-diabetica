@@ -75,8 +75,12 @@ public class Resultados extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
+        int DNI = intent.getIntExtra("DNI",-1);
+        if(DNI == -1){
+            perfil.setVisibility(View.INVISIBLE);
+        }
         baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
-        informes = baseDeDatos.getInformes(intent.getIntExtra("DNI",-1));
+        informes = baseDeDatos.getInformes(DNI);
 
         if(informes == null){
             paginas.setText("1/1");
@@ -124,8 +128,8 @@ public class Resultados extends AppCompatActivity {
             root.setBackgroundColor(oscuro);
             volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
-            perfil.setColorFilter(oscuro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
+            perfil.setColorFilter(textoOscuro);
             paginas.setTextColor(textoOscuro);
             retroceder.setBackgroundTintList(ColorStateList.valueOf(oscuro));
             avanzar.setBackgroundTintList(ColorStateList.valueOf(oscuro));
@@ -134,8 +138,8 @@ public class Resultados extends AppCompatActivity {
             root.setBackgroundColor(claro);
             volver.setBackgroundTintList(ColorStateList.valueOf(claro));
             volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
-            perfil.setColorFilter(claro);
+            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
+            perfil.setColorFilter(textoClaro);
             paginas.setTextColor(textoClaro);
             retroceder.setBackgroundTintList(ColorStateList.valueOf(claro));
             avanzar.setBackgroundTintList(ColorStateList.valueOf(claro));
