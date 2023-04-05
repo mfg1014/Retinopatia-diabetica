@@ -19,6 +19,12 @@ import DataBase.BaseDeDatos;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int oscuro;
+    private int textoOscuro;
+    private int botonOscuro;
+    private int claro;
+    private int textoClaro;
+    private int botonClaro;
     private EditText email;
     private EditText password;
     private TextView usuarioIncorrecto;
@@ -33,13 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        email = findViewById(R.id.editTextTextEmailAddress);
-        password = findViewById(R.id.editTextTextPassword);
-        usuarioIncorrecto = findViewById(R.id.error);
-        modoOscuro = findViewById(R.id.switchModoOscuro);
-        root = findViewById(R.id.actividadInicioSesion);
-        guestMode = findViewById(R.id.botonInvitado);
-        iniciarSesion = findViewById(R.id.botonIniciarSesion);
+        inicializarVista();
+
         baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
     }
 
@@ -83,34 +84,29 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
     public void botonModoOscuro(View v){
-        int oscuro = getResources().getColor(R.color.background_darkmode_gray);
-        int textoOscuro = getResources().getColor(R.color.background_gray);
-        int botonOscuro = getResources().getColor(R.color.background_green);
-        int claro = getResources().getColor(R.color.background_gray);
-        int textoClaro = getResources().getColor(R.color.black);
-        int botonClaro = getResources().getColor(R.color.background_blue);
+        int color;
+        int textColor;
+        int buttonColor;
+
+
         if(modoOscuro.isChecked()){
-            root.setBackgroundColor(oscuro);
-            email.setTextColor(textoOscuro);
-            password.setTextColor(textoOscuro);
-            modoOscuro.setTextColor(textoOscuro);
-            email.setHintTextColor(textoOscuro);
-            password.setHintTextColor(textoOscuro);
-            guestMode.setTextColor(textoOscuro);
-            iniciarSesion.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
-
-
-
+            color = oscuro;
+            textColor = textoOscuro;
+            buttonColor = botonOscuro;
         }else{
-            root.setBackgroundColor(claro);
-            email.setTextColor(textoClaro);
-            password.setTextColor(textoClaro);
-            modoOscuro.setTextColor(textoClaro);
-            email.setHintTextColor(textoClaro);
-            password.setHintTextColor(textoClaro);
-            guestMode.setTextColor(textoClaro);
-            iniciarSesion.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
+            color = claro;
+            textColor = textoClaro;
+            buttonColor = botonClaro;
         }
+        root.setBackgroundColor(color);
+        email.setTextColor(textColor);
+        password.setTextColor(textColor);
+        modoOscuro.setTextColor(textColor);
+        email.setHintTextColor(textColor);
+        password.setHintTextColor(textColor);
+        guestMode.setTextColor(textColor);
+        iniciarSesion.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+
 
     }
     public void intentModoOscuro(Intent intent){
@@ -119,6 +115,21 @@ public class MainActivity extends AppCompatActivity {
         }else{
             intent.putExtra("modoOscuro",false);
         }
+    }
+    private void inicializarVista(){
+        email = findViewById(R.id.editTextTextEmailAddress);
+        password = findViewById(R.id.editTextTextPassword);
+        usuarioIncorrecto = findViewById(R.id.error);
+        modoOscuro = findViewById(R.id.switchModoOscuro);
+        root = findViewById(R.id.actividadInicioSesion);
+        guestMode = findViewById(R.id.botonInvitado);
+        iniciarSesion = findViewById(R.id.botonIniciarSesion);
+        oscuro = getResources().getColor(R.color.background_darkmode_gray);
+        textoOscuro = getResources().getColor(R.color.background_gray);
+        botonOscuro = getResources().getColor(R.color.background_green);
+        claro = getResources().getColor(R.color.background_gray);
+        textoClaro = getResources().getColor(R.color.black);
+        botonClaro = getResources().getColor(R.color.background_blue);
     }
 
 }

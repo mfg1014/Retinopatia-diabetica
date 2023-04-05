@@ -16,6 +16,12 @@ import DataBase.BaseDeDatos;
 
 public class SeleccionarPaciente extends AppCompatActivity {
 
+    private int oscuro;
+    private int textoOscuro;
+    private int botonOscuro;
+    private int claro;
+    private int textoClaro;
+    private int botonClaro;
     private Switch modoOscuro;
     private View root;
     private ImageButton volver;
@@ -32,14 +38,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccionar_paciente);
-        root = findViewById(R.id.actividadSeleccionarPaciente);
-        modoOscuro = findViewById(R.id.switchModoOscuro2);
-        volver = findViewById(R.id.returnButton3);
-        perfil = findViewById(R.id.profileButton3);
-        botonBuscar = findViewById(R.id.botonBuscar);
-        botonPasarSiguiente = findViewById(R.id.botonEntrarMenu);
-        DNI = findViewById(R.id.editTextDNI);
-        mensaje = findViewById(R.id.textViewMensajeDNI);
+        inicializarVista();
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
 
@@ -70,37 +69,31 @@ public class SeleccionarPaciente extends AppCompatActivity {
 
     }
     public void botonModoOscuro(View v){
-        int oscuro = getResources().getColor(R.color.background_darkmode_gray);
-        int textoOscuro = getResources().getColor(R.color.background_gray);
-        int botonOscuro = getResources().getColor(R.color.background_green);
-        int claro = getResources().getColor(R.color.background_gray);
-        int textoClaro = getResources().getColor(R.color.black);
-        int botonClaro = getResources().getColor(R.color.background_blue);
+        int color;
+        int textColor;
+        int buttonColor;
+
         if(modoOscuro.isChecked()){
-            root.setBackgroundColor(oscuro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            perfil.setColorFilter(textoOscuro);
-            DNI.setTextColor(textoOscuro);
-            DNI.setHintTextColor(textoOscuro);
-            mensaje.setTextColor(textoOscuro);
-            botonBuscar.setColorFilter(textoOscuro);
-            botonBuscar.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
+            color = oscuro;
+            textColor = textoOscuro;
+            buttonColor = botonOscuro;
         }else{
-            root.setBackgroundColor(claro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(claro));
-            volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
-            perfil.setColorFilter(textoClaro);
-            DNI.setTextColor(textoClaro);
-            DNI.setHintTextColor(textoClaro);
-            mensaje.setTextColor(textoClaro);
-            botonBuscar.setColorFilter(textoClaro);
-            botonBuscar.setBackgroundTintList(ColorStateList.valueOf(claro));
-            botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
+            color = claro;
+            textColor = textoClaro;
+            buttonColor = botonClaro;
         }
+
+        root.setBackgroundColor(color);
+        volver.setBackgroundTintList(ColorStateList.valueOf(color));
+        volver.setColorFilter(textColor);
+        perfil.setBackgroundTintList(ColorStateList.valueOf(color));
+        perfil.setColorFilter(textColor);
+        DNI.setTextColor(textColor);
+        DNI.setHintTextColor(textColor);
+        mensaje.setTextColor(textColor);
+        botonBuscar.setColorFilter(textColor);
+        botonBuscar.setBackgroundTintList(ColorStateList.valueOf(color));
+        botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
 
     }
     public void botonBuscarPaciente(View v){
@@ -134,5 +127,21 @@ public class SeleccionarPaciente extends AppCompatActivity {
         }else{
             intent.putExtra("modoOscuro",false);
         }
+    }
+    private void inicializarVista(){
+        root = findViewById(R.id.actividadSeleccionarPaciente);
+        modoOscuro = findViewById(R.id.switchModoOscuro2);
+        volver = findViewById(R.id.returnButton3);
+        perfil = findViewById(R.id.profileButton3);
+        botonBuscar = findViewById(R.id.botonBuscar);
+        botonPasarSiguiente = findViewById(R.id.botonEntrarMenu);
+        DNI = findViewById(R.id.editTextDNI);
+        mensaje = findViewById(R.id.textViewMensajeDNI);
+        oscuro = getResources().getColor(R.color.background_darkmode_gray);
+        textoOscuro = getResources().getColor(R.color.background_gray);
+        botonOscuro = getResources().getColor(R.color.background_green);
+        claro = getResources().getColor(R.color.background_gray);
+        textoClaro = getResources().getColor(R.color.black);
+        botonClaro = getResources().getColor(R.color.background_blue);
     }
 }

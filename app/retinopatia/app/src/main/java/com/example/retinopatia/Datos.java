@@ -13,6 +13,10 @@ import android.widget.TextView;
 import DataBase.BaseDeDatos;
 
 public class Datos extends AppCompatActivity {
+    private int oscuro;
+    private int textoOscuro;
+    private int claro;
+    private int textoClaro;
     private View root;
     private Switch modoOscuro;
     private ImageButton volver;
@@ -31,18 +35,7 @@ public class Datos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_datos);
-        root = findViewById(R.id.actividadDatos);
-        modoOscuro = findViewById(R.id.switchModoOscuro2);
-        volver = findViewById(R.id.returnButton3);
-        perfil = findViewById(R.id.profileButton3);
-        nombre = findViewById(R.id.nombre);
-        apellidos = findViewById(R.id.apellidos);
-        fecha = findViewById(R.id.fecha);
-        DNI = findViewById(R.id.DNI);
-        //centro = findViewById(R.id.centro);
-        estado = findViewById(R.id.estado);
-        infoPaciente = findViewById(R.id.infoPaciente);
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        inicializarVista();
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         DNIPaciente = intent.getIntExtra("DNI",-1);
@@ -67,39 +60,28 @@ public class Datos extends AppCompatActivity {
     }
 
     public void botonModoOscuro(View v){
-        int oscuro = getResources().getColor(R.color.background_darkmode_gray);
-        int textoOscuro = getResources().getColor(R.color.background_gray);
-        int claro = getResources().getColor(R.color.background_gray);
-        int textoClaro = getResources().getColor(R.color.black);
+        int color;
+        int textColor;
+
         if(modoOscuro.isChecked()){
-            root.setBackgroundColor(oscuro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            perfil.setColorFilter(textoOscuro);
-            nombre.setTextColor(textoOscuro);
-            apellidos.setTextColor(textoOscuro);
-            fecha.setTextColor(textoOscuro);
-            DNI.setTextColor(textoOscuro);
-            //centro.setTextColor(textoOscuro);
-            estado.setTextColor(textoOscuro);
-            infoPaciente.setTextColor(textoOscuro);
-
+            color = oscuro;
+            textColor = textoOscuro;
         }else{
-            root.setBackgroundColor(claro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(claro));
-            volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
-            perfil.setColorFilter(textoClaro);
-            nombre.setTextColor(textoClaro);
-            apellidos.setTextColor(textoClaro);
-            fecha.setTextColor(textoClaro);
-            DNI.setTextColor(textoClaro);
-            //centro.setTextColor(textoClaro);
-            estado.setTextColor(textoClaro);
-            infoPaciente.setTextColor(textoClaro);
+            color = claro;
+            textColor = textoClaro;
         }
-
+        root.setBackgroundColor(color);
+        volver.setBackgroundTintList(ColorStateList.valueOf(color));
+        volver.setColorFilter(textColor);
+        perfil.setBackgroundTintList(ColorStateList.valueOf(color));
+        perfil.setColorFilter(textColor);
+        nombre.setTextColor(textColor);
+        apellidos.setTextColor(textColor);
+        fecha.setTextColor(textColor);
+        DNI.setTextColor(textColor);
+        //centro.setTextColor(textoOscuro);
+        estado.setTextColor(textColor);
+        infoPaciente.setTextColor(textColor);
     }
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){
@@ -115,8 +97,24 @@ public class Datos extends AppCompatActivity {
         DNI.setText(Integer.toString(DNIPaciente));
         estado.setText(baseDeDatos.getEstado(DNIPaciente));
         infoPaciente.setText(baseDeDatos.getInformacionPaciente(DNIPaciente));
-
-
+    }
+    private void inicializarVista(){
+        root = findViewById(R.id.actividadDatos);
+        modoOscuro = findViewById(R.id.switchModoOscuro2);
+        volver = findViewById(R.id.returnButton3);
+        perfil = findViewById(R.id.profileButton3);
+        nombre = findViewById(R.id.nombre);
+        apellidos = findViewById(R.id.apellidos);
+        fecha = findViewById(R.id.fecha);
+        DNI = findViewById(R.id.DNI);
+        //centro = findViewById(R.id.centro);
+        estado = findViewById(R.id.estado);
+        infoPaciente = findViewById(R.id.infoPaciente);
+        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        oscuro = getResources().getColor(R.color.background_darkmode_gray);
+        textoOscuro = getResources().getColor(R.color.background_gray);
+        claro = getResources().getColor(R.color.background_gray);
+        textoClaro = getResources().getColor(R.color.black);
 
     }
 

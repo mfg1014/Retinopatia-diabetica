@@ -14,6 +14,12 @@ import android.widget.TextView;
 
 
 public class SeleccionarRNE extends AppCompatActivity {
+    private int oscuro;
+    private int textoOscuro;
+    private int botonOscuro;
+    private int claro;
+    private int textoClaro;
+    private int botonClaro;
     private Switch modoOscuro;
     private View root;
     private ImageButton volver;
@@ -30,16 +36,7 @@ public class SeleccionarRNE extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccionar_rne);
 
-        root = findViewById(R.id.actividadSeleccionarRNE);
-        modoOscuro = findViewById(R.id.switchModoOscuro2);
-        volver = findViewById(R.id.returnButton3);
-        perfil = findViewById(R.id.profileButton3);
-        botonResultados = findViewById(R.id.botonObtenerResultados);
-        botonResultados.setEnabled(false);
-        RNE1 = findViewById(R.id.checkBoxRNE1);
-        RNE2 = findViewById(R.id.checkBoxRNE2);
-        todos = findViewById(R.id.checkBoxTodas);
-        mensaje = findViewById(R.id.textViewMensajeRNE);
+        inicializarVista();
 
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
@@ -108,35 +105,30 @@ public class SeleccionarRNE extends AppCompatActivity {
         }
     }
     public void botonModoOscuro(View v){
-        int oscuro = getResources().getColor(R.color.background_darkmode_gray);
-        int textoOscuro = getResources().getColor(R.color.background_gray);
-        int botonOscuro = getResources().getColor(R.color.background_green);
-        int claro = getResources().getColor(R.color.background_gray);
-        int textoClaro = getResources().getColor(R.color.black);
-        int botonClaro = getResources().getColor(R.color.background_blue);
+        int color;
+        int textColor;
+        int buttonColor;
+
         if(modoOscuro.isChecked()){
-            root.setBackgroundColor(oscuro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            perfil.setColorFilter(textoOscuro);
-            RNE1.setTextColor(textoOscuro);
-            RNE2.setTextColor(textoOscuro);
-            todos.setTextColor(textoOscuro);
-            mensaje.setTextColor(textoOscuro);
-            botonResultados.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
+            color = oscuro;
+            textColor = textoOscuro;
+            buttonColor = botonOscuro;
         }else{
-            root.setBackgroundColor(claro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(claro));
-            volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
-            perfil.setColorFilter(textoClaro);
-            RNE1.setTextColor(textoClaro);
-            RNE2.setTextColor(textoClaro);
-            todos.setTextColor(textoClaro);
-            mensaje.setTextColor(textoClaro);
-            botonResultados.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
+            color = claro;
+            textColor = textoClaro;
+            buttonColor = botonClaro;
         }
+
+        root.setBackgroundColor(color);
+        volver.setBackgroundTintList(ColorStateList.valueOf(color));
+        volver.setColorFilter(textColor);
+        perfil.setBackgroundTintList(ColorStateList.valueOf(color));
+        perfil.setColorFilter(textColor);
+        RNE1.setTextColor(textColor);
+        RNE2.setTextColor(textColor);
+        todos.setTextColor(textColor);
+        mensaje.setTextColor(textColor);
+        botonResultados.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
 
     }
     public void intentModoOscuro(Intent intent){
@@ -145,5 +137,23 @@ public class SeleccionarRNE extends AppCompatActivity {
         }else{
             intent.putExtra("modoOscuro",false);
         }
+    }
+    private void inicializarVista(){
+        root = findViewById(R.id.actividadSeleccionarRNE);
+        modoOscuro = findViewById(R.id.switchModoOscuro2);
+        volver = findViewById(R.id.returnButton3);
+        perfil = findViewById(R.id.profileButton3);
+        botonResultados = findViewById(R.id.botonObtenerResultados);
+        botonResultados.setEnabled(false);
+        RNE1 = findViewById(R.id.checkBoxRNE1);
+        RNE2 = findViewById(R.id.checkBoxRNE2);
+        todos = findViewById(R.id.checkBoxTodas);
+        mensaje = findViewById(R.id.textViewMensajeRNE);
+        oscuro = getResources().getColor(R.color.background_darkmode_gray);
+        textoOscuro = getResources().getColor(R.color.background_gray);
+        botonOscuro = getResources().getColor(R.color.background_green);
+        claro = getResources().getColor(R.color.background_gray);
+        textoClaro = getResources().getColor(R.color.black);
+        botonClaro = getResources().getColor(R.color.background_blue);
     }
 }

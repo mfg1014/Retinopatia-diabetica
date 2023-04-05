@@ -30,6 +30,12 @@ import DataBase.BaseDeDatos;
 
 public class Foto extends AppCompatActivity {
 
+    private int oscuro;
+    private int textoOscuro;
+    private int botonOscuro;
+    private int claro;
+    private int textoClaro;
+    private int botonClaro;
     private ActivityResultLauncher<String> mGetContent;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private Button botonMandarImagen;
@@ -50,15 +56,9 @@ public class Foto extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foto);
-        botonMandarImagen = findViewById(R.id.botonMandarImg);
-        botonMandarImagen.setEnabled(true); //TODO cambiar cuando se implemente el RNE de calidad de la foto
-        imagenSeleccionada = findViewById(R.id.imagenSeleccionada);
-        root = findViewById(R.id.actividadFoto);
-        modoOscuro = findViewById(R.id.switchModoOscuro2);
-        volver = findViewById(R.id.returnButton3);
-        perfil = findViewById(R.id.profileButton3);
-        botonHacerFoto = findViewById(R.id.botonHacerFoto);
-        botonEscogerFoto = findViewById(R.id.botonGaleria);
+
+        inicializarVista();
+
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         DNI = intent.getIntExtra("DNI",-1);
@@ -72,32 +72,8 @@ public class Foto extends AppCompatActivity {
         }
         baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
 
-
-
-        mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-            @Override
-            public void onActivityResult(Uri result) {
-
-                if (null != result) {
-
-                    imagenSeleccionada.setImageURI(null);
-                    imagenSeleccionada.setImageURI(result);
-                }
-            }
-        });
-        cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Intent data = result.getData();
-
-                        if (data != null && data.getExtras() != null) {
-                            Bitmap photo = (Bitmap) data.getExtras().get("data");
-                            imagenSeleccionada.setImageBitmap(null);
-                            imagenSeleccionada.setImageBitmap(photo);
-
-                        }
-                    }
-                });
+        inicializarGaleria();
+        inicializarCamara();
 
     }
     public void botonVolver(View v){
@@ -159,33 +135,27 @@ public class Foto extends AppCompatActivity {
 
     }
     public void botonModoOscuro(View v){
-        int oscuro = getResources().getColor(R.color.background_darkmode_gray);
-        int textoOscuro = getResources().getColor(R.color.background_gray);
-        int botonOscuro = getResources().getColor(R.color.background_green);
-        int claro = getResources().getColor(R.color.background_gray);
-        int textoClaro = getResources().getColor(R.color.black);
-        int botonClaro = getResources().getColor(R.color.background_blue);
+        int color;
+        int textColor;
+        int buttonColor;
+
         if(modoOscuro.isChecked()){
-            root.setBackgroundColor(oscuro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            perfil.setColorFilter(textoOscuro);
-            botonHacerFoto.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
-            botonEscogerFoto.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
-            botonMandarImagen.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
-
+            color = oscuro;
+            textColor = textoOscuro;
+            buttonColor = botonOscuro;
         }else{
-            root.setBackgroundColor(claro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(claro));
-            volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
-            perfil.setColorFilter(textoClaro);
-            botonHacerFoto.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
-            botonEscogerFoto.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
-            botonMandarImagen.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
+            color = claro;
+            textColor = textoClaro;
+            buttonColor = botonClaro;
         }
-
+        root.setBackgroundColor(color);
+        volver.setBackgroundTintList(ColorStateList.valueOf(color));
+        volver.setColorFilter(textColor);
+        perfil.setBackgroundTintList(ColorStateList.valueOf(color));
+        perfil.setColorFilter(textColor);
+        botonHacerFoto.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        botonEscogerFoto.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        botonMandarImagen.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
     }
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){
@@ -193,6 +163,51 @@ public class Foto extends AppCompatActivity {
         }else{
             intent.putExtra("modoOscuro",false);
         }
+    }
+    private void inicializarVista(){
+        botonMandarImagen = findViewById(R.id.botonMandarImg);
+        botonMandarImagen.setEnabled(true); //TODO cambiar cuando se implemente el RNE de calidad de la foto
+        imagenSeleccionada = findViewById(R.id.imagenSeleccionada);
+        root = findViewById(R.id.actividadFoto);
+        modoOscuro = findViewById(R.id.switchModoOscuro2);
+        volver = findViewById(R.id.returnButton3);
+        perfil = findViewById(R.id.profileButton3);
+        botonHacerFoto = findViewById(R.id.botonHacerFoto);
+        botonEscogerFoto = findViewById(R.id.botonGaleria);
+        oscuro = getResources().getColor(R.color.background_darkmode_gray);
+        textoOscuro = getResources().getColor(R.color.background_gray);
+        botonOscuro = getResources().getColor(R.color.background_green);
+        claro = getResources().getColor(R.color.background_gray);
+        textoClaro = getResources().getColor(R.color.black);
+        botonClaro = getResources().getColor(R.color.background_blue);
+    }
+    private void inicializarGaleria(){
+        mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
+            @Override
+            public void onActivityResult(Uri result) {
+
+                if (null != result) {
+
+                    imagenSeleccionada.setImageURI(null);
+                    imagenSeleccionada.setImageURI(result);
+                }
+            }
+        });
+    }
+    private void inicializarCamara(){
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+
+                        if (data != null && data.getExtras() != null) {
+                            Bitmap photo = (Bitmap) data.getExtras().get("data");
+                            imagenSeleccionada.setImageBitmap(null);
+                            imagenSeleccionada.setImageBitmap(photo);
+
+                        }
+                    }
+                });
     }
 
 }

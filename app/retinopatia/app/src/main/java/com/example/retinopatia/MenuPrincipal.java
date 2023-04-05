@@ -15,6 +15,13 @@ import DataBase.BaseDeDatos;
 
 public class MenuPrincipal extends AppCompatActivity {
 
+    private int oscuro;
+    private int textoOscuro;
+    private int botonOscuro;
+    private int claro;
+    private int textoClaro;
+    private int botonClaro;
+
     private Switch modoOscuro;
     private View root;
     private TextView nombrePaciente;
@@ -31,22 +38,18 @@ public class MenuPrincipal extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
+
+        inicializarVista();
+
         Intent intent = getIntent();
-        nombrePaciente = findViewById(R.id.nombrePaciente);
-        datosPaciente = findViewById(R.id.datosPaciente);
-        root = findViewById(R.id.actividadMenuPrincipal);
-        modoOscuro = findViewById(R.id.switchModoOscuro2);
-        volver = findViewById(R.id.returnButton3);
-        perfil = findViewById(R.id.profileButton3);
-        fotoPaciente = findViewById(R.id.botonFoto);
-        resultados = findViewById(R.id.botonResultados);
         baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        email = intent.getStringExtra("email");
+        DNI = intent.getIntExtra("DNI",-1);
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        email = intent.getStringExtra("email");
-        DNI = intent.getIntExtra("DNI",-1);
+
         if(DNI == -1) {
             nombrePaciente.setVisibility(View.INVISIBLE);
             perfil.setVisibility(View.INVISIBLE);
@@ -100,34 +103,30 @@ public class MenuPrincipal extends AppCompatActivity {
 
     }
     public void botonModoOscuro(View v){
-        int oscuro = getResources().getColor(R.color.background_darkmode_gray);
-        int textoOscuro = getResources().getColor(R.color.background_gray);
-        int botonOscuro = getResources().getColor(R.color.background_green);
-        int claro = getResources().getColor(R.color.background_gray);
-        int textoClaro = getResources().getColor(R.color.black);
-        int botonClaro = getResources().getColor(R.color.background_blue);
-        if(modoOscuro.isChecked()){
-            root.setBackgroundColor(oscuro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            perfil.setColorFilter(textoOscuro);
-            resultados.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
-            fotoPaciente.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
-            datosPaciente.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
-            nombrePaciente.setTextColor(textoOscuro);
+        int color;
+        int textColor;
+        int buttonColor;
 
+        if(modoOscuro.isChecked()){
+            color = oscuro;
+            textColor = textoOscuro;
+            buttonColor = botonOscuro;
         }else{
-            root.setBackgroundColor(claro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(claro));
-            volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
-            perfil.setColorFilter(textoClaro);
-            resultados.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
-            fotoPaciente.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
-            datosPaciente.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
-            nombrePaciente.setTextColor(textoClaro);
+            color = claro;
+            textColor = textoClaro;
+            buttonColor = botonClaro;
         }
+
+        root.setBackgroundColor(color);
+        volver.setBackgroundTintList(ColorStateList.valueOf(color));
+        volver.setColorFilter(textColor);
+        perfil.setBackgroundTintList(ColorStateList.valueOf(color));
+        perfil.setColorFilter(textColor);
+        resultados.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        fotoPaciente.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        datosPaciente.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+        nombrePaciente.setTextColor(textColor);
+
 
     }
     public void intentModoOscuro(Intent intent){
@@ -136,6 +135,22 @@ public class MenuPrincipal extends AppCompatActivity {
         }else{
             intent.putExtra("modoOscuro",false);
         }
+    }
+    private void inicializarVista(){
+        nombrePaciente = findViewById(R.id.nombrePaciente);
+        datosPaciente = findViewById(R.id.datosPaciente);
+        root = findViewById(R.id.actividadMenuPrincipal);
+        modoOscuro = findViewById(R.id.switchModoOscuro2);
+        volver = findViewById(R.id.returnButton3);
+        perfil = findViewById(R.id.profileButton3);
+        fotoPaciente = findViewById(R.id.botonFoto);
+        resultados = findViewById(R.id.botonResultados);
+        oscuro = getResources().getColor(R.color.background_darkmode_gray);
+        textoOscuro = getResources().getColor(R.color.background_gray);
+        botonOscuro = getResources().getColor(R.color.background_green);
+        claro = getResources().getColor(R.color.background_gray);
+        textoClaro = getResources().getColor(R.color.black);
+        botonClaro = getResources().getColor(R.color.background_blue);
     }
 
 }

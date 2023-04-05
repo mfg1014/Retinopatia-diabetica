@@ -7,6 +7,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import android.widget.Switch;
@@ -15,6 +16,12 @@ import android.widget.TextView;
 
 public class SeleccionarOjo extends AppCompatActivity {
 
+    private int oscuro;
+    private int textoOscuro;
+    private int botonOscuro;
+    private int claro;
+    private int textoClaro;
+    private int botonClaro;
     private Switch modoOscuro;
     private View root;
     private TextView mensaje;
@@ -24,6 +31,7 @@ public class SeleccionarOjo extends AppCompatActivity {
     private ImageButton perfil;
     private ImageButton botonOjoDerecho;
     private ImageButton botonOjoIzquierdo;
+    private Button botonCambiarOrden;
     private int DNI;
     private String email;
 
@@ -31,15 +39,9 @@ public class SeleccionarOjo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccionar_ojo);
-        root = findViewById(R.id.actividadSeleccionarOjo);
-        modoOscuro = findViewById(R.id.switchModoOscuro2);
-        volver = findViewById(R.id.returnButton3);
-        perfil = findViewById(R.id.profileButton3);
-        mensaje = findViewById(R.id.elegirOjo);
-        textoOjoDerecho = findViewById(R.id.ojoDerechoTexto);
-        textoOjoIzquierdo = findViewById(R.id.ojoIzquierdoTexto);
-        botonOjoDerecho = findViewById(R.id.botonOjoDerecho);
-        botonOjoIzquierdo = findViewById(R.id.botonOjoIzquierdo);
+
+        inicializarVista();
+
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         DNI = intent.getIntExtra("DNI",-1);
@@ -97,37 +99,30 @@ public class SeleccionarOjo extends AppCompatActivity {
         textoOjoIzquierdo.setLeft(margenIzquierdo);
         textoOjoIzquierdo.setRight(margenDerecho);
 
-
-
     }
     public void botonModoOscuro(View v){
-        int oscuro = getResources().getColor(R.color.background_darkmode_gray);
-        int textoOscuro = getResources().getColor(R.color.background_gray);
-        int botonOscuro = getResources().getColor(R.color.background_green);
-        int claro = getResources().getColor(R.color.background_gray);
-        int textoClaro = getResources().getColor(R.color.black);
-        int botonClaro = getResources().getColor(R.color.background_blue);
+        int color;
+        int textColor;
+        int buttonColor;
+
         if(modoOscuro.isChecked()){
-            root.setBackgroundColor(oscuro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            perfil.setColorFilter(textoOscuro);
-            mensaje.setTextColor(textoOscuro);
-            textoOjoDerecho.setTextColor(textoOscuro);
-            textoOjoIzquierdo.setTextColor(textoOscuro);
-
+            color = oscuro;
+            textColor = textoOscuro;
+            buttonColor = botonOscuro;
         }else{
-            root.setBackgroundColor(claro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(claro));
-            volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(claro));
-            perfil.setColorFilter(textoClaro);
-            mensaje.setTextColor(textoClaro);
-            textoOjoDerecho.setTextColor(textoClaro);
-            textoOjoIzquierdo.setTextColor(textoClaro);
+            color = claro;
+            textColor = textoClaro;
+            buttonColor = botonClaro;
         }
-
+        root.setBackgroundColor(color);
+        volver.setBackgroundTintList(ColorStateList.valueOf(color));
+        volver.setColorFilter(textColor);
+        perfil.setBackgroundTintList(ColorStateList.valueOf(color));
+        perfil.setColorFilter(textColor);
+        mensaje.setTextColor(textColor);
+        textoOjoDerecho.setTextColor(textColor);
+        textoOjoIzquierdo.setTextColor(textColor);
+        botonCambiarOrden.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
     }
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){
@@ -135,6 +130,24 @@ public class SeleccionarOjo extends AppCompatActivity {
         }else{
             intent.putExtra("modoOscuro",false);
         }
+    }
+    private void inicializarVista(){
+        root = findViewById(R.id.actividadSeleccionarOjo);
+        modoOscuro = findViewById(R.id.switchModoOscuro2);
+        volver = findViewById(R.id.returnButton3);
+        perfil = findViewById(R.id.profileButton3);
+        mensaje = findViewById(R.id.elegirOjo);
+        textoOjoDerecho = findViewById(R.id.ojoDerechoTexto);
+        textoOjoIzquierdo = findViewById(R.id.ojoIzquierdoTexto);
+        botonOjoDerecho = findViewById(R.id.botonOjoDerecho);
+        botonOjoIzquierdo = findViewById(R.id.botonOjoIzquierdo);
+        botonCambiarOrden = findViewById(R.id.botonCambiarOrden);
+        oscuro = getResources().getColor(R.color.background_darkmode_gray);
+        textoOscuro = getResources().getColor(R.color.background_gray);
+        botonOscuro = getResources().getColor(R.color.background_green);
+        claro = getResources().getColor(R.color.background_gray);
+        textoClaro = getResources().getColor(R.color.black);
+        botonClaro = getResources().getColor(R.color.background_blue);
     }
 
 }
