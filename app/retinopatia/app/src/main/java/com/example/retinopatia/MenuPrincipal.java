@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import DataBase.BaseDeDatos;
 
+/**
+ * Clase MenuPrincipal, clase donde el usuario elige la opcion a realizar, se corresponde
+ * a la actividad activity_menu_principal.
+ */
 public class MenuPrincipal extends AppCompatActivity {
 
     private int oscuro;
@@ -34,6 +38,14 @@ public class MenuPrincipal extends AppCompatActivity {
     private int DNI;
     private String email;
 
+    /**
+     * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
+     * de forma que el usuario pueda interactuar bien con la interfaz.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +61,6 @@ public class MenuPrincipal extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-
         if(DNI == -1) {
             nombrePaciente.setVisibility(View.INVISIBLE);
             perfil.setVisibility(View.INVISIBLE);
@@ -58,15 +69,21 @@ public class MenuPrincipal extends AppCompatActivity {
             String nombre = baseDeDatos.getPaciente(DNI);
             nombrePaciente.setText(nombre);
         }
-
-
     }
-
+    /**
+     * Metodo utilizado para volver a la actividad anterior.
+     * @param v
+     */
     public void botonVolver(View v){
-
         finish();
-
     }
+
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_perfil donde se muestran los datos
+     * del medico.
+     * @param v
+     */
+
     public void botonPerfil(View v){
 
         Intent intent = new Intent(v.getContext(), Perfil.class);
@@ -75,6 +92,12 @@ public class MenuPrincipal extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_seleccionar_ojo donde el usuario
+     * seguira el procedimiento para realizar un nuevo informe
+     * @param v
+     */
     public void botonFotoUsuario(View v){
 
         Intent intent = new Intent(v.getContext(), SeleccionarOjo.class);
@@ -84,6 +107,12 @@ public class MenuPrincipal extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_resultados donde el usuario
+     * podra ver los informes del paciente que se ha introducido anteriormente.
+     * @param v
+     */
     public void botonResultados(View v){
 
         Intent intent = new Intent(v.getContext(), Resultados.class);
@@ -93,6 +122,12 @@ public class MenuPrincipal extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_datos, donde se muestran los datos
+     * del paciente introducido anteriormente.
+     * @param v
+     */
     public void botonDatos(View v){
 
         Intent intent = new Intent(v.getContext(), Datos.class);
@@ -102,6 +137,10 @@ public class MenuPrincipal extends AppCompatActivity {
         startActivity(intent);
 
     }
+    /**
+     * Metodo utilizado para cambiar la interfaz de modo oscuro a modo claro.
+     * @param v
+     */
     public void botonModoOscuro(View v){
         int color;
         int textColor;
@@ -116,7 +155,6 @@ public class MenuPrincipal extends AppCompatActivity {
             textColor = textoClaro;
             buttonColor = botonClaro;
         }
-
         root.setBackgroundColor(color);
         volver.setBackgroundTintList(ColorStateList.valueOf(color));
         volver.setColorFilter(textColor);
@@ -126,9 +164,12 @@ public class MenuPrincipal extends AppCompatActivity {
         fotoPaciente.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
         datosPaciente.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
         nombrePaciente.setTextColor(textColor);
-
-
     }
+    /**
+     * Metodo que comprueba antes de ir a otra actividad si el modoOscuro esta activado,
+     * para activarlo en la siguiente actividad tambien.
+     * @param intent
+     */
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){
             intent.putExtra("modoOscuro",true);
@@ -136,6 +177,10 @@ public class MenuPrincipal extends AppCompatActivity {
             intent.putExtra("modoOscuro",false);
         }
     }
+    /**
+     * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar
+     *
+     */
     private void inicializarVista(){
         nombrePaciente = findViewById(R.id.nombrePaciente);
         datosPaciente = findViewById(R.id.datosPaciente);

@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 import DataBase.BaseDeDatos;
 
+/**
+ * Clase SeleccionarPaciente, clase donde el usuario puede seleccionar el paciente introduciendo su DNI
+ * se corresponde a la actividad activity_seleccionar_paciente.
+ */
 public class SeleccionarPaciente extends AppCompatActivity {
 
     private int oscuro;
@@ -33,7 +37,14 @@ public class SeleccionarPaciente extends AppCompatActivity {
     private BaseDeDatos baseDeDatos;
     private int numeroDNI;
     private String email;
-
+    /**
+     * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
+     * de forma que el usuario pueda interactuar bien con la interfaz.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +60,12 @@ public class SeleccionarPaciente extends AppCompatActivity {
         baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         botonPasarSiguiente.setEnabled(false);
     }
+
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_menu_principal.
+     * Con el DNI del paciente introducido
+     * @param v
+     */
     public void botonNext (View v){
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
         intentModoOscuro(intent);
@@ -57,9 +74,18 @@ public class SeleccionarPaciente extends AppCompatActivity {
         startActivity(intent);
 
     }
+    /**
+     * Metodo utilizado para volver a la actividad anterior.
+     * @param v
+     */
     public void botonVolver(View v){
         finish();
     }
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_perfil donde se muestran los datos
+     * del medico.
+     * @param v
+     */
     public void botonPerfil(View v){
 
         Intent intent = new Intent(v.getContext(), Perfil.class);
@@ -68,6 +94,11 @@ public class SeleccionarPaciente extends AppCompatActivity {
         startActivity(intent);
 
     }
+    /**
+     * Metodo utilizado para cambiar la interfaz de modo oscuro a modo claro.
+     * @param v
+     */
+
     public void botonModoOscuro(View v){
         int color;
         int textColor;
@@ -96,6 +127,13 @@ public class SeleccionarPaciente extends AppCompatActivity {
         botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
 
     }
+
+    /**
+     * Metodo usado para buscar el paciente en la base de datos. Para ello se comprueba si el usuario
+     * ha introducido un valor y si el DNI esta almacenado en la BBDD, mostrando un error, si no se encuentra
+     * En caso de que se encuentre se habilita el boton para pasar a la siguiente actividad.
+     * @param v
+     */
     public void botonBuscarPaciente(View v){
         try{
             int DNIProporcionado;
@@ -108,9 +146,9 @@ public class SeleccionarPaciente extends AppCompatActivity {
 
             }else{
                 if(modoOscuro.isChecked()){
-                    mensaje.setTextColor(getResources().getColor(R.color.background_gray));
+                    mensaje.setTextColor(textoOscuro);
                 }else{
-                    mensaje.setTextColor(getResources().getColor(R.color.black));
+                    mensaje.setTextColor(textoClaro);
                 }
                 numeroDNI = DNIProporcionado;
                 mensaje.setText("Paciente: "+nombrePaciente);
@@ -121,6 +159,11 @@ public class SeleccionarPaciente extends AppCompatActivity {
             mensaje.setText("Inserte solo los numeros del DNI, ejemplo  de DNI: 12345678");
         }
     }
+    /**
+     * Metodo que comprueba antes de ir a otra actividad si el modoOscuro esta activado,
+     * para activarlo en la siguiente actividad tambien.
+     * @param intent
+     */
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){
             intent.putExtra("modoOscuro",true);
@@ -128,6 +171,10 @@ public class SeleccionarPaciente extends AppCompatActivity {
             intent.putExtra("modoOscuro",false);
         }
     }
+    /**
+     * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar
+     *
+     */
     private void inicializarVista(){
         root = findViewById(R.id.actividadSeleccionarPaciente);
         modoOscuro = findViewById(R.id.switchModoOscuro2);

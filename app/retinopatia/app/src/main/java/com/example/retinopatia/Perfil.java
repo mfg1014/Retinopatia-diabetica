@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import DataBase.BaseDeDatos;
 
+/**
+ * Clase Perfil, clase donde el usuario puede ver los datos del medico, se corresponde
+ * a la actividad activity_perfil.
+ */
 public class Perfil extends AppCompatActivity {
 
     private int oscuro;
@@ -29,6 +33,15 @@ public class Perfil extends AppCompatActivity {
     private TextView password;
     private BaseDeDatos baseDeDatos;
     private String email;
+
+    /**
+     * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
+     * de forma que el usuario pueda interactuar bien con la interfaz.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,10 +58,17 @@ public class Perfil extends AppCompatActivity {
 
 
     }
+    /**
+     * Metodo utilizado para volver a la actividad anterior.
+     * @param v
+     */
     public void botonVolver(View v){
         finish();
     }
-
+    /**
+     * Metodo utilizado para cambiar la interfaz de modo oscuro a modo claro.
+     * @param v
+     */
     public void botonModoOscuro(View v){
         int color;
         int textColor;
@@ -73,6 +93,9 @@ public class Perfil extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que carga los datos relacionados con el medico
+     */
     public void cargarDatos(){
         nombre.setText(baseDeDatos.getNombreMedico(email));
         apellidos.setText(baseDeDatos.getApellidoMedico(email));
@@ -81,6 +104,10 @@ public class Perfil extends AppCompatActivity {
         password.setText(baseDeDatos.getContraseña(email));
         centro.setText(baseDeDatos.getCentroMedico(email));
     }
+    /**
+     * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar
+     *
+     */
     private void inicializarVista(){
         root = findViewById(R.id.actividadPerfil);
         modoOscuro = findViewById(R.id.switchModoOscuro2);

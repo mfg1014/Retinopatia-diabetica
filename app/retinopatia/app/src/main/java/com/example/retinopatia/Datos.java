@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import DataBase.BaseDeDatos;
 
+/**
+ * Clase Datos, la cual corresponde a la actividad activity_datos
+ */
 public class Datos extends AppCompatActivity {
     private int oscuro;
     private int textoOscuro;
@@ -31,6 +34,16 @@ public class Datos extends AppCompatActivity {
     private BaseDeDatos baseDeDatos;
     private int DNIPaciente;
     private String email;
+
+    /**
+     * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
+     * de forma que el usuario pueda interactuar bien con la interfaz.
+     * Ademas, se cargan los datos del paciente sobre los textos correspondientes.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +52,6 @@ public class Datos extends AppCompatActivity {
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         DNIPaciente = intent.getIntExtra("DNI",-1);
-        if(DNIPaciente == -1){
-            perfil.setVisibility(View.INVISIBLE);
-        }
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
@@ -49,9 +59,20 @@ public class Datos extends AppCompatActivity {
         cargarDatos();
 
     }
+
+    /**
+     * Metodo utilizado para volver a la actividad anterior.
+     * @param v
+     */
     public void botonVolver(View v){
         finish();
     }
+
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_perfil donde se muestran los datos
+     * del medico.
+     * @param v
+     */
     public void botonPerfil(View v){
         Intent intent = new Intent(v.getContext(), Perfil.class);
         intentModoOscuro(intent);
@@ -59,6 +80,10 @@ public class Datos extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Metodo utilizado para cambiar la interfaz de modo oscuro a modo claro.
+     * @param v
+     */
     public void botonModoOscuro(View v){
         int color;
         int textColor;
@@ -83,6 +108,12 @@ public class Datos extends AppCompatActivity {
         estado.setTextColor(textColor);
         infoPaciente.setTextColor(textColor);
     }
+
+    /**
+     * Metodo que comprueba antes de ir a otra actividad si el modoOscuro esta activado,
+     * para activarlo en la siguiente actividad tambien.
+     * @param intent
+     */
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){
             intent.putExtra("modoOscuro",true);
@@ -90,6 +121,10 @@ public class Datos extends AppCompatActivity {
             intent.putExtra("modoOscuro",false);
         }
     }
+
+    /**
+     * Metodo que carga los datos del paciente, en sus respectivos campos.
+     */
     public void cargarDatos(){
         nombre.setText(baseDeDatos.getNombrePaciente(DNIPaciente));
         apellidos.setText(baseDeDatos.getApellidoPaciente(DNIPaciente));
@@ -98,6 +133,11 @@ public class Datos extends AppCompatActivity {
         estado.setText(baseDeDatos.getEstado(DNIPaciente));
         infoPaciente.setText(baseDeDatos.getInformacionPaciente(DNIPaciente));
     }
+
+    /**
+     * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar
+     *
+     */
     private void inicializarVista(){
         root = findViewById(R.id.actividadDatos);
         modoOscuro = findViewById(R.id.switchModoOscuro2);

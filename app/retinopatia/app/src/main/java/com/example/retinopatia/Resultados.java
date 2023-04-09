@@ -18,6 +18,10 @@ import java.util.List;
 import DataBase.BaseDeDatos;
 import DataBase.Informe;
 
+/**
+ * Clase Resultados, clase donde el usuario puede ver los resultados del paciente, se corresponde
+ * a la actividad activity_resultados.
+ */
 public class Resultados extends AppCompatActivity {
 
     private int oscuro;
@@ -48,6 +52,17 @@ public class Resultados extends AppCompatActivity {
     private int pestañas;
     private int pestañaActual;
     private String email;
+
+    /**
+     * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
+     * de forma que el usuario pueda interactuar bien con la interfaz.
+     * Tambien se cargan los informes de fecha mas cercana a fecha mas lejana.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,9 +85,18 @@ public class Resultados extends AppCompatActivity {
         inicializarInformes();
 
     }
+    /**
+     * Metodo utilizado para volver a la actividad anterior.
+     * @param v
+     */
     public void botonVolver(View v){
         finish();
     }
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_perfil donde se muestran los datos
+     * del medico.
+     * @param v
+     */
     public void botonPerfil(View v){
 
         Intent intent = new Intent(v.getContext(), Perfil.class);
@@ -81,6 +105,10 @@ public class Resultados extends AppCompatActivity {
         startActivity(intent);
 
     }
+    /**
+     * Metodo utilizado para cambiar la interfaz de modo oscuro a modo claro.
+     * @param v
+     */
     public void botonModoOscuro(View v){
         int color;
         int textColor;
@@ -101,19 +129,30 @@ public class Resultados extends AppCompatActivity {
         retroceder.setBackgroundTintList(ColorStateList.valueOf(color));
         avanzar.setBackgroundTintList(ColorStateList.valueOf(color));
     }
+
+    /**
+     * Metodo utilizado cuando hay mas de 3 informes, y ocupa más de una pantalla,
+     * sirve para ver los siguientes informes
+     * @param v
+     */
     public void botonAvanzar(View v){
         pestañaActual += 1;
         cargarInformes(pestañaActual);
-
-
     }
+
+    /**
+     * Metodo utilizado cuando hay mas de 3 informes, y se quiere ir a la patalla anterior.
+     * @param v
+     */
     public void botonRetroceder(View v){
         pestañaActual -= 1;
         cargarInformes(pestañaActual);
-
-
     }
-
+    /**
+     * Metodo que comprueba antes de ir a otra actividad si el modoOscuro esta activado,
+     * para activarlo en la siguiente actividad tambien.
+     * @param intent
+     */
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){
             intent.putExtra("modoOscuro",true);
@@ -121,6 +160,14 @@ public class Resultados extends AppCompatActivity {
             intent.putExtra("modoOscuro",false);
         }
     }
+
+    /**
+     * Metodo usado para cargar los informes en pantalla, hay 3 informes por pantalla, y
+     * cada informe contiene la foto, la fecha, la informacion del ojo que se corresponde y los resultados
+     * Como cada informe tiene un objeto de la interfaz diferente, se hace un switch tanto para visibilizar
+     * los datos, como para ocultarlos.
+     * @param pestañaActual
+     */
     public void cargarInformes(int pestañaActual){
         int primerInforme = (pestañaActual - 1) * 3;
         for(int i = 0; i < 3;i++){
@@ -150,6 +197,12 @@ public class Resultados extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * Metodo que hace el switch determinando el informe correspondiente
+     * @param primerInforme
+     * @param n
+     */
     public void switchInforme(int primerInforme, int n){
         switch (n){
             case 0:
@@ -163,6 +216,11 @@ public class Resultados extends AppCompatActivity {
                 break;
         }
     }
+
+    /**
+     * Metodo que visibiliza el informe 1, cargando la imagen, la fecha, el ojo y los resultados.
+     * @param informe
+     */
     public void visibilizarInforme1(int informe){
         Bitmap imagen = informes.get(informe).getImagenDelInforme();
         foto1.setImageBitmap(imagen);
@@ -174,6 +232,10 @@ public class Resultados extends AppCompatActivity {
         informacion1.setVisibility(View.VISIBLE);
         resultados1.setVisibility(View.VISIBLE);
     }
+    /**
+     * Metodo que visibiliza el informe 2, cargando la imagen, la fecha, el ojo y los resultados.
+     * @param informe
+     */
     public void visibilizarInforme2(int informe){
 
         Bitmap imagen2 = informes.get(informe).getImagenDelInforme();
@@ -187,6 +249,10 @@ public class Resultados extends AppCompatActivity {
         resultados2.setVisibility(View.VISIBLE);
 
     }
+    /**
+     * Metodo que visibiliza el informe 3, cargando la imagen, la fecha, el ojo y los resultados.
+     * @param informe
+     */
     public void visibilizarInforme3(int informe){
         Bitmap imagen3 = informes.get(informe).getImagenDelInforme();
         foto3.setImageBitmap(imagen3);
@@ -198,7 +264,10 @@ public class Resultados extends AppCompatActivity {
         informacion3.setVisibility(View.VISIBLE);
         resultados3.setVisibility(View.VISIBLE);
     }
-
+    /**
+     * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar
+     *
+     */
     private void inicializarVista(){
         root = findViewById(R.id.actividadResultados);
         modoOscuro = findViewById(R.id.switchModoOscuro2);
@@ -224,6 +293,11 @@ public class Resultados extends AppCompatActivity {
         claro = getResources().getColor(R.color.background_gray);
         textoClaro = getResources().getColor(R.color.black);
     }
+
+    /**
+     * Metodo utilizado al iniciar la actividad, sirve para calcular las pestañas existentes
+     * poniendo la vista con respecto este numero.
+     */
     private void inicializarInformes(){
         if(informes == null){
             paginas.setText("1/1");
