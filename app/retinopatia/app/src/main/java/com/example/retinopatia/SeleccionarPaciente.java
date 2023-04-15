@@ -14,8 +14,18 @@ import android.widget.TextView;
 
 import DataBase.BaseDeDatos;
 
+/**
+ * Clase SeleccionarPaciente, clase donde el usuario puede seleccionar el paciente introduciendo su DNI
+ * se corresponde a la actividad activity_seleccionar_paciente.
+ */
 public class SeleccionarPaciente extends AppCompatActivity {
 
+    private int oscuro;
+    private int textoOscuro;
+    private int botonOscuro;
+    private int claro;
+    private int textoClaro;
+    private int botonClaro;
     private Switch modoOscuro;
     private View root;
     private ImageButton volver;
@@ -27,27 +37,35 @@ public class SeleccionarPaciente extends AppCompatActivity {
     private BaseDeDatos baseDeDatos;
     private int numeroDNI;
     private String email;
-
+    /**
+     * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
+     * de forma que el usuario pueda interactuar bien con la interfaz.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccionar_paciente);
-        root = findViewById(R.id.actividadSeleccionarPaciente);
-        modoOscuro = findViewById(R.id.switchModoOscuro2);
-        volver = findViewById(R.id.returnButton3);
-        perfil = findViewById(R.id.profileButton3);
-        botonBuscar = findViewById(R.id.botonBuscar);
-        botonPasarSiguiente = findViewById(R.id.botonEntrarMenu);
-        DNI = findViewById(R.id.editTextDNI);
-        mensaje = findViewById(R.id.textViewMensajeDNI);
+        inicializarVista();
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
+
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
         baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        botonPasarSiguiente.setEnabled(false);
     }
+
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_menu_principal.
+     * Con el DNI del paciente introducido
+     * @param v
+     */
     public void botonNext (View v){
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
         intentModoOscuro(intent);
@@ -56,9 +74,18 @@ public class SeleccionarPaciente extends AppCompatActivity {
         startActivity(intent);
 
     }
+    /**
+     * Metodo utilizado para volver a la actividad anterior.
+     * @param v
+     */
     public void botonVolver(View v){
         finish();
     }
+    /**
+     * Metodo que permite al usuario ir a la actividad activity_perfil donde se muestran los datos
+     * del medico.
+     * @param v
+     */
     public void botonPerfil(View v){
 
         Intent intent = new Intent(v.getContext(), Perfil.class);
@@ -67,68 +94,101 @@ public class SeleccionarPaciente extends AppCompatActivity {
         startActivity(intent);
 
     }
+    /**
+     * Metodo utilizado para cambiar la interfaz de modo oscuro a modo claro.
+     * @param v
+     */
+
     public void botonModoOscuro(View v){
-        int oscuro = getResources().getColor(R.color.background_darkmode_gray);
-        int textoOscuro = getResources().getColor(R.color.background_gray);
-        int botonOscuro = getResources().getColor(R.color.background_green);
-        int claro = getResources().getColor(R.color.background_gray);
-        int textoClaro = getResources().getColor(R.color.black);
-        int botonClaro = getResources().getColor(R.color.background_blue);
+        int color;
+        int textColor;
+        int buttonColor;
+
         if(modoOscuro.isChecked()){
-            root.setBackgroundColor(oscuro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            volver.setColorFilter(textoOscuro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoOscuro));
-            perfil.setColorFilter(oscuro);
-            DNI.setTextColor(textoOscuro);
-            DNI.setHintTextColor(textoOscuro);
-            mensaje.setTextColor(textoOscuro);
-            botonBuscar.setColorFilter(textoOscuro);
-            botonBuscar.setBackgroundTintList(ColorStateList.valueOf(oscuro));
-            botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(botonOscuro));
+            color = oscuro;
+            textColor = textoOscuro;
+            buttonColor = botonOscuro;
         }else{
-            root.setBackgroundColor(claro);
-            volver.setBackgroundTintList(ColorStateList.valueOf(claro));
-            volver.setColorFilter(textoClaro);
-            perfil.setBackgroundTintList(ColorStateList.valueOf(textoClaro));
-            perfil.setColorFilter(claro);
-            DNI.setTextColor(textoClaro);
-            DNI.setHintTextColor(textoClaro);
-            mensaje.setTextColor(textoClaro);
-            botonBuscar.setColorFilter(textoClaro);
-            botonBuscar.setBackgroundTintList(ColorStateList.valueOf(claro));
-            botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(botonClaro));
+            color = claro;
+            textColor = textoClaro;
+            buttonColor = botonClaro;
         }
 
+        root.setBackgroundColor(color);
+        volver.setBackgroundTintList(ColorStateList.valueOf(color));
+        volver.setColorFilter(textColor);
+        perfil.setBackgroundTintList(ColorStateList.valueOf(color));
+        perfil.setColorFilter(textColor);
+        DNI.setTextColor(textColor);
+        DNI.setHintTextColor(textColor);
+        mensaje.setTextColor(textColor);
+        botonBuscar.setColorFilter(textColor);
+        botonBuscar.setBackgroundTintList(ColorStateList.valueOf(color));
+        botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
+
     }
+
+    /**
+     * Metodo usado para buscar el paciente en la base de datos. Para ello se comprueba si el usuario
+     * ha introducido un valor y si el DNI esta almacenado en la BBDD, mostrando un error, si no se encuentra
+     * En caso de que se encuentre se habilita el boton para pasar a la siguiente actividad.
+     * @param v
+     */
     public void botonBuscarPaciente(View v){
         try{
+            int DNIProporcionado;
             String DNIPaciente = DNI.getText().toString();
-            numeroDNI = Integer.parseInt(DNIPaciente);
-            String nombrePaciente = baseDeDatos.getPaciente(numeroDNI);
+            DNIProporcionado = Integer.parseInt(DNIPaciente);
+            String nombrePaciente = baseDeDatos.getPaciente(DNIProporcionado);
             if(nombrePaciente.equals("")){
                 mensaje.setTextColor(getResources().getColor(R.color.error_red));
                 mensaje.setText("El paciente no se ha encontrado, ejemplo  de DNI: 12345678");
 
             }else{
                 if(modoOscuro.isChecked()){
-                    mensaje.setTextColor(getResources().getColor(R.color.background_gray));
+                    mensaje.setTextColor(textoOscuro);
                 }else{
-                    mensaje.setTextColor(getResources().getColor(R.color.black));
+                    mensaje.setTextColor(textoClaro);
                 }
-
+                numeroDNI = DNIProporcionado;
                 mensaje.setText("Paciente: "+nombrePaciente);
+                botonPasarSiguiente.setEnabled(true);
             }
 
         }catch (NumberFormatException ex){
             mensaje.setText("Inserte solo los numeros del DNI, ejemplo  de DNI: 12345678");
         }
     }
+    /**
+     * Metodo que comprueba antes de ir a otra actividad si el modoOscuro esta activado,
+     * para activarlo en la siguiente actividad tambien.
+     * @param intent
+     */
     public void intentModoOscuro(Intent intent){
         if(modoOscuro.isChecked()){
             intent.putExtra("modoOscuro",true);
         }else{
             intent.putExtra("modoOscuro",false);
         }
+    }
+    /**
+     * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar
+     *
+     */
+    private void inicializarVista(){
+        root = findViewById(R.id.actividadSeleccionarPaciente);
+        modoOscuro = findViewById(R.id.switchModoOscuro2);
+        volver = findViewById(R.id.returnButton3);
+        perfil = findViewById(R.id.profileButton3);
+        botonBuscar = findViewById(R.id.botonBuscar);
+        botonPasarSiguiente = findViewById(R.id.botonEntrarMenu);
+        DNI = findViewById(R.id.editTextDNI);
+        mensaje = findViewById(R.id.textViewMensajeDNI);
+        oscuro = getResources().getColor(R.color.background_darkmode_gray);
+        textoOscuro = getResources().getColor(R.color.background_gray);
+        botonOscuro = getResources().getColor(R.color.background_green);
+        claro = getResources().getColor(R.color.background_gray);
+        textoClaro = getResources().getColor(R.color.black);
+        botonClaro = getResources().getColor(R.color.background_blue);
     }
 }

@@ -19,7 +19,7 @@ public class BaseDeDatos  {
     private Map<Integer, Paciente> pacienteMapDNI;
     private Context context;
     private int contadorInformes;
-
+    private Paciente invitado;
     public static BaseDeDatos getBaseDeDatos(Context context){
         if(bbdd == null){
             bbdd = new BaseDeDatos(context);
@@ -71,7 +71,7 @@ public class BaseDeDatos  {
     }
     public List<Informe> getInformes(int DNI){
         if(!pacienteMapDNI.containsKey(DNI)) {
-            return null;
+            return invitado.getInformePaciente();
         }
         return pacienteMapDNI.get(DNI).getInformePaciente();
     }
@@ -137,5 +137,14 @@ public class BaseDeDatos  {
     }
     public int getDNIMedico(String email){
         return medicoMapEmail.get(email).getDNI();
+    }
+
+    public void addInvitado(){
+        invitado = new Paciente("invitado",null,null,0,null,null,null);
+    }
+    public void añadirInforme(Bitmap foto,String ojo, int resultado){
+        Informe nuevoInforme = new Informe(contadorInformes++,foto,ojo,resultado,LocalDate.now());
+        invitado.agregarInforme(nuevoInforme);
+
     }
 }
