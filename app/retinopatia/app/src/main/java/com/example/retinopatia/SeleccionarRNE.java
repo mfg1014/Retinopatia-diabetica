@@ -2,8 +2,13 @@ package com.example.retinopatia;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +16,17 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import org.tensorflow.lite.Interpreter;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
+import DataBase.BaseDeDatos;
+import DataBase.Informe;
 
 /**
  * Clase SeleccionarRNE, clase donde el usuario puede seleccionar la red neuronal a utilizar
@@ -34,6 +50,7 @@ public class SeleccionarRNE extends AppCompatActivity {
     private TextView mensaje;
     private int DNI;
     private String email;
+    private BaseDeDatos baseDeDatos;
 
     /**
      * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
@@ -60,6 +77,8 @@ public class SeleccionarRNE extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
+        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        cargarRedes();
     }
     /**
      * Metodo utilizado para volver a la actividad anterior.
@@ -210,5 +229,86 @@ public class SeleccionarRNE extends AppCompatActivity {
         claro = getResources().getColor(R.color.background_gray);
         textoClaro = getResources().getColor(R.color.black);
         botonClaro = getResources().getColor(R.color.background_blue);
+    }
+
+    /**
+     * Metodo que carga las redes neuronales
+     * TODO hay que introducir las redes neuronales de forma que al pasar a la siguiente ventana,
+     * se haya empezado el proceso. No refactorizo porque se cambiara en un futuro.
+     *
+     */
+    private void cargarRedes(){
+        try {
+            Interpreter interpreter = new Interpreter(loadModelFile(getApplicationContext()));
+
+            Bitmap bitmap = baseDeDatos.getUltimoInforme(DNI).getImagenDelInforme();
+
+            ImageProcessor imageProcessor = new ImageProcessor(bitmap, interpreter);
+            imageProcessor.execute();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Metodo que devulve el modelo de forma que el interprete lo pueda cargar.
+     * @param context
+     * @return
+     * @throws IOException
+     */
+    private MappedByteBuffer loadModelFile(Context context) throws IOException {
+        AssetFileDescriptor fileDescriptor = context.getAssets().openFd("modeloConvertido.tflite");
+        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = inputStream.getChannel();
+        long startOffset = fileDescriptor.getStartOffset();
+        long declaredLength = fileDescriptor.getDeclaredLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
+    }
+
+    /**
+     * Clase para hacer que el proceso de la red neuronal sea concurrente
+     */
+    private class ImageProcessor extends AsyncTask<Void, Void, Void> {
+        private Bitmap bitmap;
+        private Interpreter interpreter;
+
+        public ImageProcessor(Bitmap bitmap, Interpreter interpreter) {
+            this.bitmap = bitmap;
+            this.interpreter = interpreter;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            // Preprocesar imagen
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, false);
+            float[][][][] input = new float[1][224][224][3];
+            for (int i = 0; i < 224; ++i) {
+                for (int j = 0; j < 224; ++j) {
+                    int pixelValue = resizedBitmap.getPixel(i, j);
+                    input[0][i][j][2] = (Color.red(pixelValue) - 123.68f) / 58.393f;
+                    input[0][i][j][1] = (Color.green(pixelValue) - 116.779f) / 57.12f;
+                    input[0][i][j][0] = (Color.blue(pixelValue) - 103.939f) / 57.375f;
+                }
+            }
+
+            // Ejecutar imagen preprocesada a través de la red neuronal VGG16
+            float[][] output = new float[1][1000];
+            interpreter.run(input, output);
+
+            // Interpretar resultados
+            int predictedCategory = 0;
+            float maxProbability = output[0][0];
+            for (int i = 1; i < output[0].length; i++) {
+                if (i != 669 &&output[0][i] > maxProbability) {
+                    predictedCategory = i;
+                    maxProbability = output[0][i];
+                }
+            }
+            baseDeDatos.setResultadoUltimoInforme(DNI,predictedCategory);
+            return null;
+        }
+
+ 
     }
 }
