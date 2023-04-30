@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -11,6 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import DataBase.BaseDeDatos;
+import DataBase.BaseDeDatosHelper;
 
 /**
  * Clase Perfil, clase donde el usuario puede ver los datos del medico, se corresponde
@@ -18,6 +21,8 @@ import DataBase.BaseDeDatos;
  */
 public class Perfil extends AppCompatActivity {
 
+    private BaseDeDatosHelper baseDeDatosHelper;
+    private SQLiteDatabase bbdd;
     private int oscuro;
     private int textoOscuro;
     private int claro;
@@ -31,7 +36,7 @@ public class Perfil extends AppCompatActivity {
     private TextView DNI;
     private TextView centro;
     private TextView password;
-    private BaseDeDatos baseDeDatos;
+    //private BaseDeDatos baseDeDatos;
     private String email;
 
     /**
@@ -47,7 +52,8 @@ public class Perfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         inicializarVista();
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
+        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         if(intent.getBooleanExtra("modoOscuro",false)){
@@ -97,12 +103,44 @@ public class Perfil extends AppCompatActivity {
      * Metodo que carga los datos relacionados con el medico
      */
     public void cargarDatos(){
-        nombre.setText(baseDeDatos.getNombreMedico(email));
-        apellidos.setText(baseDeDatos.getApellidoMedico(email));
-        fecha.setText(baseDeDatos.getFechaNacimientoMedico(email));
-        DNI.setText(Integer.toString( baseDeDatos.getDNIMedico(email)));
-        password.setText(baseDeDatos.getContraseña(email));
-        centro.setText(baseDeDatos.getCentroMedico(email));
+        bbdd = baseDeDatosHelper.getReadableDatabase();
+        String query = "SELECT usuarios.nombre, usuarios.apellido, usuarios.fecha_nacimiento,usuarios.DNI,medicos.centro_medico,medicos.contrasena " +
+                "FROM usuarios "+
+                "LEFT JOIN medicos ON usuarios.DNI = medicos.dni_usuario " +
+                "WHERE usuarios.correo = ?";
+        Cursor cursor = bbdd.rawQuery(query,new String[]{email});
+        String nombrePaciente = null;
+        String apellidosPaciente = null;
+        String fechaPaciente = null;
+        String DNIString = null;
+        String centroMedico = null;
+        String contrasena = null;
+        if(cursor.moveToFirst()){
+            nombrePaciente = cursor.getString(0);
+            apellidosPaciente = cursor.getString(1);
+            fechaPaciente = cursor.getString(2);
+            DNIString = cursor.getString(3);
+            centroMedico = cursor.getString(4);
+            contrasena = cursor.getString(5);
+
+        }
+        cursor.close();
+        nombre.setText(nombrePaciente);
+        apellidos.setText(apellidosPaciente);
+        fecha.setText(fechaPaciente);
+        DNI.setText(DNIString);
+        centro.setText(centroMedico);
+        password.setText(contrasena);
+
+        nombre.setVisibility(View.VISIBLE);
+        apellidos.setVisibility(View.VISIBLE);
+        fecha.setVisibility(View.VISIBLE);
+        DNI.setVisibility(View.VISIBLE);
+        centro.setVisibility(View.VISIBLE);
+        password.setVisibility(View.VISIBLE);
+        bbdd.close();
+
+
     }
     /**
      * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar

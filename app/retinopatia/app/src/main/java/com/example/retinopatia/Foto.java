@@ -9,11 +9,14 @@ import androidx.core.content.ContextCompat;
 
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -27,13 +30,21 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import DataBase.BaseDeDatos;
+import DataBase.BaseDeDatosHelper;
 
 /**
  * Clase foto, la cual corresponde con la actividad activity_foto
  */
 public class Foto extends AppCompatActivity {
 
+    private BaseDeDatosHelper baseDeDatosHelper;
+    private SQLiteDatabase bbdd;
     private int oscuro;
     private int textoOscuro;
     private int botonOscuro;
@@ -50,7 +61,7 @@ public class Foto extends AppCompatActivity {
     private ImageButton perfil;
     private Button botonHacerFoto;
     private Button botonEscogerFoto;
-    private BaseDeDatos baseDeDatos;
+    //private BaseDeDatos baseDeDatos;
     private int DNI;
     private String ojo;
     private String email;
@@ -83,7 +94,8 @@ public class Foto extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
+        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
 
         inicializarGaleria();
         inicializarCamara();
@@ -128,11 +140,7 @@ public class Foto extends AppCompatActivity {
         Drawable drawable = imagenSeleccionada.getDrawable();
         BitmapDrawable bd = (BitmapDrawable) drawable;
         Bitmap foto = bd.getBitmap();
-        if(DNI == -1){
-            baseDeDatos.añadirInforme(foto,ojo,0);
-        }else{
-            baseDeDatos.añadirInforme(foto,DNI,ojo,0);
-        }
+        crearInforme(foto,DNI,ojo);
         intent.putExtra("DNI",DNI);
         startActivity(intent);
 
@@ -281,5 +289,25 @@ public class Foto extends AppCompatActivity {
                     }
                 });
     }
+    private void crearInforme(Bitmap foto,int DNI,String ojo){
 
+        bbdd = baseDeDatosHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("dni_paciente",DNI);
+        values.put("imagen_del_informe",bitmapToBLOB(foto,2048,2048,50));
+        values.put("ojo_imagen",ojo);
+        Date currentDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String fecha = formatter.format(currentDate);
+        values.put("fecha", fecha);
+        bbdd.insert("informes",null,values);
+
+        bbdd.close();
+    }
+    private byte[] bitmapToBLOB(Bitmap bitmap, int width, int height, int quality){
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+        return outputStream.toByteArray();
+    }
 }

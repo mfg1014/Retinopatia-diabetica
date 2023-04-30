@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -11,11 +13,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import DataBase.BaseDeDatos;
+import DataBase.BaseDeDatosHelper;
 
 /**
  * Clase Datos, la cual corresponde a la actividad activity_datos
  */
 public class Datos extends AppCompatActivity {
+    private BaseDeDatosHelper baseDeDatosHelper;
+    private SQLiteDatabase bbdd;
     private int oscuro;
     private int textoOscuro;
     private int claro;
@@ -31,7 +36,7 @@ public class Datos extends AppCompatActivity {
     private TextView centro;
     private TextView estado;
     private TextView infoPaciente;
-    private BaseDeDatos baseDeDatos;
+    //private BaseDeDatos baseDeDatos;
     private int DNIPaciente;
     private String email;
 
@@ -56,6 +61,8 @@ public class Datos extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
+        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
+        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         cargarDatos();
 
     }
@@ -126,12 +133,42 @@ public class Datos extends AppCompatActivity {
      * Metodo que carga los datos del paciente, en sus respectivos campos.
      */
     public void cargarDatos(){
-        nombre.setText(baseDeDatos.getNombrePaciente(DNIPaciente));
-        apellidos.setText(baseDeDatos.getApellidoPaciente(DNIPaciente));
-        fecha.setText(baseDeDatos.getFechaNacimientoPaciente(DNIPaciente));
-        DNI.setText(Integer.toString(DNIPaciente));
-        estado.setText(baseDeDatos.getEstado(DNIPaciente));
-        infoPaciente.setText(baseDeDatos.getInformacionPaciente(DNIPaciente));
+        bbdd = baseDeDatosHelper.getReadableDatabase();
+        String query = "SELECT usuarios.nombre, usuarios.apellido, usuarios.fecha_nacimiento,usuarios.DNI,pacientes.estado,pacientes.informacion " +
+                "FROM usuarios "+
+                "LEFT JOIN pacientes ON usuarios.DNI = pacientes.dni_usuario " +
+                "WHERE usuarios.DNI = ?";
+        Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNIPaciente)});
+        String nombrePaciente = null;
+        String apellidosPaciente = null;
+        String fechaPaciente = null;
+        String DNIString = null;
+        String estadoPaciente = null;
+        String informacionPaciente = null;
+        if(cursor.moveToFirst()){
+            nombrePaciente = cursor.getString(0);
+            apellidosPaciente = cursor.getString(1);
+            fechaPaciente = cursor.getString(2);
+            DNIString = cursor.getString(3);
+            estadoPaciente = cursor.getString(4);
+            informacionPaciente = cursor.getString(5);
+
+        }
+        cursor.close();
+        nombre.setText(nombrePaciente);
+        apellidos.setText(apellidosPaciente);
+        fecha.setText(fechaPaciente);
+        DNI.setText(DNIString);
+        estado.setText(estadoPaciente);
+        infoPaciente.setText(informacionPaciente);
+
+        nombre.setVisibility(View.VISIBLE);
+        apellidos.setVisibility(View.VISIBLE);
+        fecha.setVisibility(View.VISIBLE);
+        DNI.setVisibility(View.VISIBLE);
+        estado.setVisibility(View.VISIBLE);
+        infoPaciente.setVisibility(View.VISIBLE);
+        bbdd.close();
     }
 
     /**
@@ -150,7 +187,7 @@ public class Datos extends AppCompatActivity {
         //centro = findViewById(R.id.centro);
         estado = findViewById(R.id.estado);
         infoPaciente = findViewById(R.id.infoPaciente);
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+
         oscuro = getResources().getColor(R.color.background_darkmode_gray);
         textoOscuro = getResources().getColor(R.color.background_gray);
         claro = getResources().getColor(R.color.background_gray);

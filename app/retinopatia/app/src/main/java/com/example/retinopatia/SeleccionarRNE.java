@@ -2,11 +2,15 @@ package com.example.retinopatia;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +30,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
 import DataBase.BaseDeDatos;
+import DataBase.BaseDeDatosHelper;
 import DataBase.Informe;
 
 /**
@@ -33,6 +38,8 @@ import DataBase.Informe;
  * se corresponde a la actividad activity_seleccionar_rne.
  */
 public class SeleccionarRNE extends AppCompatActivity {
+    private BaseDeDatosHelper baseDeDatosHelper;
+    private SQLiteDatabase bbdd;
     private int oscuro;
     private int textoOscuro;
     private int botonOscuro;
@@ -50,7 +57,7 @@ public class SeleccionarRNE extends AppCompatActivity {
     private TextView mensaje;
     private int DNI;
     private String email;
-    private BaseDeDatos baseDeDatos;
+    //private BaseDeDatos baseDeDatos;
 
     /**
      * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
@@ -77,7 +84,8 @@ public class SeleccionarRNE extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
         cargarRedes();
     }
     /**
@@ -240,10 +248,21 @@ public class SeleccionarRNE extends AppCompatActivity {
     private void cargarRedes(){
         try {
             Interpreter interpreter = new Interpreter(loadModelFile(getApplicationContext()));
-
-            Bitmap bitmap = baseDeDatos.getUltimoInforme(DNI).getImagenDelInforme();
-
-            ImageProcessor imageProcessor = new ImageProcessor(bitmap, interpreter);
+            bbdd = baseDeDatosHelper.getReadableDatabase();
+            //Bitmap bitmap = baseDeDatos.getUltimoInforme(DNI).getImagenDelInforme();
+            String query = "SELECT informes.id_informe, informes.imagen_del_informe " +
+                    "FROM usuarios "+
+                    "LEFT JOIN pacientes ON usuarios.DNI = pacientes.dni_usuario " +
+                    "LEFT JOIN informes ON pacientes.dni_usuario = informes.dni_paciente " +
+                    "WHERE usuarios.DNI = ?";
+            Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
+            cursor.moveToLast();
+            int idInforme = cursor.getInt(0);
+            byte[] bytesImagen = cursor.getBlob(1);
+            cursor.close();
+            bbdd.close();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytesImagen,0,bytesImagen.length);
+            ImageProcessor imageProcessor = new ImageProcessor(bitmap, interpreter,idInforme);
             imageProcessor.execute();
 
         } catch (IOException e) {
@@ -272,10 +291,11 @@ public class SeleccionarRNE extends AppCompatActivity {
     private class ImageProcessor extends AsyncTask<Void, Void, Void> {
         private Bitmap bitmap;
         private Interpreter interpreter;
-
-        public ImageProcessor(Bitmap bitmap, Interpreter interpreter) {
+        private int idInforme;
+        public ImageProcessor(Bitmap bitmap, Interpreter interpreter, int idInforme) {
             this.bitmap = bitmap;
             this.interpreter = interpreter;
+            this.idInforme = idInforme;
         }
 
         @Override
@@ -305,10 +325,16 @@ public class SeleccionarRNE extends AppCompatActivity {
                     maxProbability = output[0][i];
                 }
             }
-            baseDeDatos.setResultadoUltimoInforme(DNI,predictedCategory);
+            //baseDeDatos.setResultadoUltimoInforme(DNI,predictedCategory);
+            bbdd = baseDeDatosHelper.getWritableDatabase();
+            ContentValues valores = new ContentValues();
+            valores.put("resultado", predictedCategory);
+
+            bbdd.update("informes", valores, "id_informe = ?", new String[] {String.valueOf(idInforme)});
+            bbdd.close();
             return null;
         }
 
- 
+
     }
 }
