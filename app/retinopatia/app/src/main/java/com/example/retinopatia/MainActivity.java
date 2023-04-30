@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
+import android.database.CursorWindow;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 
+import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 
 import DataBase.BaseDeDatos;
@@ -60,6 +62,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        try {
+            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 100 * 1024 * 1024); //the 100MB is the new size
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_main);
         inicializarVista();
         baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
@@ -102,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
         intent.putExtra("DNI",-1);
         intent.putExtra("email","invitado");
+
+        bbdd = baseDeDatosHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("nombre", "invitado");
         values.put("apellido", "invitado");

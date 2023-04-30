@@ -9,10 +9,11 @@ import android.graphics.BitmapFactory;
 
 import com.example.retinopatia.R;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
 public class BaseDeDatosHelper extends SQLiteOpenHelper {
-    private static final int VERSION_BASE_DE_DATOS = 2;
+    private static final int VERSION_BASE_DE_DATOS = 3;
     private static final String NOMBRE_BASE_DE_DATOS = "BaseDeDatosRetinopatia.sqlite";
     private static BaseDeDatosHelper bbddHelper;
     private Context context;
@@ -65,7 +66,7 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         // Crea la tabla informe
         String CREATE_TABLE_INFORME = "CREATE TABLE informes (" +
                 "id_informe INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "DNI_paciente INTEGER," +
+                "dni_paciente INTEGER," +
                 "imagen_del_informe BLOB," +
                 "ojo_imagen TEXT," +
                 "resultado INTEGER," +
@@ -106,10 +107,10 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
 
         valores.clear();
         valores.put("dni_paciente",12345678);
-        valores.put("imagen_del_informe",bitmapToBLOB(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo)));
+        valores.put("imagen_del_informe",bitmapToBLOB(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo),2048,2048,50));
         valores.put("ojo_imagen","derecho");
         valores.put("resultado", 0);
-        valores.put("fecha","23-04-2023");
+        valores.put("fecha","2023-04-23");
         db.insert("informes",null,valores);
     }
 
@@ -122,10 +123,19 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS usuarios");
         onCreate(db);
     }
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS informes");
+        db.execSQL("DROP TABLE IF EXISTS medicos");
+        db.execSQL("DROP TABLE IF EXISTS pacientes");
+        db.execSQL("DROP TABLE IF EXISTS usuarios");
+        onCreate(db);
+    }
 
-    private byte[] bitmapToBLOB(Bitmap bitmap){
-        ByteBuffer buffer = ByteBuffer.allocate(bitmap.getByteCount());
-        bitmap.copyPixelsToBuffer(buffer);
-        return buffer.array();
+    private byte[] bitmapToBLOB(Bitmap bitmap, int width, int height, int quality){
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+        return outputStream.toByteArray();
     }
 }

@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
+import android.database.CursorWindow;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import DataBase.BaseDeDatos;
+import DataBase.BaseDeDatosHelper;
 import DataBase.Informe;
 
 /**
@@ -23,7 +28,11 @@ import DataBase.Informe;
  * a la actividad activity_resultados.
  */
 public class Resultados extends AppCompatActivity {
-
+    private BaseDeDatosHelper baseDeDatosHelper;
+    private SQLiteDatabase bbdd;
+    private final static int NUMERO_INFORMES_PAG = 3;
+    private final static int MAX_IMAGE = 100*1024*1024;
+    private int DNI;
     private int oscuro;
     private int textoOscuro;
     private int claro;
@@ -32,8 +41,8 @@ public class Resultados extends AppCompatActivity {
     private Switch modoOscuro;
     private ImageButton volver;
     private ImageButton perfil;
-    private BaseDeDatos baseDeDatos;
-    private List<Informe> informes;
+    //private BaseDeDatos baseDeDatos;
+    //private List<Informe> informes;
     private Button retroceder;
     private Button avanzar;
     private TextView paginas;
@@ -76,13 +85,14 @@ public class Resultados extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        int DNI = intent.getIntExtra("DNI",-1);
+        DNI = intent.getIntExtra("DNI",-1);
         if(DNI == -1){
             perfil.setVisibility(View.INVISIBLE);
         }
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
-        informes = baseDeDatos.getInformes(DNI);
-        inicializarInformes();
+        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
+        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        //informes = baseDeDatos.getInformes(DNI);
+        iniciarInformes(DNI,0);
 
     }
     /**
@@ -128,6 +138,9 @@ public class Resultados extends AppCompatActivity {
         paginas.setTextColor(textColor);
         retroceder.setBackgroundTintList(ColorStateList.valueOf(color));
         avanzar.setBackgroundTintList(ColorStateList.valueOf(color));
+        foto1.setBackgroundTintList(ColorStateList.valueOf(color));
+        foto2.setBackgroundTintList(ColorStateList.valueOf(color));
+        foto3.setBackgroundTintList(ColorStateList.valueOf(color));
     }
 
     /**
@@ -137,7 +150,7 @@ public class Resultados extends AppCompatActivity {
      */
     public void botonAvanzar(View v){
         pestañaActual += 1;
-        cargarInformes(pestañaActual);
+        iniciarInformes(DNI, pestañaActual);
     }
 
     /**
@@ -146,7 +159,7 @@ public class Resultados extends AppCompatActivity {
      */
     public void botonRetroceder(View v){
         pestañaActual -= 1;
-        cargarInformes(pestañaActual);
+        iniciarInformes(DNI, pestañaActual);
     }
     /**
      * Metodo que comprueba antes de ir a otra actividad si el modoOscuro esta activado,
@@ -168,7 +181,7 @@ public class Resultados extends AppCompatActivity {
      * los datos, como para ocultarlos.
      * @param pestañaActual
      */
-    public void cargarInformes(int pestañaActual){
+    /*public void cargarInformes(int pestañaActual){
         int primerInforme = (pestañaActual - 1) * 3;
         for(int i = 0; i < 3;i++){
             if(informes.size() > primerInforme + i) {
@@ -196,14 +209,14 @@ public class Resultados extends AppCompatActivity {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * Metodo que hace el switch determinando el informe correspondiente
      * @param primerInforme
      * @param n
      */
-    public void switchInforme(int primerInforme, int n){
+/*    public void switchInforme(int primerInforme, int n){
         switch (n){
             case 0:
                 visibilizarInforme1(informes.size()-primerInforme-1);
@@ -215,13 +228,13 @@ public class Resultados extends AppCompatActivity {
                 visibilizarInforme3(informes.size()-primerInforme-3);
                 break;
         }
-    }
+    }*/
 
     /**
      * Metodo que visibiliza el informe 1, cargando la imagen, la fecha, el ojo y los resultados.
      * @param informe
      */
-    public void visibilizarInforme1(int informe){
+/*    public void visibilizarInforme1(int informe){
         Bitmap imagen = informes.get(informe).getImagenDelInforme();
         foto1.setImageBitmap(imagen);
         foto1.setVisibility(View.VISIBLE);
@@ -231,12 +244,12 @@ public class Resultados extends AppCompatActivity {
         fecha1.setVisibility(View.VISIBLE);
         informacion1.setVisibility(View.VISIBLE);
         resultados1.setVisibility(View.VISIBLE);
-    }
+    }*/
     /**
      * Metodo que visibiliza el informe 2, cargando la imagen, la fecha, el ojo y los resultados.
      * @param informe
      */
-    public void visibilizarInforme2(int informe){
+  /*  public void visibilizarInforme2(int informe){
 
         Bitmap imagen2 = informes.get(informe).getImagenDelInforme();
         foto2.setImageBitmap(imagen2);
@@ -248,12 +261,12 @@ public class Resultados extends AppCompatActivity {
         informacion2.setVisibility(View.VISIBLE);
         resultados2.setVisibility(View.VISIBLE);
 
-    }
+    }*/
     /**
      * Metodo que visibiliza el informe 3, cargando la imagen, la fecha, el ojo y los resultados.
      * @param informe
      */
-    public void visibilizarInforme3(int informe){
+   /* public void visibilizarInforme3(int informe){
         Bitmap imagen3 = informes.get(informe).getImagenDelInforme();
         foto3.setImageBitmap(imagen3);
         foto3.setVisibility(View.VISIBLE);
@@ -263,7 +276,7 @@ public class Resultados extends AppCompatActivity {
         fecha3.setVisibility(View.VISIBLE);
         informacion3.setVisibility(View.VISIBLE);
         resultados3.setVisibility(View.VISIBLE);
-    }
+    }*/
     /**
      * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar
      *
@@ -298,7 +311,7 @@ public class Resultados extends AppCompatActivity {
      * Metodo utilizado al iniciar la actividad, sirve para calcular las pestañas existentes
      * poniendo la vista con respecto este numero.
      */
-    private void inicializarInformes(){
+    /*private void inicializarInformes(){
         if(informes == null){
             paginas.setText("1/1");
             paginas.setVisibility(View.INVISIBLE);
@@ -318,6 +331,121 @@ public class Resultados extends AppCompatActivity {
                 paginas.setText("1/"+Integer.toString(pestañas));
             }
             cargarInformes(pestañaActual);
+        }
+    }*/
+    private void iniciarInformes(int DNI,int npag){
+        bbdd = baseDeDatosHelper.getReadableDatabase();
+        String query = "SELECT informes.id_informe, informes.ojo_imagen, informes.resultado,informes.fecha " +
+                "FROM usuarios "+
+                "LEFT JOIN pacientes ON usuarios.DNI = pacientes.dni_usuario " +
+                "LEFT JOIN informes ON pacientes.dni_usuario = informes.dni_paciente " +
+                "WHERE usuarios.DNI = ? " +
+                "ORDER BY informes.id_informe ASC";
+        Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
+        int contador = 0;
+        int primerInforme = (npag) * NUMERO_INFORMES_PAG;
+        int ultimoInforme = primerInforme + NUMERO_INFORMES_PAG;
+        cursor.moveToLast();
+            while(cursor.getCount() > contador && contador < ultimoInforme ){
+
+                System.out.println(contador);
+                System.out.println(primerInforme);
+                if(contador >= primerInforme){
+                    Bitmap bitmap = null;
+                    String id = cursor.getString(cursor.getColumnIndexOrThrow("id_informe"));
+                    Cursor cursorBLOB = bbdd.query(
+                            "informes",
+                            new String[]{"imagen_del_informe"},
+                            "id_informe = ?",
+                            new String[]{id},
+                            null,
+                            null,
+                            null
+                    );
+                    if (cursorBLOB.moveToFirst()) {
+                        System.out.println("imagen");
+                        byte[] bytesImagen = cursorBLOB.getBlob(0);
+                        System.out.println(bytesImagen.length);
+                        bitmap = BitmapFactory.decodeByteArray(bytesImagen,0,bytesImagen.length);
+
+                        cursorBLOB.close();
+                    }
+                    String ojo = cursor.getString(cursor.getColumnIndexOrThrow("ojo_imagen"));
+                    String fecha = cursor.getString(cursor.getColumnIndexOrThrow("fecha"));
+                    int resultado = cursor.getInt(cursor.getColumnIndexOrThrow("resultado"));
+                    switchInforme2(bitmap,ojo,fecha,resultado,contador-primerInforme);
+                }
+                contador++;
+                cursor.moveToPrevious() ;
+            }
+
+        for(int i = contador - primerInforme; i < ultimoInforme;i++){
+            switchOcultarInforme(i);
+        }
+        cursor.close();
+        bbdd.close();
+    }
+    public void switchInforme2(Bitmap bitmap, String ojo,String fecha,int resultado, int n){
+        switch (n){
+            case 0:
+                foto1.setImageBitmap(bitmap);
+                foto1.setVisibility(View.VISIBLE);
+                fecha1.setText(fecha);
+                informacion1.setText("ojo "+ ojo);
+                if(Integer.valueOf(resultado) != null){
+                    resultados1.setText(String.valueOf( resultado));
+                }
+
+                fecha1.setVisibility(View.VISIBLE);
+                informacion1.setVisibility(View.VISIBLE);
+                resultados1.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                foto2.setImageBitmap(bitmap);
+                foto2.setVisibility(View.VISIBLE);
+                fecha2.setText(fecha);
+                informacion2.setText("ojo "+ ojo);
+                if(Integer.valueOf(resultado) != null){
+                    resultados2.setText(String.valueOf(resultado));
+                }
+                fecha2.setVisibility(View.VISIBLE);
+                informacion2.setVisibility(View.VISIBLE);
+                resultados2.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                foto3.setImageBitmap(bitmap);
+                foto3.setVisibility(View.VISIBLE);
+                fecha3.setText(fecha);
+                informacion3.setText("ojo "+ ojo);
+                if(Integer.valueOf(resultado) != null){
+                    resultados3.setText(String.valueOf(resultado));
+                }
+                fecha3.setVisibility(View.VISIBLE);
+                informacion3.setVisibility(View.VISIBLE);
+                resultados3.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+    public void switchOcultarInforme(int n) {
+        switch (n) {
+            case 0:
+                foto1.setVisibility(View.INVISIBLE);
+                fecha1.setVisibility(View.INVISIBLE);
+                informacion1.setVisibility(View.INVISIBLE);
+                resultados1.setVisibility(View.INVISIBLE);
+                break;
+            case 1:
+                foto2.setVisibility(View.INVISIBLE);
+                fecha2.setVisibility(View.INVISIBLE);
+                informacion2.setVisibility(View.INVISIBLE);
+                resultados2.setVisibility(View.INVISIBLE);
+                break;
+            case 2:
+                foto3.setVisibility(View.INVISIBLE);
+                fecha3.setVisibility(View.INVISIBLE);
+                informacion3.setVisibility(View.INVISIBLE);
+                resultados3.setVisibility(View.INVISIBLE);
+                break;
         }
     }
 }

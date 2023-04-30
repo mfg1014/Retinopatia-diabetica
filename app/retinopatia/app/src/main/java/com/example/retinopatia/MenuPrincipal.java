@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +14,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import DataBase.BaseDeDatos;
+import DataBase.BaseDeDatosHelper;
 
 /**
  * Clase MenuPrincipal, clase donde el usuario elige la opcion a realizar, se corresponde
@@ -19,6 +22,8 @@ import DataBase.BaseDeDatos;
  */
 public class MenuPrincipal extends AppCompatActivity {
 
+    private BaseDeDatosHelper baseDeDatosHelper;
+    private SQLiteDatabase bbdd;
     private int oscuro;
     private int textoOscuro;
     private int botonOscuro;
@@ -34,7 +39,7 @@ public class MenuPrincipal extends AppCompatActivity {
     private Button datosPaciente;
     private Button fotoPaciente;
     private Button resultados;
-    private BaseDeDatos baseDeDatos;
+    //private BaseDeDatos baseDeDatos;
     private int DNI;
     private String email;
 
@@ -54,7 +59,8 @@ public class MenuPrincipal extends AppCompatActivity {
         inicializarVista();
 
         Intent intent = getIntent();
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
+        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         email = intent.getStringExtra("email");
         DNI = intent.getIntExtra("DNI",-1);
         if(intent.getBooleanExtra("modoOscuro",false)){
@@ -66,7 +72,25 @@ public class MenuPrincipal extends AppCompatActivity {
             perfil.setVisibility(View.INVISIBLE);
             datosPaciente.setVisibility(View.INVISIBLE);
         }else{
-            String nombre = baseDeDatos.getPaciente(DNI);
+            bbdd = baseDeDatosHelper.getReadableDatabase();
+            String query = "SELECT * " +
+                    "FROM usuarios LEFT JOIN pacientes "+
+                    "ON usuarios.DNI = pacientes.dni_usuario " +
+                    "WHERE usuarios.DNI = ?";
+
+            Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
+
+
+            System.out.println(cursor.getCount());
+            String nombre = null;
+            if (cursor.moveToFirst()) {
+                nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+                //nombre +=" " + cursor.getString(cursor.getColumnIndexOrThrow("apellido"));
+
+            }
+            cursor.close();
+            bbdd.close();
+
             nombrePaciente.setText(nombre);
         }
     }
