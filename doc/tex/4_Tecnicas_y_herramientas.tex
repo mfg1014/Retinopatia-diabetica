@@ -1,6 +1,81 @@
 \capitulo{4}{Técnicas y herramientas}
 
-Esta parte de la memoria tiene como objetivo presentar las técnicas metodológicas y las herramientas de desarrollo que se han utilizado para llevar a cabo el proyecto. Si se han estudiado diferentes alternativas de metodologías, herramientas, bibliotecas se puede hacer un resumen de los aspectos más destacados de cada alternativa, incluyendo comparativas entre las distintas opciones y una justificación de las elecciones realizadas. 
-No se pretende que este apartado se convierta en un capítulo de un libro dedicado a cada una de las alternativas, sino comentar los aspectos más destacados de cada opción, con un repaso somero a los fundamentos esenciales y referencias bibliográficas para que el lector pueda ampliar su conocimiento sobre el tema.
+\section{Metodologías}
+\textbf{SCRUM}
 
+    SCRUM es una metodología ágil basada en una estrategia continua e incremental, cuyo objetivo es proporcionar un producto funcional al final de cada periodo de trabajo planeado (\textit{sprint}), haciendo reuniones diarias y antes y después de cada \textit{sprint} otras reuniones donde se explican los problemas que se han tenido y como se va a planear el siguiente.
+
+    El impedimento más notorio de esta metodología, es que hay un equipo de personas entre las que se encuentra el \textit{product owner}, el \textit{SCRUM master} y el equipo de desarrollo. Además el equipo se recomienda ser de entre 3 a 9 personas para un buen desarrollo, por tanto, en este trabajo ha sido complicado ir haciendo todas las acciones que se piden en la metodología SCRUM.
+
+\textbf{GitFlow}
+
+    GitFlow es un flujo de trabajo, en el cual se ramifica el proyecto en \textit{branches} donde cada una, contiene una parte del proyecto; de esta forma, se puede dejar una parte funcional sin modificar que seria la rama principal, y otras ramas, donde se van realizando los cambios, cuando en estas ramas, se termina la tarea que se esta realizando, haciendo un producto funcional, se realiza una operación de \textit{pull request} para combinar ambas ramas. Esta operación es aceptada o denegada por el equipo de desarrollo que no haya participado en la realización de esta rama.
+
+    En mi proyecto, se han creado tres \textit{branches}, que son:
+    \begin{itemize}
+        \item \textit{main}: es la rama principal, donde se alberga la versión estable del proyecto.
+        \item boceto: es una rama secundaria, donde se realizan los cambios que se están realizando en la aplicación móvil.
+        \item latex: es la rama secundaria donde se realizan los cambios que se están realizando en el documento LaTeX.
+    \end{itemize}
+\textbf{Método del pato de goma}
+
+    El método del pato de goma, o \textit{rubber duck debugging}, es un método informal para revisión de código.
+
+    Este método es utilizado por muchos programadores y surgió porque normalmente los programadores han tenido experiencias donde han tenido que explicar el problema a otra persona que no entiende sobre programación, y mientras se esta explicando el código, encontrar posibles soluciones. 
+    
+    Por tanto, este método, consiste en vez de explicar el código a otra persona, en explicárselo a un pato de goma.
+
+\section{Herramientas}
+
+    \subsection{Repositorio}
+        Entre las opciones para realizar el repositorio, se pensó en GitLab y en GitHub, tomando esta última por conocimiento de uso de esta.
+
+        GitHub es una plataforma web de alojamiento de repositorios que utiliza Git como sistema de control de versiones.
+
+        Por tanto, como GitHub utiliza Git de forma nativa, no fue necesario la elección de un sistema de control de versiones porque ya estaba incluido.
+    \subsection{Gestión del proyecto}
+        Entre las opciones para gestionar el proyecto, se pensó en poder realizarlo con GitHub Projects, con Jira, con ZenHub y Trello; tomando la opción de ZenHub, por ya estar familiarizado con la herramienta.
+
+        ZenHub es una herramienta de gestión de proyectos que se integra con GitHub. Proporciona una tabla Kanban, donde se ponen las actividades a realizar durante el \textit{sprint}. Permite poner una prioridad a las tareas, siguiendo una estimación de poker, y además, ofrece la posibilidad de ver gráficos \textit{burndown} donde se representa las actividades que faltan por hacer en el \textit{sprint}, también ofrece otros gráficos como \textit{cumulative flow} y \textit{velocity tracking}.
+
+    \subsection{Guía de diseño}
+        Para la realización de la aplicación, es necesario una guía de diseño que facilite al usuario la interacción con la aplicación. Por ello, se utilizo la ultima guía ofrecida por Google, llamada Material 3.
+
+        Material 3 es la ultima versión del sistema de diseño del \textit{open source} de Google.
+        En el documento, viene información de recomendación de componentes ante el mismo problema.
+
+    \subsection{Herramienta de iconos}
+        Para la adición de iconos en la aplicación, es necesario que las imágenes y o iconos sean \textit{open source} para ello, se estuvieron mirando páginas que ofrecían estos iconos, entre las páginas, al final se seleccionaron pixabay para la obtención de imágenes, puesto que ofrece licencia de uso para proyectos comerciales y no comerciales.
+
+        Por otro lado, para los iconos se utilizó Google Fonts y la galería que ofrece Android por defecto, se utilizo Google Fonts, porque en la guía de desarrollo se recomendaba y a su vez, es de código abierto y gratuito.
+
+        Para el logotipo de la aplicación, se ha utilizado DALL-E, una inteligencia artificial que convierte texto a imágenes, tras varios intentos, se logró conseguir un logotipo bastante bueno, y con ello, se hicieron unos retoques con el uso del programa de edición de imágenes GIMP, para la eliminación de ruido y para proporcionarle una gamma de colores; como resultado se obtuvo el icono actual.
+
+    \subsection{Entorno de desarrollo integrado (IDE)}
+        Para el desarrollo de la aplicación móvil, se pensó en Eclipse, Android Studio y Unity.
+
+        Al final, se descarto Eclipse por no ofrecer una experiencia de desarrollo especifica para aplicaciones Android. Y también se descarto Unity, aunque Unity si que esta especializado en aplicaciones móviles, por otro lado, se especializa en el desarrollo de videojuegos y en aplicaciones con realidad virtual.
+        Por lo tanto, se selecciono Android Studio, es el IDE oficial de Android y está desarrollado por Google, basado en IntelliJ IDEA. Ofrece un emulador donde se compila la aplicación y poder comprobar el correcto funcionamiento de esta.
+        Además, para la compilación hace uso de Gradle, separando el código de la aplicación, de la compilación.
+
+        El lenguaje utilizado ha sido Java, aunque Android Studio ofrece la opción de Kotlin, con Java no hacia falta aprender un nuevo lenguaje, puesto que se ha cursado durante la carrera.
+
+    \subsection{LaTeX}
+        Para la realización del documento, se pensó utilizar MiKTeX, TeX Live u Overleaf.
+    
+        Al final, se escogió Overleaf, puesto que las otras 2 herramientas eran locales, y Overleaf ofrece acceso desde la nube, además tiene integración con proyectos GitHub, facilitando la exportación al repositorio.
+
+
+    \subsection{Comunicación}
+        Para la comunicación con los tutores, se uso tanto email, como tutorías presenciales, de esta forma, las cuestiones y los avances realizados se hacen por email, y en caso de mostrar el funcionamiento de la aplicación o alguna duda más importante, se realiza presencialmente para un mejor entendimiento.
+
+\section{Patrones de diseño}
+    \subsection{Modelo-Vista-Presentador}
+        Es una derivación del patrón modelo-vista-controlador, la diferencia es que se cambia el controlador por un presentador, el cual sirve como intermediario entre el modelo y la interfaz.
+        \begin{itemize}
+            \item El modelo, define los datos que se utilizan en la interfaz.
+            \item El presentador, funciona como intermediario, recuperando los datos del modelo, y cambiando la vista de la interfaz.
+            \item La vista, es la interfaz de usuario.
+        \end{itemize}
+        Puesto que Android Studio, ya proporciona separaciones para hacer uso de un modelo-vista-presentador, su implementación ha sido sencilla, donde las \textit{activities} son las diferentes interfaces, los archivos java del directorio "com.example.retinopatia" son los presentadores de las vistas, y en el directorio DataBase se encuentra el modelo de datos.
 
