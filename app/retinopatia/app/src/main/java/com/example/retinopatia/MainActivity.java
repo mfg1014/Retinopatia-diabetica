@@ -2,8 +2,14 @@ package com.example.retinopatia;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
+import android.database.CursorWindow;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,7 +20,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 
+import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
+
 import DataBase.BaseDeDatos;
+import DataBase.BaseDeDatosHelper;
 
 
 /**
@@ -23,6 +33,8 @@ import DataBase.BaseDeDatos;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private BaseDeDatosHelper baseDeDatosHelper;
+    private SQLiteDatabase bbdd;
     private int oscuro;
     private int textoOscuro;
     private int botonOscuro;
@@ -36,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private Button iniciarSesion;
     private Switch modoOscuro;
     private View root;
-    private BaseDeDatos baseDeDatos;
+    //private BaseDeDatos baseDeDatos;
     /**
      * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
      * de forma que el usuario pueda interactuar bien con la interfaz.
@@ -50,10 +62,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        try {
+            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
+            field.setAccessible(true);
+            field.set(null, 100 * 1024 * 1024); //the 100MB is the new size
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_main);
         inicializarVista();
-
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
+        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
     }
 
     /**
@@ -65,13 +84,16 @@ public class MainActivity extends AppCompatActivity {
     public void pasoInicio(View v){
 
         Intent intent = new Intent(v.getContext(), SeleccionarPaciente.class);
+        System.out.println("llega");
         if(comprobarUsuario()){
+            System.out.println("llega");
             usuarioIncorrecto.setVisibility(View.INVISIBLE);
             intentModoOscuro(intent);
             intent.putExtra("email",email.getText().toString());
             startActivity(intent);
         }
         else {
+            System.out.println("no llega");
             if(usuarioIncorrecto.getVisibility() == View.INVISIBLE){
                 usuarioIncorrecto.setVisibility(View.VISIBLE);
             }
@@ -85,11 +107,29 @@ public class MainActivity extends AppCompatActivity {
      * @param v
      */
     public void iniciarSesionInvitado(View v){
-
+        bbdd = baseDeDatosHelper.getWritableDatabase();
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
         intent.putExtra("DNI",-1);
         intent.putExtra("email","invitado");
-        baseDeDatos.addInvitado();
+
+        bbdd = baseDeDatosHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("nombre", "invitado");
+        values.put("apellido", "invitado");
+        values.put("correo", "invitado");
+        values.put("DNI", -1);
+        values.put("tipo_usuario", -1);
+        values.put("fecha_nacimiento", "invitado");
+        bbdd.insert("usuarios",null,values);
+
+        values.clear();
+        values.clear();
+        values.put("id_paciente",-1);
+        values.put("dni_usuario",-1);
+        values.put("informacion","");
+        values.put("estado","");
+        bbdd.insert("pacientes",null,values);
+        bbdd.close();
         intentModoOscuro(intent);
         startActivity(intent);
     }
@@ -104,10 +144,36 @@ public class MainActivity extends AppCompatActivity {
     public boolean comprobarUsuario(){
         String emailUsuario = email.getText().toString();
         String contraseña = password.getText().toString();
-        if(TextUtils.isEmpty(emailUsuario)|| TextUtils.isEmpty(contraseña)){
+        System.out.println("llega");
+        if(TextUtils.isEmpty(emailUsuario)|| TextUtils.isEmpty(contraseña)) {
             return false;
         }
-        if(baseDeDatos.getContraseña(emailUsuario).equals(contraseña) ){
+        //String password = baseDeDatos.getContraseña(emailUsuario);
+        bbdd = baseDeDatosHelper.getReadableDatabase();
+        String query = "SELECT * " +
+                        "FROM usuarios LEFT JOIN medicos "+
+                        "ON usuarios.DNI = medicos.dni_usuario " +
+                        "WHERE usuarios.correo = ?";
+
+        Cursor cursor = bbdd.rawQuery(query,new String[]{emailUsuario});
+
+
+        System.out.println(cursor.getCount());
+        String password = null;
+        if (cursor.moveToFirst()) {
+            password = cursor.getString(cursor.getColumnIndexOrThrow("contrasena"));
+
+            System.out.println(password);
+
+        }
+        cursor.close();
+        bbdd.close();
+
+
+        if(password == null){
+            return false;
+        }
+        if(password.equals(contraseña) ){
             return true;
         }
         return false;

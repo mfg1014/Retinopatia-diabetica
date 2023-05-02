@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import DataBase.BaseDeDatos;
+import DataBase.BaseDeDatosHelper;
 
 /**
  * Clase SeleccionarPaciente, clase donde el usuario puede seleccionar el paciente introduciendo su DNI
@@ -20,6 +23,8 @@ import DataBase.BaseDeDatos;
  */
 public class SeleccionarPaciente extends AppCompatActivity {
 
+    private BaseDeDatosHelper baseDeDatosHelper;
+    private SQLiteDatabase bbdd;
     private int oscuro;
     private int textoOscuro;
     private int botonOscuro;
@@ -34,7 +39,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
     private ImageButton botonBuscar;
     private Button botonPasarSiguiente;
     private TextView mensaje;
-    private BaseDeDatos baseDeDatos;
+
     private int numeroDNI;
     private String email;
     /**
@@ -57,7 +62,8 @@ public class SeleccionarPaciente extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
+        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         botonPasarSiguiente.setEnabled(false);
     }
 
@@ -139,8 +145,28 @@ public class SeleccionarPaciente extends AppCompatActivity {
             int DNIProporcionado;
             String DNIPaciente = DNI.getText().toString();
             DNIProporcionado = Integer.parseInt(DNIPaciente);
-            String nombrePaciente = baseDeDatos.getPaciente(DNIProporcionado);
-            if(nombrePaciente.equals("")){
+            bbdd = baseDeDatosHelper.getReadableDatabase();
+            String query = "SELECT * " +
+                    "FROM usuarios LEFT JOIN pacientes "+
+                    "ON usuarios.DNI = pacientes.dni_usuario " +
+                    "WHERE usuarios.DNI = ?";
+
+            Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNIProporcionado)});
+
+
+            System.out.println(cursor.getCount());
+            String nombrePaciente = null;
+            if (cursor.moveToFirst()) {
+                nombrePaciente = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+                nombrePaciente +=" " + cursor.getString(cursor.getColumnIndexOrThrow("apellido"));
+
+                System.out.println(nombrePaciente);
+
+            }
+            cursor.close();
+            bbdd.close();
+
+            if(nombrePaciente == null){
                 mensaje.setTextColor(getResources().getColor(R.color.error_red));
                 mensaje.setText("El paciente no se ha encontrado, ejemplo  de DNI: 12345678");
 
@@ -151,7 +177,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
                     mensaje.setTextColor(textoClaro);
                 }
                 numeroDNI = DNIProporcionado;
-                mensaje.setText("Paciente: "+nombrePaciente);
+                mensaje.setText("Paciente: " + nombrePaciente);
                 botonPasarSiguiente.setEnabled(true);
             }
 

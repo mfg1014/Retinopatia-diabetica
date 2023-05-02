@@ -26,7 +26,6 @@ public class BaseDeDatos  {
             return  bbdd;
         }
         return bbdd;
-
     }
     private BaseDeDatos(Context context)
     {
@@ -74,6 +73,16 @@ public class BaseDeDatos  {
             return invitado.getInformePaciente();
         }
         return pacienteMapDNI.get(DNI).getInformePaciente();
+    }
+    public Informe getUltimoInforme(int DNI){
+        List<Informe> informes = getInformes(DNI);
+        int ultimo = informes.size()-1;
+        return informes.get(ultimo);
+    }
+    public void setResultadoUltimoInforme(int DNI,int resultado){
+        List<Informe> informes = getInformes(DNI);
+        int ultimo = informes.size()-1;
+        informes.get(ultimo).setResultado(resultado);
     }
     public void añadirInforme(Bitmap foto,int DNI,String ojo, int resultado){
         Informe nuevoInforme = new Informe(contadorInformes++,DNI,foto,ojo,resultado,LocalDate.now());
