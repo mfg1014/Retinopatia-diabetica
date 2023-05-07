@@ -35,7 +35,7 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import DataBase.BaseDeDatos;
+
 import DataBase.BaseDeDatosHelper;
 
 /**
@@ -43,8 +43,6 @@ import DataBase.BaseDeDatosHelper;
  */
 public class Foto extends AppCompatActivity {
 
-    private BaseDeDatosHelper baseDeDatosHelper;
-    private SQLiteDatabase bbdd;
     private int oscuro;
     private int textoOscuro;
     private int botonOscuro;
@@ -61,7 +59,6 @@ public class Foto extends AppCompatActivity {
     private ImageButton perfil;
     private Button botonHacerFoto;
     private Button botonEscogerFoto;
-    //private BaseDeDatos baseDeDatos;
     private int DNI;
     private String ojo;
     private String email;
@@ -94,8 +91,6 @@ public class Foto extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
-        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
 
         inicializarGaleria();
         inicializarCamara();
@@ -140,8 +135,14 @@ public class Foto extends AppCompatActivity {
         Drawable drawable = imagenSeleccionada.getDrawable();
         BitmapDrawable bd = (BitmapDrawable) drawable;
         Bitmap foto = bd.getBitmap();
-        crearInforme(foto,DNI,ojo);
+        Date currentDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String fecha = formatter.format(currentDate);
         intent.putExtra("DNI",DNI);
+        intent.putExtra("fecha",fecha);
+        intent.putExtra("foto", bitmapToBLOB(foto,2048,2048,50));
+
+        intent.putExtra("ojo_imagen",ojo);
         startActivity(intent);
 
     }
@@ -152,8 +153,6 @@ public class Foto extends AppCompatActivity {
      * @param v
      */
     public void botonHacerFoto(View v){
-
-
         int permisoGarantizado = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA);
         if (permisoGarantizado != PackageManager.PERMISSION_GRANTED) {
@@ -289,21 +288,16 @@ public class Foto extends AppCompatActivity {
                     }
                 });
     }
-    private void crearInforme(Bitmap foto,int DNI,String ojo){
 
-        bbdd = baseDeDatosHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("dni_paciente",DNI);
-        values.put("imagen_del_informe",bitmapToBLOB(foto,2048,2048,50));
-        values.put("ojo_imagen",ojo);
-        Date currentDate = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String fecha = formatter.format(currentDate);
-        values.put("fecha", fecha);
-        bbdd.insert("informes",null,values);
-
-        bbdd.close();
-    }
+    /**
+     * Metodo que transforma el Bitmap proporcionado en un Bitmap de los tamaños introducidos,
+     * con la calidad proporcionada, devolviendo un Array de bytes.
+     * @param bitmap
+     * @param width
+     * @param height
+     * @param quality
+     * @return array de bytes
+     */
     private byte[] bitmapToBLOB(Bitmap bitmap, int width, int height, int quality){
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

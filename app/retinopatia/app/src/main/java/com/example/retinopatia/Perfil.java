@@ -12,7 +12,10 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import DataBase.BaseDeDatos;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import DataBase.BaseDeDatosHelper;
 
 /**
@@ -36,7 +39,7 @@ public class Perfil extends AppCompatActivity {
     private TextView DNI;
     private TextView centro;
     private TextView password;
-    //private BaseDeDatos baseDeDatos;
+
     private String email;
 
     /**
@@ -53,16 +56,13 @@ public class Perfil extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
         inicializarVista();
         baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
-        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         if(intent.getBooleanExtra("modoOscuro",false)){
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        cargarDatos();
-
-
+        obtenerDatosBaseDatos();
     }
     /**
      * Metodo utilizado para volver a la actividad anterior.
@@ -86,7 +86,6 @@ public class Perfil extends AppCompatActivity {
             color = claro;
             textColor = textoClaro;
         }
-
         root.setBackgroundColor(color);
         volver.setBackgroundTintList(ColorStateList.valueOf(color));
         volver.setColorFilter(textColor);
@@ -96,41 +95,40 @@ public class Perfil extends AppCompatActivity {
         DNI.setTextColor(textColor);
         centro.setTextColor(textColor);
         password.setTextColor(textColor);
-
     }
 
     /**
      * Metodo que carga los datos relacionados con el medico
      */
-    public void cargarDatos(){
+    public void obtenerDatosBaseDatos(){
         bbdd = baseDeDatosHelper.getReadableDatabase();
         String query = "SELECT usuarios.nombre, usuarios.apellido, usuarios.fecha_nacimiento,usuarios.DNI,medicos.centro_medico,medicos.contrasena " +
                 "FROM usuarios "+
                 "LEFT JOIN medicos ON usuarios.DNI = medicos.dni_usuario " +
                 "WHERE usuarios.correo = ?";
         Cursor cursor = bbdd.rawQuery(query,new String[]{email});
-        String nombrePaciente = null;
-        String apellidosPaciente = null;
-        String fechaPaciente = null;
-        String DNIString = null;
-        String centroMedico = null;
-        String contrasena = null;
+        List<String> datosMedico = new ArrayList<String>();
         if(cursor.moveToFirst()){
-            nombrePaciente = cursor.getString(0);
-            apellidosPaciente = cursor.getString(1);
-            fechaPaciente = cursor.getString(2);
-            DNIString = cursor.getString(3);
-            centroMedico = cursor.getString(4);
-            contrasena = cursor.getString(5);
-
+            datosMedico.add(cursor.getString(0));
+            datosMedico.add(cursor.getString(1));
+            datosMedico.add(cursor.getString(2));
+            datosMedico.add(cursor.getString(3));
+            datosMedico.add(cursor.getString(4));
+            datosMedico.add(cursor.getString(5));
         }
         cursor.close();
-        nombre.setText(nombrePaciente);
-        apellidos.setText(apellidosPaciente);
-        fecha.setText(fechaPaciente);
-        DNI.setText(DNIString);
-        centro.setText(centroMedico);
-        password.setText(contrasena);
+        bbdd.close();
+        mostrarDatos(datosMedico);
+    }
+
+    private void mostrarDatos(List<String> datosMedico ) {
+
+        nombre.setText(datosMedico.get(0));
+        apellidos.setText(datosMedico.get(1));
+        fecha.setText(datosMedico.get(2));
+        DNI.setText(datosMedico.get(3));
+        centro.setText(datosMedico.get(4));
+        password.setText(datosMedico.get(5));
 
         nombre.setVisibility(View.VISIBLE);
         apellidos.setVisibility(View.VISIBLE);
@@ -138,10 +136,8 @@ public class Perfil extends AppCompatActivity {
         DNI.setVisibility(View.VISIBLE);
         centro.setVisibility(View.VISIBLE);
         password.setVisibility(View.VISIBLE);
-        bbdd.close();
-
-
     }
+
     /**
      * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar
      *
