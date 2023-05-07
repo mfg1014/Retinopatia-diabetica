@@ -11,9 +11,11 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -24,7 +26,10 @@ import DataBase.BaseDeDatosHelper;
  * se corresponde a la actividad activity_seleccionar_ojo.
  */
 public class SeleccionarOjo extends AppCompatActivity {
-
+    private final static int MARGEN_DERECHO_DERECHO = 904;
+    private final static int MARGEN_DERECHO_IZQUIERDO = 601;
+    private final static int MARGEN_IZQUIERDO_DERECHO = 479;
+    private final static int MARGEN_IZQUIERDO_IZQUIERDO = 176;
     private BaseDeDatosHelper baseDeDatosHelper;
     private SQLiteDatabase bbdd;
     private int oscuro;
@@ -47,6 +52,8 @@ public class SeleccionarOjo extends AppCompatActivity {
     private String email;
     private boolean izquierdoPrimero;
     private int DNIMedico;
+
+
     /**
      * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
      * de forma que el usuario pueda interactuar bien con la interfaz.
@@ -59,9 +66,8 @@ public class SeleccionarOjo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccionar_ojo);
-
         inicializarVista();
-
+        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         DNI = intent.getIntExtra("DNI",-1);
@@ -72,9 +78,8 @@ public class SeleccionarOjo extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-/*
-        baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
-        prioridadOjo();*/
+
+        prioridadOjo();
     }
     /**
      * Metodo utilizado para volver a la actividad anterior.
@@ -126,8 +131,6 @@ public class SeleccionarOjo extends AppCompatActivity {
         intent.putExtra("ojo","izquierdo");
         intent.putExtra("DNI", DNI);
         startActivity(intent);
-
-
     }
     /**
      * Metodo que permite al usuario guardar el orden de los ojos, de forma que sea mas facil
@@ -136,25 +139,26 @@ public class SeleccionarOjo extends AppCompatActivity {
      */
 
     public void botonCambiarOrden(View v){
-        /*izquierdoPrimero = !izquierdoPrimero;
-        String valor = Integer.toString( izquierdoPrimero ? 1 : 0);
+        izquierdoPrimero = !izquierdoPrimero;
+        int valor = (izquierdoPrimero ? 1 : 0);
         System.out.println(valor);
         bbdd = baseDeDatosHelper.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("prioridad_ojo",valor);
         bbdd.update("medicos", valores, "dni_usuario = ?", new String[] {String.valueOf(DNIMedico)});
-        bbdd.close();*/
-        int margenDerecho = botonOjoDerecho.getRight();
-        int margenIzquierdo = botonOjoDerecho.getLeft();
-        botonOjoDerecho.setLeft(botonOjoIzquierdo.getLeft());
-        botonOjoDerecho.setRight(botonOjoIzquierdo.getRight());
-        textoOjoDerecho.setLeft(botonOjoIzquierdo.getLeft());
-        textoOjoDerecho.setRight(botonOjoIzquierdo.getRight());
-        botonOjoIzquierdo.setLeft(margenIzquierdo);
-        botonOjoIzquierdo.setRight(margenDerecho);
-        textoOjoIzquierdo.setLeft(margenIzquierdo);
-        textoOjoIzquierdo.setRight(margenDerecho);
+        bbdd.close();
 
+        cambiarOrden();
+
+    }
+
+    private void cambiarOrden() {
+        ViewGroup.LayoutParams LP = botonOjoDerecho.getLayoutParams();
+        botonOjoDerecho.setLayoutParams(botonOjoIzquierdo.getLayoutParams());
+        botonOjoIzquierdo.setLayoutParams(LP);
+        ViewGroup.LayoutParams LP2 = textoOjoDerecho.getLayoutParams();
+        textoOjoDerecho.setLayoutParams(textoOjoIzquierdo.getLayoutParams());
+        textoOjoIzquierdo.setLayoutParams(LP2);
     }
 
 
@@ -221,7 +225,7 @@ public class SeleccionarOjo extends AppCompatActivity {
         botonClaro = getResources().getColor(R.color.background_blue);
     }
 
-/*    private void prioridadOjo(){
+    private void prioridadOjo(){
         bbdd = baseDeDatosHelper.getReadableDatabase();
         String query = "SELECT medicos.prioridad_ojo,medicos.dni_usuario " +
                 "FROM usuarios LEFT JOIN medicos "+
@@ -233,10 +237,15 @@ public class SeleccionarOjo extends AppCompatActivity {
             ordenOjo = cursor.getInt(0);
             DNIMedico = cursor.getInt(1);
         }
-        izquierdoPrimero = (ordenOjo == 1);
-        botonCambiarOrden(null);
         cursor.close();
         bbdd.close();
-    }*/
+        izquierdoPrimero = (ordenOjo == 1);
+        System.out.println(izquierdoPrimero);
+        if(izquierdoPrimero){
+            System.out.println("si que llega");
+            cambiarOrden();
+        }
+
+    }
 
 }

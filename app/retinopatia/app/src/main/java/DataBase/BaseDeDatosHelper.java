@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
 public class BaseDeDatosHelper extends SQLiteOpenHelper {
-    private static final int VERSION_BASE_DE_DATOS = 3;
+    private static final int VERSION_BASE_DE_DATOS = 4;
     private static final String NOMBRE_BASE_DE_DATOS = "BaseDeDatosRetinopatia.sqlite";
     private static BaseDeDatosHelper bbddHelper;
     private Context context;
