@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import DataBase.BaseDeDatos;
+
 import DataBase.BaseDeDatosHelper;
 
 /**
@@ -39,7 +39,6 @@ public class MenuPrincipal extends AppCompatActivity {
     private Button datosPaciente;
     private Button fotoPaciente;
     private Button resultados;
-    //private BaseDeDatos baseDeDatos;
     private int DNI;
     private String email;
 
@@ -60,7 +59,6 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Intent intent = getIntent();
         baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
-        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
         email = intent.getStringExtra("email");
         DNI = intent.getIntExtra("DNI",-1);
         if(intent.getBooleanExtra("modoOscuro",false)){
@@ -72,28 +70,31 @@ public class MenuPrincipal extends AppCompatActivity {
             perfil.setVisibility(View.INVISIBLE);
             datosPaciente.setVisibility(View.INVISIBLE);
         }else{
-            bbdd = baseDeDatosHelper.getReadableDatabase();
-            String query = "SELECT * " +
-                    "FROM usuarios LEFT JOIN pacientes "+
-                    "ON usuarios.DNI = pacientes.dni_usuario " +
-                    "WHERE usuarios.DNI = ?";
-
-            Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
-
-
-            System.out.println(cursor.getCount());
-            String nombre = null;
-            if (cursor.moveToFirst()) {
-                nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
-                //nombre +=" " + cursor.getString(cursor.getColumnIndexOrThrow("apellido"));
-
-            }
-            cursor.close();
-            bbdd.close();
-
-            nombrePaciente.setText(nombre);
+            mostrarNombrePaciente();
         }
     }
+
+    /**
+     * Metodo que muestra al usuario, el nombre del paciente introducido.
+     */
+    private void mostrarNombrePaciente() {
+        bbdd = baseDeDatosHelper.getReadableDatabase();
+        String query = "SELECT * " +
+                "FROM usuarios LEFT JOIN pacientes "+
+                "ON usuarios.DNI = pacientes.dni_usuario " +
+                "WHERE usuarios.DNI = ?";
+
+        Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
+        String nombre = null;
+        if (cursor.moveToFirst()) {
+            nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"));
+        }
+        cursor.close();
+        bbdd.close();
+
+        nombrePaciente.setText(nombre);
+    }
+
     /**
      * Metodo utilizado para volver a la actividad anterior.
      * @param v

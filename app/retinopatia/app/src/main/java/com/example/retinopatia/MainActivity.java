@@ -1,15 +1,15 @@
 package com.example.retinopatia;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
-import android.database.CursorWindow;
+
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,10 +20,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 
-import java.lang.reflect.Field;
-import java.nio.ByteBuffer;
 
-import DataBase.BaseDeDatos;
 import DataBase.BaseDeDatosHelper;
 
 
@@ -48,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private Button iniciarSesion;
     private Switch modoOscuro;
     private View root;
-    //private BaseDeDatos baseDeDatos;
     /**
      * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
      * de forma que el usuario pueda interactuar bien con la interfaz.
@@ -62,17 +58,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        try {
-            Field field = CursorWindow.class.getDeclaredField("sCursorWindowSize");
-            field.setAccessible(true);
-            field.set(null, 100 * 1024 * 1024); //the 100MB is the new size
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         setContentView(R.layout.activity_main);
         inicializarVista();
         baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
-        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
     }
 
     /**
@@ -84,16 +72,15 @@ public class MainActivity extends AppCompatActivity {
     public void pasoInicio(View v){
 
         Intent intent = new Intent(v.getContext(), SeleccionarPaciente.class);
-        System.out.println("llega");
         if(comprobarUsuario()){
-            System.out.println("llega");
+
             usuarioIncorrecto.setVisibility(View.INVISIBLE);
             intentModoOscuro(intent);
             intent.putExtra("email",email.getText().toString());
             startActivity(intent);
         }
         else {
-            System.out.println("no llega");
+
             if(usuarioIncorrecto.getVisibility() == View.INVISIBLE){
                 usuarioIncorrecto.setVisibility(View.VISIBLE);
             }
@@ -107,12 +94,25 @@ public class MainActivity extends AppCompatActivity {
      * @param v
      */
     public void iniciarSesionInvitado(View v){
-        bbdd = baseDeDatosHelper.getWritableDatabase();
+
         Intent intent = new Intent(v.getContext(), MenuPrincipal.class);
         intent.putExtra("DNI",-1);
         intent.putExtra("email","invitado");
 
         bbdd = baseDeDatosHelper.getWritableDatabase();
+
+        borradoUsuarioInvitado();
+        creacionUsuarioInvitado();
+        bbdd.close();
+
+        intentModoOscuro(intent);
+        startActivity(intent);
+    }
+
+    /**
+     * Metodo que crea el usuario Invitado sin ningun informe en la base de datos.
+     */
+    private void creacionUsuarioInvitado() {
         ContentValues values = new ContentValues();
         values.put("nombre", "invitado");
         values.put("apellido", "invitado");
@@ -123,15 +123,21 @@ public class MainActivity extends AppCompatActivity {
         bbdd.insert("usuarios",null,values);
 
         values.clear();
-        values.clear();
         values.put("id_paciente",-1);
         values.put("dni_usuario",-1);
         values.put("informacion","");
         values.put("estado","");
         bbdd.insert("pacientes",null,values);
-        bbdd.close();
-        intentModoOscuro(intent);
-        startActivity(intent);
+
+    }
+
+    /**
+     * Metodo que borra el usuario Invitado en la base de datos, de todas las tablas.
+     */
+    private void borradoUsuarioInvitado() {
+        bbdd.delete("informes", "dni_paciente = ?",new String[]{Integer.toString(-1)});
+        bbdd.delete("pacientes", "dni_usuario = ?",new String[]{Integer.toString(-1)});
+        bbdd.delete("usuarios", "DNI = ?",new String[]{Integer.toString(-1)});
     }
 
     /**
@@ -144,11 +150,28 @@ public class MainActivity extends AppCompatActivity {
     public boolean comprobarUsuario(){
         String emailUsuario = email.getText().toString();
         String contraseña = password.getText().toString();
-        System.out.println("llega");
+
         if(TextUtils.isEmpty(emailUsuario)|| TextUtils.isEmpty(contraseña)) {
             return false;
         }
-        //String password = baseDeDatos.getContraseña(emailUsuario);
+        String password = obtenerContraseña(emailUsuario);
+        if(password == null){
+            return false;
+        }
+        if(password.equals(contraseña) ){
+            return true;
+
+        }
+        return false;
+    }
+
+    /**
+     * Metodo utilizado para obtener la contraseña del usuario introducido, de la base de datos
+     * @param emailUsuario
+     * @return Contraseña
+     */
+    @Nullable
+    private String obtenerContraseña(String emailUsuario) {
         bbdd = baseDeDatosHelper.getReadableDatabase();
         String query = "SELECT * " +
                         "FROM usuarios LEFT JOIN medicos "+
@@ -157,27 +180,15 @@ public class MainActivity extends AppCompatActivity {
 
         Cursor cursor = bbdd.rawQuery(query,new String[]{emailUsuario});
 
-
-        System.out.println(cursor.getCount());
         String password = null;
         if (cursor.moveToFirst()) {
             password = cursor.getString(cursor.getColumnIndexOrThrow("contrasena"));
-
-            System.out.println(password);
-
         }
         cursor.close();
         bbdd.close();
-
-
-        if(password == null){
-            return false;
-        }
-        if(password.equals(contraseña) ){
-            return true;
-        }
-        return false;
+        return password;
     }
+
     /**
      * Metodo utilizado para cambiar la interfaz de modo oscuro a modo claro.
      * @param v

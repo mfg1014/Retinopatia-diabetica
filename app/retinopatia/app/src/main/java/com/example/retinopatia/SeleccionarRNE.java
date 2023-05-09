@@ -1,5 +1,6 @@
 package com.example.retinopatia;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
@@ -23,15 +24,15 @@ import android.widget.TextView;
 
 import org.tensorflow.lite.Interpreter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import DataBase.BaseDeDatos;
 import DataBase.BaseDeDatosHelper;
-import DataBase.Informe;
 
 /**
  * Clase SeleccionarRNE, clase donde el usuario puede seleccionar la red neuronal a utilizar
@@ -57,7 +58,9 @@ public class SeleccionarRNE extends AppCompatActivity {
     private TextView mensaje;
     private int DNI;
     private String email;
-    //private BaseDeDatos baseDeDatos;
+    private String fecha;
+    private Bitmap foto;
+    private String ojo;
 
     /**
      * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
@@ -77,6 +80,11 @@ public class SeleccionarRNE extends AppCompatActivity {
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         DNI = intent.getIntExtra("DNI",-1);
+        fecha = intent.getStringExtra("fecha");
+        byte[] bytesImagen = intent.getByteArrayExtra("foto");
+        foto = BitmapFactory.decodeByteArray(bytesImagen,0,bytesImagen.length);
+        ojo = intent.getStringExtra("ojo_imagen");
+
         if(DNI == -1){
             perfil.setVisibility(View.INVISIBLE);
         }
@@ -84,9 +92,12 @@ public class SeleccionarRNE extends AppCompatActivity {
             modoOscuro.setChecked(true);
             botonModoOscuro(modoOscuro);
         }
-        //baseDeDatos = BaseDeDatos.getBaseDeDatos(getApplicationContext());
+
         baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
+
+        //cambiar el metodo.
         cargarRedes();
+
     }
     /**
      * Metodo utilizado para volver a la actividad anterior.
@@ -248,21 +259,21 @@ public class SeleccionarRNE extends AppCompatActivity {
     private void cargarRedes(){
         try {
             Interpreter interpreter = new Interpreter(loadModelFile(getApplicationContext()));
-            bbdd = baseDeDatosHelper.getReadableDatabase();
-            //Bitmap bitmap = baseDeDatos.getUltimoInforme(DNI).getImagenDelInforme();
-            String query = "SELECT informes.id_informe, informes.imagen_del_informe " +
-                    "FROM usuarios "+
-                    "LEFT JOIN pacientes ON usuarios.DNI = pacientes.dni_usuario " +
-                    "LEFT JOIN informes ON pacientes.dni_usuario = informes.dni_paciente " +
-                    "WHERE usuarios.DNI = ?";
+            bbdd = baseDeDatosHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("dni_paciente", DNI);
+            bbdd.insert("informes",null,values);
+
+            String query = "SELECT id_informe " +
+                    "FROM informes "+
+                    "WHERE dni_paciente = ? " +
+                    "ORDER BY id_informe DESC";
             Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
-            cursor.moveToLast();
+            cursor.moveToFirst();
             int idInforme = cursor.getInt(0);
-            byte[] bytesImagen = cursor.getBlob(1);
             cursor.close();
             bbdd.close();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytesImagen,0,bytesImagen.length);
-            ImageProcessor imageProcessor = new ImageProcessor(bitmap, interpreter,idInforme);
+            ImageProcessor imageProcessor = new ImageProcessor(foto, interpreter,idInforme,ojo);
             imageProcessor.execute();
 
         } catch (IOException e) {
@@ -286,31 +297,31 @@ public class SeleccionarRNE extends AppCompatActivity {
     }
 
     /**
-     * Clase para hacer que el proceso de la red neuronal sea concurrente
+     * Clase para hacer que el proceso de la red neuronal sea concurrente.
      */
     private class ImageProcessor extends AsyncTask<Void, Void, Void> {
         private Bitmap bitmap;
         private Interpreter interpreter;
         private int idInforme;
-        public ImageProcessor(Bitmap bitmap, Interpreter interpreter, int idInforme) {
+        private String ojo;
+        public ImageProcessor(Bitmap bitmap, Interpreter interpreter, int idInforme,String ojo) {
             this.bitmap = bitmap;
             this.interpreter = interpreter;
             this.idInforme = idInforme;
+            this.ojo = ojo;
         }
 
+        /**
+         * Metodo que introduce los valores del informe ya procesado despues de la red.
+         * @param voids The parameters of the task.
+         *
+         * @return
+         */
         @Override
         protected Void doInBackground(Void... voids) {
             // Preprocesar imagen
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, false);
-            float[][][][] input = new float[1][224][224][3];
-            for (int i = 0; i < 224; ++i) {
-                for (int j = 0; j < 224; ++j) {
-                    int pixelValue = resizedBitmap.getPixel(i, j);
-                    input[0][i][j][2] = (Color.red(pixelValue) - 123.68f) / 58.393f;
-                    input[0][i][j][1] = (Color.green(pixelValue) - 116.779f) / 57.12f;
-                    input[0][i][j][0] = (Color.blue(pixelValue) - 103.939f) / 57.375f;
-                }
-            }
+            float[][][][] input = redimensionarBitmap(resizedBitmap);
 
             // Ejecutar imagen preprocesada a través de la red neuronal VGG16
             float[][] output = new float[1][1000];
@@ -325,14 +336,65 @@ public class SeleccionarRNE extends AppCompatActivity {
                     maxProbability = output[0][i];
                 }
             }
-            //baseDeDatos.setResultadoUltimoInforme(DNI,predictedCategory);
+            interpreter.close();
+
+            cargarDatosBaseDeDatos(predictedCategory);
+            return null;
+        }
+
+        /**
+         * Metodo que carga en la base de datos, los valores del informe.
+         * @param predictedCategory
+         */
+        private void cargarDatosBaseDeDatos(int predictedCategory) {
             bbdd = baseDeDatosHelper.getWritableDatabase();
             ContentValues valores = new ContentValues();
+            valores.put("imagen_del_informe",bitmapToBLOB(foto,2048,2048,50));
+            valores.put("ojo_imagen",ojo);
+            Date currentDate = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String fecha = formatter.format(currentDate);
+            valores.put("fecha", fecha);
             valores.put("resultado", predictedCategory);
 
             bbdd.update("informes", valores, "id_informe = ?", new String[] {String.valueOf(idInforme)});
             bbdd.close();
-            return null;
+        }
+
+        /**
+         * Metodo utilizado para redimensionar el bitmap, devolviendo el valor que se introducira en la
+         * red.
+         * @param resizedBitmap
+         * @return input de la red.
+         */
+        @NonNull
+        private float[][][][] redimensionarBitmap(Bitmap resizedBitmap) {
+            float[][][][] input = new float[1][224][224][3];
+            for (int i = 0; i < 224; ++i) {
+                for (int j = 0; j < 224; ++j) {
+                    int pixelValue = resizedBitmap.getPixel(i, j);
+                    input[0][i][j][2] = (Color.red(pixelValue) - 123.68f) / 58.393f;
+                    input[0][i][j][1] = (Color.green(pixelValue) - 116.779f) / 57.12f;
+                    input[0][i][j][0] = (Color.blue(pixelValue) - 103.939f) / 57.375f;
+                }
+            }
+            return input;
+        }
+
+        /**
+         * Metodo que transforma el Bitmap proporcionado en un Bitmap de los tamaños introducidos,
+         * con la calidad proporcionada, devolviendo un Array de bytes.
+         * @param bitmap
+         * @param width
+         * @param height
+         * @param quality
+         * @return array de bytes
+         */
+        private byte[] bitmapToBLOB(Bitmap bitmap, int width, int height, int quality){
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            scaledBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            return outputStream.toByteArray();
         }
 
 

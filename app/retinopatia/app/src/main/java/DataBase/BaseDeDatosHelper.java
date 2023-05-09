@@ -13,15 +13,15 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
 public class BaseDeDatosHelper extends SQLiteOpenHelper {
-    private static final int VERSION_BASE_DE_DATOS = 3;
+    private static final int VERSION_BASE_DE_DATOS = 4;
     private static final String NOMBRE_BASE_DE_DATOS = "BaseDeDatosRetinopatia.sqlite";
     private static BaseDeDatosHelper bbddHelper;
     private Context context;
 
     public static BaseDeDatosHelper getBaseDeDatos(Context context){
-       // if(bbddHelper == null){
+       if(bbddHelper == null){
             bbddHelper = new BaseDeDatosHelper(context);
-       // }
+       }
         return bbddHelper;
     }
     private BaseDeDatosHelper(Context context)
@@ -59,6 +59,7 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
                 "dni_usuario INTEGER NOT NULL," +
                 "contrasena TEXT," +
                 "centro_medico TEXT," +
+                "prioridad_ojo INTEGER," +
                 "FOREIGN KEY(dni_usuario) REFERENCES usuarios(DNI)" +
                 ")";
         db.execSQL(CREATE_TABLE_MEDICO);
@@ -96,6 +97,7 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         valores.put("dni_usuario",11111111);
         valores.put("contrasena","contrasena");
         valores.put("centro_medico","San Agustin");
+        valores.put("prioridad_ojo",0);
         db.insert("medicos",null,valores);
 
         valores.clear();
