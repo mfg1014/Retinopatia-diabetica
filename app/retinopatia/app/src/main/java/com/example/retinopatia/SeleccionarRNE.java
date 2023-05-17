@@ -96,7 +96,6 @@ public class SeleccionarRNE extends AppCompatActivity {
         baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
 
         //cambiar el metodo.
-        cargarRedes();
 
     }
     /**
@@ -126,7 +125,7 @@ public class SeleccionarRNE extends AppCompatActivity {
      * @param v
      */
     public void botonCrearInforme(View v){
-
+        cargarRedes();
         Intent intent = new Intent(v.getContext(), SeleccionarOjo.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intentModoOscuro(intent);
@@ -276,6 +275,7 @@ public class SeleccionarRNE extends AppCompatActivity {
             ImageProcessor imageProcessor = new ImageProcessor(foto, interpreter,idInforme,ojo);
             imageProcessor.execute();
 
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -293,7 +293,11 @@ public class SeleccionarRNE extends AppCompatActivity {
         FileChannel fileChannel = inputStream.getChannel();
         long startOffset = fileDescriptor.getStartOffset();
         long declaredLength = fileDescriptor.getDeclaredLength();
-        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
+        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
+        fileChannel.close();
+        inputStream.close();
+        fileDescriptor.close();
+        return mappedByteBuffer;
     }
 
     /**
@@ -324,14 +328,15 @@ public class SeleccionarRNE extends AppCompatActivity {
             float[][][][] input = redimensionarBitmap(resizedBitmap);
 
             // Ejecutar imagen preprocesada a través de la red neuronal VGG16
-            float[][] output = new float[1][1000];
+            float[][] output = new float[1][5];
             interpreter.run(input, output);
 
             // Interpretar resultados
-            int predictedCategory = 0;
-            float maxProbability = output[0][0];
-            for (int i = 1; i < output[0].length; i++) {
-                if (i != 669 &&output[0][i] > maxProbability) {
+            int predictedCategory = -1;
+            float maxProbability = 0;
+            for (int i = 0; i < output[0].length; i++) {
+                System.out.println(output[0][i]);
+                if (output[0][i] > maxProbability) {
                     predictedCategory = i;
                     maxProbability = output[0][i];
                 }
@@ -347,6 +352,7 @@ public class SeleccionarRNE extends AppCompatActivity {
          * @param predictedCategory
          */
         private void cargarDatosBaseDeDatos(int predictedCategory) {
+            System.out.println(predictedCategory);
             bbdd = baseDeDatosHelper.getWritableDatabase();
             ContentValues valores = new ContentValues();
             valores.put("imagen_del_informe",bitmapToBLOB(foto,2048,2048,50));

@@ -292,7 +292,7 @@ public class Resultados extends AppCompatActivity {
                 fecha1.setText(fecha);
                 informacion1.setText("ojo "+ ojo);
                 if(Integer.valueOf(resultado) != null){
-                    resultados1.setText(String.valueOf( resultado));
+                    resultados1.setText(switchResultado( resultado));
                 }
                 fecha1.setVisibility(View.VISIBLE);
                 informacion1.setVisibility(View.VISIBLE);
@@ -304,7 +304,7 @@ public class Resultados extends AppCompatActivity {
                 fecha2.setText(fecha);
                 informacion2.setText("ojo "+ ojo);
                 if(Integer.valueOf(resultado) != null){
-                    resultados2.setText(String.valueOf(resultado));
+                    resultados2.setText(switchResultado(resultado));
                 }
                 fecha2.setVisibility(View.VISIBLE);
                 informacion2.setVisibility(View.VISIBLE);
@@ -316,7 +316,7 @@ public class Resultados extends AppCompatActivity {
                 fecha3.setText(fecha);
                 informacion3.setText("ojo "+ ojo);
                 if(Integer.valueOf(resultado) != null){
-                    resultados3.setText(String.valueOf(resultado));
+                    resultados3.setText(switchResultado(resultado));
                 }
                 fecha3.setVisibility(View.VISIBLE);
                 informacion3.setVisibility(View.VISIBLE);
@@ -349,6 +349,24 @@ public class Resultados extends AppCompatActivity {
                 informacion3.setVisibility(View.INVISIBLE);
                 resultados3.setVisibility(View.INVISIBLE);
                 break;
+        }
+    }
+
+    public String switchResultado(int resultado){
+        switch (resultado){
+            case 0:
+                return "NPDR";
+
+            case 1:
+                return "NPDR leve";
+            case 2:
+                return "NPDR moderada";
+            case 3:
+                return "NPDR severa";
+            case 4:
+                return "PDR";
+            default:
+                return "Error";
         }
     }
 }

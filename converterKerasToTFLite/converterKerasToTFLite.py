@@ -4,8 +4,8 @@ from keras.applications.vgg16 import VGG16
 import tensorflow as tf
 
 #Modelo VGG16 descargado
-model = VGG16(weights = 'imagenet')
-#modelo_hdf5 = tf.keras.models.load_model('vgg16_weights.h5')
+#model = VGG16(weights = 'imagenet')
+model = tf.keras.models.load_model('BalGen_Fotos_Inpaint_Parcial_ResNet50V2_K5.h5')
 print('Modelo creado')
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model= converter.convert()
