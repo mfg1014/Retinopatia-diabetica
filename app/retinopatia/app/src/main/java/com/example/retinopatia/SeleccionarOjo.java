@@ -26,10 +26,7 @@ import DataBase.BaseDeDatosHelper;
  * se corresponde a la actividad activity_seleccionar_ojo.
  */
 public class SeleccionarOjo extends AppCompatActivity {
-    private final static int MARGEN_DERECHO_DERECHO = 904;
-    private final static int MARGEN_DERECHO_IZQUIERDO = 601;
-    private final static int MARGEN_IZQUIERDO_DERECHO = 479;
-    private final static int MARGEN_IZQUIERDO_IZQUIERDO = 176;
+
     private BaseDeDatosHelper baseDeDatosHelper;
     private SQLiteDatabase bbdd;
     private int oscuro;
@@ -141,17 +138,21 @@ public class SeleccionarOjo extends AppCompatActivity {
     public void botonCambiarOrden(View v){
         izquierdoPrimero = !izquierdoPrimero;
         int valor = (izquierdoPrimero ? 1 : 0);
-        System.out.println(valor);
         bbdd = baseDeDatosHelper.getWritableDatabase();
         ContentValues valores = new ContentValues();
         valores.put("prioridad_ojo",valor);
         bbdd.update("medicos", valores, "dni_usuario = ?", new String[] {String.valueOf(DNIMedico)});
+        valores.clear();
         bbdd.close();
 
         cambiarOrden();
 
     }
 
+    /**
+     * Metodo que cambia el orden de los botones y sus respectivos textos.
+     * Utilizado cuando se ha pulsado el boton de cambiar orden.
+     */
     private void cambiarOrden() {
         ViewGroup.LayoutParams LP = botonOjoDerecho.getLayoutParams();
         botonOjoDerecho.setLayoutParams(botonOjoIzquierdo.getLayoutParams());
@@ -225,6 +226,9 @@ public class SeleccionarOjo extends AppCompatActivity {
         botonClaro = getResources().getColor(R.color.background_blue);
     }
 
+    /**
+     * Metodo llamado en el inicio de sesion, utilizado para comprobar que prefiere el medico.
+     */
     private void prioridadOjo(){
         bbdd = baseDeDatosHelper.getReadableDatabase();
         String query = "SELECT medicos.prioridad_ojo,medicos.dni_usuario " +
@@ -240,9 +244,7 @@ public class SeleccionarOjo extends AppCompatActivity {
         cursor.close();
         bbdd.close();
         izquierdoPrimero = (ordenOjo == 1);
-        System.out.println(izquierdoPrimero);
         if(izquierdoPrimero){
-            System.out.println("si que llega");
             cambiarOrden();
         }
 
