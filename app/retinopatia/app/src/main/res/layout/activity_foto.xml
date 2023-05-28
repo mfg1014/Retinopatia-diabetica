@@ -74,30 +74,46 @@
         android:id="@+id/botonGaleria"
         android:layout_width="146dp"
         android:layout_height="48dp"
-        android:layout_marginTop="124dp"
+        android:layout_marginTop="36dp"
         android:background="@drawable/redondear"
         android:backgroundTint="@color/background_blue"
         android:onClick="botonEscogerFoto"
         android:text="Escoger foto galeria"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toEndOf="@+id/botonHacerFoto"
         app:layout_constraintTop_toBottomOf="@+id/imagenSeleccionada" />
 
     <Button
         android:id="@+id/botonMandarImg"
         android:layout_width="146dp"
         android:layout_height="48dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="132dp"
         android:background="@drawable/redondear"
         android:backgroundTint="@color/background_blue"
         android:onClick="botonMandarImagen"
         android:text="Mandar imagen"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/botonHacerFoto"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagenSeleccionada" />
+
+    <Button
+        android:id="@+id/botonOmitir"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="226dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/white"
+        android:onClick="botonMandarImagen"
+        android:text="Omitir comprobacion de calidad"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/botonMandarImg" />
 
     <ImageView
         android:id="@+id/imagenSeleccionada"
