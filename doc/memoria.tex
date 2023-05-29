@@ -8,11 +8,14 @@
 \usepackage{lmodern} % Scalable font
 \usepackage{microtype}
 \usepackage{placeins}
+\usepackage{listings}
 
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
 \RequirePackage{xtab}
 \RequirePackage{multirow}
+
+\usepackage[numbers,sort]{natbib}
 
 % Links
 \PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
@@ -422,11 +425,12 @@ D. nombre co-tutor
 % Abstract en castellano
 \renewcommand*\abstractname{Resumen}
 \begin{abstract}
-La retinopatía diabética es una de las mayores causas de ceguera en los países desarrollados, para determinar el grado de  anomalía, se realiza una imagen de la retina del paciente, captada por un retinógrafo. Este procedimiento, tiene un coste elevado para la sanidad pública, y además, consta de que el paciente se desplace a un centro médico.
+La retinopatía diabética es una de las mayores causas de ceguera en los países desarrollados. Para diagnosticar el grado de la anomalía, se realiza una imagen de la retina del paciente, captada por un retinógrafo. Esta prueba tiene un coste elevado para la sanidad pública, e implica a su vez que el paciente se desplace a un centro médico especializado.
 
-Por ello, se han desarrollado unos dispositivos, para las cámaras de los móviles, que permiten obtener las fotografías de las retinas; de esta forma, el paciente no tendría que desplazarse a un hospital que contenga el retinógrafo y el médico de familia le realizaría la foto al paciente. 
+Por ello, se han desarrollado unos dispositivos, para las cámaras de los móviles, que permiten obtener las fotografías de las retinas; de esta forma, el paciente no tendría que desplazarse a un hospital que disponga de un retinógrafo y el médico de familia le realizaría la foto al paciente. 
 
-En este trabajo, propone facilitar la labor del médico, haciendo una aplicación Android la cual realizaría un primer diagnostico del paciente a partir de una imagen que se enviará esta foto a modelos de aprendizaje computacional existentes; haciendo que los pacientes que tengan algún grado de retinopatía diabética, se realice un estudio exhaustivo. 
+En este trabajo, se propone facilitar la labor del médico, haciendo una aplicación Android a través de la cual se realizaría un primer diagnostico del paciente a partir de una imagen que se enviará esta foto a modelos de aprendizaje computacional existentes; haciendo que los pacientes que tengan algún grado de retinopatía diabética, se realice un estudio exhaustivo. 
+
 Como resultado, se ha creado la aplicación RetinAI.
 
 
@@ -480,7 +484,7 @@ Health, diabetic retinopathy, neural networks, Android app.
 \include{./tex/7_Conclusiones_Lineas_de_trabajo_futuras}
 
 
-\bibliographystyle{plain}
+\bibliographystyle{plainnat}
 \bibliography{bibliografia}
 
 \end{document}
