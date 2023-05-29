@@ -1,2 +1,2 @@
-*.tflite
-/converterKerasToTFLite/*.h5
+/converterKerasToTFLite/*.tflite
+*.h5

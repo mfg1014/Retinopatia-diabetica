@@ -3,23 +3,23 @@ package com.example.retinopatia;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+
 
 
 import android.Manifest;
-import android.content.ContentValues;
 import android.content.Intent;
 
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -30,13 +30,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 
+import org.tensorflow.lite.Interpreter;
+
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-import DataBase.BaseDeDatosHelper;
 
 /**
  * Clase foto, la cual corresponde con la actividad activity_foto
@@ -52,6 +52,7 @@ public class Foto extends AppCompatActivity {
     private ActivityResultLauncher<String> mGetContent;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private Button botonMandarImagen;
+    private Button botonOmitir;
     private ImageView imagenSeleccionada;
     private View root;
     private Switch modoOscuro;
@@ -62,6 +63,7 @@ public class Foto extends AppCompatActivity {
     private int DNI;
     private String ojo;
     private String email;
+    private Interpreter interpreter;
 
     /**
      * Metodo onCreate, llamado al iniciar la actividad, en este metodo, se inicializa la vista,
@@ -94,6 +96,8 @@ public class Foto extends AppCompatActivity {
 
         inicializarGaleria();
         inicializarCamara();
+        interpreter = new Interpreter(OpenFile.loadModelFile(getApplicationContext(), "modelo2-0.009int2_0.913043498992919920230525-172156.tflite"));
+
 
     }
 
@@ -140,9 +144,12 @@ public class Foto extends AppCompatActivity {
         String fecha = formatter.format(currentDate);
         intent.putExtra("DNI",DNI);
         intent.putExtra("fecha",fecha);
+
         intent.putExtra("foto", bitmapToBLOB(foto,2048,2048,50));
 
         intent.putExtra("ojo_imagen",ojo);
+
+        interpreter.close();
         startActivity(intent);
 
     }
@@ -163,6 +170,7 @@ public class Foto extends AppCompatActivity {
         }else{
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             cameraLauncher.launch(takePictureIntent);
+
         }
     }
 
@@ -176,18 +184,24 @@ public class Foto extends AppCompatActivity {
             intent.setType("image/*");
             mGetContent.launch("image/*");
         }else {
-            int permisoGarantizado = ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE);
-            if (permisoGarantizado != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                        Foto.this,
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        1);
-            } else {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                mGetContent.launch("image/*");
+
+            for (int intentos = 0; intentos < 3 ;intentos++){
+                int permisoGarantizado = ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
+                if (permisoGarantizado != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(
+                            Foto.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            1);
+                    break;
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    mGetContent.launch("image/*");
+                }
             }
+
         }
 
     }
@@ -236,7 +250,9 @@ public class Foto extends AppCompatActivity {
      */
     private void inicializarVista(){
         botonMandarImagen = findViewById(R.id.botonMandarImg);
-        botonMandarImagen.setEnabled(true); //TODO cambiar cuando se implemente el RNE de calidad de la foto
+        botonOmitir = findViewById(R.id.botonOmitir);
+        botonOmitir.setVisibility(View.INVISIBLE);
+        botonMandarImagen.setEnabled(false); //TODO cambiar cuando se implemente el RNE de calidad de la foto
         imagenSeleccionada = findViewById(R.id.imagenSeleccionada);
         root = findViewById(R.id.actividadFoto);
         modoOscuro = findViewById(R.id.switchModoOscuro2);
@@ -260,11 +276,14 @@ public class Foto extends AppCompatActivity {
         mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
             @Override
             public void onActivityResult(Uri result) {
-
                 if (null != result) {
-
                     imagenSeleccionada.setImageURI(null);
                     imagenSeleccionada.setImageURI(result);
+                    Drawable drawable = imagenSeleccionada.getDrawable();
+                    BitmapDrawable bd = (BitmapDrawable) drawable;
+                    Bitmap foto = bd.getBitmap();
+                    ImageProcessor imageProcessor = new ImageProcessor(foto, interpreter);
+                    imageProcessor.execute();
                 }
             }
         });
@@ -283,6 +302,9 @@ public class Foto extends AppCompatActivity {
                             Bitmap photo = (Bitmap) data.getExtras().get("data");
                             imagenSeleccionada.setImageBitmap(null);
                             imagenSeleccionada.setImageBitmap(photo);
+                            ImageProcessor imageProcessor = new ImageProcessor(photo, interpreter);
+                            imageProcessor.execute();
+
 
                         }
                     }
@@ -303,5 +325,83 @@ public class Foto extends AppCompatActivity {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         scaledBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
         return outputStream.toByteArray();
+    }
+
+    private class ImageProcessor extends AsyncTask<Void, Void, Integer> {
+        private Bitmap bitmap;
+        private Interpreter interpreter;
+        public ImageProcessor(Bitmap bitmap, Interpreter interpreter) {
+            this.bitmap = bitmap;
+            this.interpreter = interpreter;
+
+        }
+
+        /**
+         * Metodo que introduce los valores del informe ya procesado despues de la red.
+         * @param voids The parameters of the task.
+         *
+         * @return
+         */
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            // Preprocesar imagen
+            float[][][][] input = preprocesado(bitmap);
+
+            // Ejecutar imagen preprocesada a través de la red neuronal VGG16
+            float[][] output = new float[1][2];
+            interpreter.run(input, output);
+
+            // Interpretar resultados
+            int predictedCategory = -1;
+            float maxProbability = 0;
+            for (int i = 0; i < output[0].length; i++) {
+                System.out.println(output[0][i]);
+                if (output[0][i] > maxProbability) {
+
+                    predictedCategory = i;
+                    maxProbability = output[0][i];
+                }
+            }
+
+            System.out.println(predictedCategory);
+
+            return predictedCategory;
+        }
+        @Override
+        protected void onPostExecute(Integer predictedCategory) {
+            // Actualizar la visibilidad de la vista en el hilo principal
+            if (predictedCategory == 1) {
+                botonOmitir.setVisibility(View.VISIBLE);
+                botonMandarImagen.setEnabled(false);
+
+            } else if (predictedCategory == 0) {
+                botonOmitir.setVisibility(View.INVISIBLE);
+                botonMandarImagen.setEnabled(true);
+            }
+        }
+
+        /**
+         * Metodo utilizado para redimensionar el bitmap, devolviendo el valor que se introducira en la
+         * red.
+         * @param bitmap
+         * @return input de la red.
+         */
+        @NonNull
+        private float[][][][] preprocesado(Bitmap bitmap) {
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, false);
+            float[][][][] input = new float[1][224][224][3];
+            for (int i = 0; i < 224; ++i) {
+                for (int j = 0; j < 224; ++j) {
+                    int pixelValue = resizedBitmap.getPixel(i, j);
+
+                    input[0][i][j][2] =  (Color.red(pixelValue) - 123.68f);
+                    input[0][i][j][1] =  (Color.green(pixelValue) - 116.779f);
+                    input[0][i][j][0] =  (Color.blue(pixelValue)- 103.939f);
+                }
+            }
+            return input;
+        }
+
+
     }
 }

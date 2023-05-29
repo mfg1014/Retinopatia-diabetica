@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.res.AssetFileDescriptor;
+
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,10 +25,6 @@ import android.widget.TextView;
 import org.tensorflow.lite.Interpreter;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -256,48 +252,25 @@ public class SeleccionarRNE extends AppCompatActivity {
      *
      */
     private void cargarRedes(){
-        try {
-            Interpreter interpreter = new Interpreter(loadModelFile(getApplicationContext()));
-            bbdd = baseDeDatosHelper.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("dni_paciente", DNI);
-            bbdd.insert("informes",null,values);
 
-            String query = "SELECT id_informe " +
+        Interpreter interpreter = new Interpreter(OpenFile.loadModelFile(getApplicationContext(), "BalGen_Fotos_Inpaint_Parcial_ResNet50V2_K5.tflite"));
+        bbdd = baseDeDatosHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("dni_paciente", DNI);
+        bbdd.insert("informes",null,values);
+
+        String query = "SELECT id_informe " +
                     "FROM informes "+
                     "WHERE dni_paciente = ? " +
                     "ORDER BY id_informe DESC";
-            Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
-            cursor.moveToFirst();
-            int idInforme = cursor.getInt(0);
-            cursor.close();
-            bbdd.close();
-            ImageProcessor imageProcessor = new ImageProcessor(foto, interpreter,idInforme,ojo);
-            imageProcessor.execute();
+        Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
+        cursor.moveToFirst();
+        int idInforme = cursor.getInt(0);
+        cursor.close();
+        bbdd.close();
+        ImageProcessor imageProcessor = new ImageProcessor(foto, interpreter,idInforme,ojo);
+        imageProcessor.execute();
 
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Metodo que devulve el modelo de forma que el interprete lo pueda cargar.
-     * @param context
-     * @return
-     * @throws IOException
-     */
-    private MappedByteBuffer loadModelFile(Context context) throws IOException {
-        AssetFileDescriptor fileDescriptor = context.getAssets().openFd("modeloConvertido.tflite");
-        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
-        FileChannel fileChannel = inputStream.getChannel();
-        long startOffset = fileDescriptor.getStartOffset();
-        long declaredLength = fileDescriptor.getDeclaredLength();
-        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
-        fileChannel.close();
-        inputStream.close();
-        fileDescriptor.close();
-        return mappedByteBuffer;
     }
 
     /**
@@ -324,8 +297,7 @@ public class SeleccionarRNE extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             // Preprocesar imagen
-            Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, false);
-            float[][][][] input = redimensionarBitmap(resizedBitmap);
+            float[][][][] input = preprocesado(bitmap);
 
             // Ejecutar imagen preprocesada a través de la red neuronal VGG16
             float[][] output = new float[1][5];
@@ -370,18 +342,21 @@ public class SeleccionarRNE extends AppCompatActivity {
         /**
          * Metodo utilizado para redimensionar el bitmap, devolviendo el valor que se introducira en la
          * red.
-         * @param resizedBitmap
+         * @param bitmap
          * @return input de la red.
          */
         @NonNull
-        private float[][][][] redimensionarBitmap(Bitmap resizedBitmap) {
+        private float[][][][] preprocesado(Bitmap bitmap) {
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 224, 224, false);
             float[][][][] input = new float[1][224][224][3];
+
             for (int i = 0; i < 224; ++i) {
                 for (int j = 0; j < 224; ++j) {
                     int pixelValue = resizedBitmap.getPixel(i, j);
-                    input[0][i][j][2] = (Color.red(pixelValue) - 123.68f) / 58.393f;
-                    input[0][i][j][1] = (Color.green(pixelValue) - 116.779f) / 57.12f;
-                    input[0][i][j][0] = (Color.blue(pixelValue) - 103.939f) / 57.375f;
+
+                    input[0][i][j][0] = (Color.red(pixelValue) - 0) / 255.0f * 2 - 1;
+                    input[0][i][j][1] = (Color.green(pixelValue) - 0) / 255.0f * 2 - 1;
+                    input[0][i][j][2] = (Color.blue(pixelValue) -  0) / 255.0f * 2 - 1;
                 }
             }
             return input;

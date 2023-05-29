@@ -130,6 +130,15 @@ public class Resultados extends AppCompatActivity {
         foto1.setBackgroundTintList(ColorStateList.valueOf(color));
         foto2.setBackgroundTintList(ColorStateList.valueOf(color));
         foto3.setBackgroundTintList(ColorStateList.valueOf(color));
+        fecha1.setTextColor(textColor);
+        informacion1.setTextColor(textColor);
+        resultados1.setTextColor(textColor);
+        fecha2.setTextColor(textColor);
+        informacion2.setTextColor(textColor);
+        resultados2.setTextColor(textColor);
+        fecha3.setTextColor(textColor);
+        informacion3.setTextColor(textColor);
+        resultados3.setTextColor(textColor);
     }
 
     /**
@@ -292,7 +301,7 @@ public class Resultados extends AppCompatActivity {
                 fecha1.setText(fecha);
                 informacion1.setText("ojo "+ ojo);
                 if(Integer.valueOf(resultado) != null){
-                    resultados1.setText(switchResultado( resultado));
+                    resultados1.setText(switchResultado(resultado));
                 }
                 fecha1.setVisibility(View.VISIBLE);
                 informacion1.setVisibility(View.VISIBLE);
@@ -356,7 +365,6 @@ public class Resultados extends AppCompatActivity {
         switch (resultado){
             case 0:
                 return "NPDR";
-
             case 1:
                 return "NPDR leve";
             case 2:
