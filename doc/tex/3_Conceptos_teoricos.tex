@@ -1,83 +1,53 @@
 \capitulo{3}{Conceptos teóricos}
 
-En aquellos proyectos que necesiten para su comprensión y desarrollo de unos conceptos teóricos de una determinada materia o de un determinado dominio de conocimiento, debe existir un apartado que sintetice dichos conceptos.
+En este proyecto, la mayor completitud del trabajo se encuentra en el preprocesado de las imágenes, el cual es necesario uno distinto según la red con la que se trabaje.  
 
-Algunos conceptos teóricos de \LaTeX \footnote{Créditos a los proyectos de Álvaro López Cantero: Configurador de Presupuestos y Roberto Izquierdo Amo: PLQuiz}.
-\section{Una seccion por cada red neuronal que se implemente}
-\section{Secciones}
-
-Las secciones se incluyen con el comando section.
-
-\subsection{Subsecciones}
-
-Además de secciones tenemos subsecciones.
-
-\subsubsection{Subsubsecciones}
-
-Y subsecciones. 
-
-
-\section{Referencias}
-
-Las referencias se incluyen en el texto usando cite \cite{wiki:latex}. Para citar webs, artículos o libros \cite{koza92}.
-
-
-\section{Imágenes}
-
-Se pueden incluir imágenes con los comandos standard de \LaTeX, pero esta plantilla dispone de comandos propios como por ejemplo el siguiente:
-
-\imagen{escudoInfor}{Autómata para una expresión vacía}{.5}
-
-
-
-\section{Listas de items}
-
-Existen tres posibilidades:
-
+También el como se ha escogido la red neuronal para saber si una imagen tiene una buena calidad.
+\section{Definiciones}
 \begin{itemize}
-	\item primer item.
-	\item segundo item.
+    \item Una red neuronal convolucional (CNN) es aquella que es una red neuronal en la que al menos hay una capa convolucional, normalmente consiste en la combinación de capas convolucionales, capas de agrupación y capas densas. \cite{definicion_CNN}
+    \item La capa convolucional es una capa de una red neuronal que consiste en realizar varias series de operaciones convolucionales, actuando cada una sobre un espacio de la matriz de entrada. \cite{definicionConvolucional_layer}
+    \item Una operación convolucional es aquella que a partir de una submatriz de la matriz de entrada, donde a veces es necesario realizar un filtrado, para ponderar los datos, calculando la suma de los valores de la submatriz, o en caso de que se haya realizado un filtro, del resultado de este, asignando el valor de la suma a una nueva matriz resultado con las dimensiones de la matriz de entrada.\cite{definicionConvolutional_Operation}
+    \item Una operación convolucional es aquella que a partir de una submatriz de la matriz de entrada, donde a veces es necesario realizar un filtrado, para ponderar los datos, calculando la suma de los valores de la submatriz, o en caso de que se haya realizado un filtro, del resultado de este, asignando el valor de la suma a una nueva matriz resultado con las dimensiones de la matriz de entrada.\cite{definicionConvolutional_Operation}
+    \item La capa de agrupación es una capa de una red neuronal, es una capa que reduce el tamaño de la matriz de entrada, mediante operaciones como el máximo o la media de los valores de una submatriz.\cite{definicion_pooling}
+    \item La capa densa también llamada capa totalmente conectada, es una capa oculta, donde cada nodo esta conectado a todos los nodos de la siguiente capa oculta.\cite{definicion_fully_connected_layer}
+
 \end{itemize}
 
-\begin{enumerate}
-	\item primer item.
-	\item segundo item.
-\end{enumerate}
 
-\begin{description}
-	\item[Primer item] más información sobre el primer item.
-	\item[Segundo item] más información sobre el segundo item.
-\end{description}
-	
-\begin{itemize}
-\item 
-\end{itemize}
 
-\section{Tablas}
+\section{Preprocesado}
+En el proyecto, se han realizado varios preprocesados, puesto que hay varias redes neuronales convolucionales.
 
-Igualmente se pueden usar los comandos específicos de \LaTeX o bien usar alguno de los comandos de la plantilla.
+\subsection{Red neuronal convolucional VGG16, para la calidad de la imagen}
 
-\tablaSmall{Herramientas y tecnologías utilizadas en cada parte del proyecto}{l c c c c}{herramientasportipodeuso}
-{ \multicolumn{1}{l}{Herramientas} & App AngularJS & API REST & BD & Memoria \\}{ 
-HTML5 & X & & &\\
-CSS3 & X & & &\\
-BOOTSTRAP & X & & &\\
-JavaScript & X & & &\\
-AngularJS & X & & &\\
-Bower & X & & &\\
-PHP & & X & &\\
-Karma + Jasmine & X & & &\\
-Slim framework & & X & &\\
-Idiorm & & X & &\\
-Composer & & X & &\\
-JSON & X & X & &\\
-PhpStorm & X & X & &\\
-MySQL & & & X &\\
-PhpMyAdmin & & & X &\\
-Git + BitBucket & X & X & X & X\\
-Mik\TeX{} & & & & X\\
-\TeX{}Maker & & & & X\\
-Astah & & & & X\\
-Balsamiq Mockups & X & & &\\
-VersionOne & X & X & X & X\\
-} 
+En una red neuronal convolucional VGG16, el preprocesado necesario es que la imagen en vez de estar en formato RGB (Rojo verde y azul), tiene que ser formato BGR con los valores centralizados en 0. Además de este cambio, la imagen tiene que tener de 224 x 224 píxeles.
+\cite{tensorflowVGG16}
+Para realizar este preprocesado en Python, se puede llamar a la función \textit{tf.keras.applications.vgg16.preprocess\_input}, para la aplicación de Android Studio, se debe realizar este preprocesamiento a mano.
+
+
+\subsection{Red neuronal convolucional ResNet50V2, para la detección de retinopatía}
+
+En la red neuronal convolucional ResNet50V2, el procesamiento es distinto al de VGG16, la gama de color es RGB, también se tiene que normalizar los datos, pero en este caso, el intervalo es [-1,1]. \cite{tensorflowResNet50V2}
+
+Esta red neuronal ya estaba entrenada, por tanto, no se tuvo que hacer ningún preprocesado en Python; pero al implementar la red en Android Studio, al igual que en la red VGG16, se debía realizar el preprocesamiento a mano.
+
+Donde la formula para cambiar este valor vendría dada por: 
+\begin{center}
+    $ColorPreprocesado = (ColorSinPreprocesar - 0)/ 255.0 * 2 - 1$
+    \begin{itemize}
+        \item Donde 0 representa el valor mínimo que puede tomar el color en concreto.
+        \item Donde 255 representa el valor máximo que puede tomar el color en concreto.
+        \item Y donde $ * 2 - 1 $ es la operación para normalizar el valor en formato [-1, 1]
+    \end{itemize}
+\end{center}
+
+
+\section{Formato de la red neuronal}
+
+El formato de las redes neuronales convolucionales suele venir dado en formato <.h5> o keras, para facilitar la implementación en Android Studio, se ha tenido que transformar este archivo en formato TensorFlow Lite, el cual requiere menos recursos, permitiendo su integración en dispositivos móviles.
+
+Para realizar esta conversión, se ha utilizado un fichero Python, el cual se ha buscado en la documentación de TensorFlow Lite, y posteriormente, guardar el fichero. \cite{tensorflowliteConverter}
+
+
+
