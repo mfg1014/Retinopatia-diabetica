@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import com.example.retinopatia.R;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 
 public class BaseDeDatosHelper extends SQLiteOpenHelper {
     private static final int VERSION_BASE_DE_DATOS = 4;

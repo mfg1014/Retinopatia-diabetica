@@ -96,7 +96,7 @@ public class Foto extends AppCompatActivity {
 
         inicializarGaleria();
         inicializarCamara();
-        interpreter = new Interpreter(OpenFile.loadModelFile(getApplicationContext(), "modelo2-0.009int2_0.913043498992919920230525-172156.tflite"));
+        interpreter = new Interpreter(OpenFile.loadModelFile(getApplicationContext(), "modelo2-0.003int2_0.9166666720476415_20230603-003149.tflite"));
 
 
     }
@@ -348,20 +348,12 @@ public class Foto extends AppCompatActivity {
             float[][][][] input = preprocesado(bitmap);
 
             // Ejecutar imagen preprocesada a través de la red neuronal VGG16
-            float[][] output = new float[1][2];
+            float[][] output = new float[1][1];
             interpreter.run(input, output);
 
             // Interpretar resultados
-            int predictedCategory = -1;
-            float maxProbability = 0;
-            for (int i = 0; i < output[0].length; i++) {
-                System.out.println(output[0][i]);
-                if (output[0][i] > maxProbability) {
+            int predictedCategory = Math.round(output[0][0]) ;
 
-                    predictedCategory = i;
-                    maxProbability = output[0][i];
-                }
-            }
 
             System.out.println(predictedCategory);
 

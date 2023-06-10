@@ -5,7 +5,7 @@ import tensorflow as tf
 
 
 file = "./CNN-calidad/"
-nombre = "modelo2-0.009int2_0.913043498992919920230525-172156"
+nombre = "modelo2-0.003int2_0.9166666720476415_20230603-003149"
 fileSalida = "./converterKerasToTFLite/"
 
 #Modelo VGG16 descargado
