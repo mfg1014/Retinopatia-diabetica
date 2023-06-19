@@ -217,7 +217,7 @@ public class Resultados extends AppCompatActivity {
         Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
         int contador = 0;
 
-        pestañas = (int)(cursor.getCount()/NUMERO_INFORMES_PAG);
+        pestañas = (int)((cursor.getCount() - 1)/NUMERO_INFORMES_PAG);
         paginas.setText(Integer.toString(pestañaActual+1)+"/"+Integer.toString(pestañas+1));
         ocultarCambiodePagina(npag,pestañas);
         int primerInforme = (npag) * NUMERO_INFORMES_PAG;

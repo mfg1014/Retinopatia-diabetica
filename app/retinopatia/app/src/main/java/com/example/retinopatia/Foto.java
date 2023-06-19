@@ -252,7 +252,7 @@ public class Foto extends AppCompatActivity {
         botonMandarImagen = findViewById(R.id.botonMandarImg);
         botonOmitir = findViewById(R.id.botonOmitir);
         botonOmitir.setVisibility(View.INVISIBLE);
-        botonMandarImagen.setEnabled(false); //TODO cambiar cuando se implemente el RNE de calidad de la foto
+        botonMandarImagen.setEnabled(false);
         imagenSeleccionada = findViewById(R.id.imagenSeleccionada);
         root = findViewById(R.id.actividadFoto);
         modoOscuro = findViewById(R.id.switchModoOscuro2);
