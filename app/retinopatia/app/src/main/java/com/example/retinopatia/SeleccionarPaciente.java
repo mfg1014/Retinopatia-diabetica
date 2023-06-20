@@ -126,7 +126,6 @@ public class SeleccionarPaciente extends AppCompatActivity {
         perfil.setColorFilter(textColor);
         DNI.setTextColor(textColor);
         DNI.setHintTextColor(textColor);
-        mensaje.setTextColor(textColor);
         botonBuscar.setColorFilter(textColor);
         botonBuscar.setBackgroundTintList(ColorStateList.valueOf(color));
         botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
@@ -174,7 +173,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
     private String getNombrePaciente(int DNIProporcionado) {
         bbdd = baseDeDatosHelper.getReadableDatabase();
         String query = "SELECT * " +
-                "FROM usuarios LEFT JOIN pacientes "+
+                "FROM usuarios JOIN pacientes "+
                 "ON usuarios.DNI = pacientes.dni_usuario " +
                 "WHERE usuarios.DNI = ?";
 

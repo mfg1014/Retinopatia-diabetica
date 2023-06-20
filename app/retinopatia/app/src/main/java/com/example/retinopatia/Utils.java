@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
-public class OpenFile {
+
+public class Utils {
     public static MappedByteBuffer loadModelFile(Context context,String fileName) {
         try{
             AssetFileDescriptor fileDescriptor = context.getAssets().openFd(fileName);
@@ -24,5 +25,21 @@ public class OpenFile {
         }catch (IOException e){
             throw new RuntimeException(e);
         }
+    }
+        public static String switchResultado(int resultado){
+            switch (resultado){
+                case 0:
+                    return "NPDR";
+                case 1:
+                    return "NPDR leve";
+                case 2:
+                    return "NPDR moderada";
+                case 3:
+                    return "NPDR severa";
+                case 4:
+                    return "PDR";
+                default:
+                    return "Error";
+            }
     }
 }

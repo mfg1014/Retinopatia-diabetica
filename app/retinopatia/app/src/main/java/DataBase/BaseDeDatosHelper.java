@@ -12,7 +12,7 @@ import com.example.retinopatia.R;
 import java.io.ByteArrayOutputStream;
 
 public class BaseDeDatosHelper extends SQLiteOpenHelper {
-    private static final int VERSION_BASE_DE_DATOS = 4;
+    private static final int VERSION_BASE_DE_DATOS = 5;
     private static final String NOMBRE_BASE_DE_DATOS = "BaseDeDatosRetinopatia.sqlite";
     private static BaseDeDatosHelper bbddHelper;
     private Context context;
@@ -98,6 +98,13 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         valores.put("centro_medico","San Agustin");
         valores.put("prioridad_ojo",0);
         db.insert("medicos",null,valores);
+
+        valores.clear();
+        valores.put("id_paciente", 1);
+        valores.put("dni_usuario",11111111);
+        valores.put("informacion","Es medico");
+        valores.put("estado","NPDR");
+        db.insert("pacientes",null,valores);
 
         valores.clear();
         valores.put("id_paciente",2);

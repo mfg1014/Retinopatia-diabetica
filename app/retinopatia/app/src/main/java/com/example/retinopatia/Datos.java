@@ -169,12 +169,13 @@ public class Datos extends AppCompatActivity {
     private void mostrarDatos(String nombrePaciente, String apellidosPaciente,
                               String fechaPaciente, String DNIString, String estadoPaciente,
                               String informacionPaciente) {
-        nombre.setText(nombrePaciente);
-        apellidos.setText(apellidosPaciente);
-        fecha.setText(fechaPaciente);
-        DNI.setText(DNIString);
-        estado.setText(estadoPaciente);
-        infoPaciente.setText(informacionPaciente);
+        nombre.setText("Nombre: " + nombrePaciente);
+        apellidos.setText("Apellidos: " + apellidosPaciente);
+        fecha.setText("Fecha de nacimiento: " + fechaPaciente);
+        DNI.setText("DNI: " + DNIString);
+        estado.setText("Estado: " + estadoPaciente);
+        infoPaciente.setText("Información adicional: " + informacionPaciente);
+
 
         nombre.setVisibility(View.VISIBLE);
         apellidos.setVisibility(View.VISIBLE);
