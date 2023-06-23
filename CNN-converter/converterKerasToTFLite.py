@@ -1,16 +1,18 @@
-#importamos el VGG16, para la red de prueba
+#pip install numpy
+#pip install pandas
+#pip install matplotlib
+#pip install scikit-learn
+#pip install tensorflow
+
 from keras.applications.vgg16 import VGG16
-#pip install tensorflow lite 
+
 import tensorflow as tf
 
 
-file = "./CNN-calidad/"
+file = "./"
 nombre = "modelo2-0.003int2_0.9166666720476415_20230603-003149"
-fileSalida = "./converterKerasToTFLite/"
+fileSalida = "./"
 
-#Modelo VGG16 descargado
-#model = VGG16(weights = 'imagenet')
-#model = tf.keras.models.load_model('BalGen_Fotos_Inpaint_Parcial_ResNet50V2_K5.h5')
 model = tf.keras.models.load_model(file+nombre+'.h5')
 print('Modelo cargado')
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
