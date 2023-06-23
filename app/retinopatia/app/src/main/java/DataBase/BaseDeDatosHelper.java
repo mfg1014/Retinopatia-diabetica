@@ -12,7 +12,7 @@ import com.example.retinopatia.R;
 import java.io.ByteArrayOutputStream;
 
 public class BaseDeDatosHelper extends SQLiteOpenHelper {
-    private static final int VERSION_BASE_DE_DATOS = 5;
+    private static final int VERSION_BASE_DE_DATOS = 4;
     private static final String NOMBRE_BASE_DE_DATOS = "BaseDeDatosRetinopatia.sqlite";
     private static BaseDeDatosHelper bbddHelper;
     private Context context;
@@ -37,7 +37,6 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
                 "apellido TEXT NOT NULL," +
                 "correo TEXT NOT NULL UNIQUE," +
                 "DNI INTEGER NOT NULL UNIQUE," +
-                "tipo_usuario INTEGER NOT NULL," +
                 "fecha_nacimiento TEXT NOT NULL" +
                 ")";
         db.execSQL(CREATE_TABLE_USUARIOS);
@@ -79,7 +78,6 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         valores.put("apellido", "Es el medico 1");
         valores.put("correo", "medico1@gmail.com");
         valores.put("DNI", 11111111);
-        valores.put("tipo_usuario", 0);
         valores.put("fecha_nacimiento", "1990-05-02");
         db.insert("usuarios", null, valores);
         valores.clear();
@@ -87,7 +85,6 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         valores.put("apellido", "Es el paciente 1");
         valores.put("correo", "paciente1@gmail.com");
         valores.put("DNI", 12345678);
-        valores.put("tipo_usuario", 1);
         valores.put("fecha_nacimiento", "2005-01-25");
         db.insert("usuarios", null, valores);
 

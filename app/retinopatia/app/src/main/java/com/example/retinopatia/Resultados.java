@@ -50,6 +50,7 @@ public class Resultados extends AppCompatActivity {
     private TextView resultados1;
     private TextView resultados2;
     private TextView resultados3;
+    private TextView contadorInformes;
     private int pestañas;
     private int pestañaActual;
     private String email;
@@ -139,6 +140,7 @@ public class Resultados extends AppCompatActivity {
         fecha3.setTextColor(textColor);
         informacion3.setTextColor(textColor);
         resultados3.setTextColor(textColor);
+        contadorInformes.setText(textColor);
     }
 
     /**
@@ -198,6 +200,7 @@ public class Resultados extends AppCompatActivity {
         fecha3 = findViewById(R.id.fecha3);
         informacion3 = findViewById(R.id.info3);
         resultados3 = findViewById(R.id.result3);
+        contadorInformes = findViewById(R.id.textViewContadorInformes);
         oscuro = getResources().getColor(R.color.background_darkmode_gray);
         textoOscuro = getResources().getColor(R.color.background_gray);
         claro = getResources().getColor(R.color.background_gray);
@@ -216,7 +219,7 @@ public class Resultados extends AppCompatActivity {
                 "ORDER BY informes.id_informe ASC";
         Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
         int contador = 0;
-
+        contadorInformes.setText("Informes: "+Integer.toString(cursor.getCount()));
         pestañas = (int)((cursor.getCount() - 1)/NUMERO_INFORMES_PAG);
         paginas.setText(Integer.toString(pestañaActual+1)+"/"+Integer.toString(pestañas+1));
         ocultarCambiodePagina(npag,pestañas);
