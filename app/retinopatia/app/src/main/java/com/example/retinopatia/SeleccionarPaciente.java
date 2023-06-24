@@ -64,6 +64,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
         }
         baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
         botonPasarSiguiente.setEnabled(false);
+        mensaje.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -162,6 +163,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
         }catch (NumberFormatException ex){
             mensaje.setText("Inserte solo los numeros del DNI, ejemplo  de DNI: 12345678");
         }
+        mensaje.setVisibility(View.VISIBLE);
     }
 
     /**
