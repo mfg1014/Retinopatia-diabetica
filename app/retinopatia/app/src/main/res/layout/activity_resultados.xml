@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
-    android:contentDescription="retroceder"
     tools:context=".Resultados">
 
     <Switch
@@ -221,4 +220,17 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagen2" />
+
+    <TextView
+        android:id="@+id/textViewContadorInformes"
+        android:layout_width="207dp"
+        android:layout_height="31dp"
+        android:text="Número de informes:"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/imagen1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

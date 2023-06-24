@@ -37,7 +37,6 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
                 "apellido TEXT NOT NULL," +
                 "correo TEXT NOT NULL UNIQUE," +
                 "DNI INTEGER NOT NULL UNIQUE," +
-                "tipo_usuario INTEGER NOT NULL," +
                 "fecha_nacimiento TEXT NOT NULL" +
                 ")";
         db.execSQL(CREATE_TABLE_USUARIOS);
@@ -79,7 +78,6 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         valores.put("apellido", "Es el medico 1");
         valores.put("correo", "medico1@gmail.com");
         valores.put("DNI", 11111111);
-        valores.put("tipo_usuario", 0);
         valores.put("fecha_nacimiento", "1990-05-02");
         db.insert("usuarios", null, valores);
         valores.clear();
@@ -87,7 +85,6 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         valores.put("apellido", "Es el paciente 1");
         valores.put("correo", "paciente1@gmail.com");
         valores.put("DNI", 12345678);
-        valores.put("tipo_usuario", 1);
         valores.put("fecha_nacimiento", "2005-01-25");
         db.insert("usuarios", null, valores);
 
@@ -98,6 +95,13 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
         valores.put("centro_medico","San Agustin");
         valores.put("prioridad_ojo",0);
         db.insert("medicos",null,valores);
+
+        valores.clear();
+        valores.put("id_paciente", 1);
+        valores.put("dni_usuario",11111111);
+        valores.put("informacion","Es medico");
+        valores.put("estado","NPDR");
+        db.insert("pacientes",null,valores);
 
         valores.clear();
         valores.put("id_paciente",2);

@@ -96,7 +96,7 @@ public class Foto extends AppCompatActivity {
 
         inicializarGaleria();
         inicializarCamara();
-        interpreter = new Interpreter(OpenFile.loadModelFile(getApplicationContext(), "modelo2-0.003int2_0.9166666720476415_20230603-003149.tflite"));
+
 
 
     }
@@ -106,6 +106,9 @@ public class Foto extends AppCompatActivity {
      * @param v
      */
     public void botonVolver(View v){
+        if(interpreter != null){
+            interpreter.close();
+        }
 
         finish();
 
@@ -149,7 +152,6 @@ public class Foto extends AppCompatActivity {
 
         intent.putExtra("ojo_imagen",ojo);
 
-        interpreter.close();
         startActivity(intent);
 
     }
@@ -252,7 +254,7 @@ public class Foto extends AppCompatActivity {
         botonMandarImagen = findViewById(R.id.botonMandarImg);
         botonOmitir = findViewById(R.id.botonOmitir);
         botonOmitir.setVisibility(View.INVISIBLE);
-        botonMandarImagen.setEnabled(false); //TODO cambiar cuando se implemente el RNE de calidad de la foto
+        botonMandarImagen.setEnabled(false);
         imagenSeleccionada = findViewById(R.id.imagenSeleccionada);
         root = findViewById(R.id.actividadFoto);
         modoOscuro = findViewById(R.id.switchModoOscuro2);
@@ -282,6 +284,7 @@ public class Foto extends AppCompatActivity {
                     Drawable drawable = imagenSeleccionada.getDrawable();
                     BitmapDrawable bd = (BitmapDrawable) drawable;
                     Bitmap foto = bd.getBitmap();
+                    interpreter = new Interpreter(Utils.loadModelFile(getApplicationContext(), "modelo2-0.003int2_0.9166666720476415_20230603-003149.tflite"));
                     ImageProcessor imageProcessor = new ImageProcessor(foto, interpreter);
                     imageProcessor.execute();
                 }
@@ -302,6 +305,7 @@ public class Foto extends AppCompatActivity {
                             Bitmap photo = (Bitmap) data.getExtras().get("data");
                             imagenSeleccionada.setImageBitmap(null);
                             imagenSeleccionada.setImageBitmap(photo);
+                            interpreter = new Interpreter(Utils.loadModelFile(getApplicationContext(), "modelo2-0.003int2_0.9166666720476415_20230603-003149.tflite"));
                             ImageProcessor imageProcessor = new ImageProcessor(photo, interpreter);
                             imageProcessor.execute();
 
@@ -355,12 +359,11 @@ public class Foto extends AppCompatActivity {
             int predictedCategory = Math.round(output[0][0]) ;
 
 
-            System.out.println(predictedCategory);
-
             return predictedCategory;
         }
         @Override
         protected void onPostExecute(Integer predictedCategory) {
+            interpreter.close();
             // Actualizar la visibilidad de la vista en el hilo principal
             if (predictedCategory == 1) {
                 botonOmitir.setVisibility(View.VISIBLE);

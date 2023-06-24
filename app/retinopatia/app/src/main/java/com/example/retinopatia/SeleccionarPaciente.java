@@ -64,6 +64,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
         }
         baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
         botonPasarSiguiente.setEnabled(false);
+        mensaje.setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -126,7 +127,6 @@ public class SeleccionarPaciente extends AppCompatActivity {
         perfil.setColorFilter(textColor);
         DNI.setTextColor(textColor);
         DNI.setHintTextColor(textColor);
-        mensaje.setTextColor(textColor);
         botonBuscar.setColorFilter(textColor);
         botonBuscar.setBackgroundTintList(ColorStateList.valueOf(color));
         botonPasarSiguiente.setBackgroundTintList(ColorStateList.valueOf(buttonColor));
@@ -163,6 +163,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
         }catch (NumberFormatException ex){
             mensaje.setText("Inserte solo los numeros del DNI, ejemplo  de DNI: 12345678");
         }
+        mensaje.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -174,7 +175,7 @@ public class SeleccionarPaciente extends AppCompatActivity {
     private String getNombrePaciente(int DNIProporcionado) {
         bbdd = baseDeDatosHelper.getReadableDatabase();
         String query = "SELECT * " +
-                "FROM usuarios LEFT JOIN pacientes "+
+                "FROM usuarios JOIN pacientes "+
                 "ON usuarios.DNI = pacientes.dni_usuario " +
                 "WHERE usuarios.DNI = ?";
 

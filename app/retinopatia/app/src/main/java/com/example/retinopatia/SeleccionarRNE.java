@@ -253,7 +253,7 @@ public class SeleccionarRNE extends AppCompatActivity {
      */
     private void cargarRedes(){
 
-        Interpreter interpreter = new Interpreter(OpenFile.loadModelFile(getApplicationContext(), "BalGen_Fotos_Inpaint_Parcial_ResNet50V2_K5.tflite"));
+        Interpreter interpreter = new Interpreter(Utils.loadModelFile(getApplicationContext(), "BalGen_Fotos_Inpaint_Parcial_ResNet50V2_K5.tflite"));
         bbdd = baseDeDatosHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("dni_paciente", DNI);
@@ -334,8 +334,10 @@ public class SeleccionarRNE extends AppCompatActivity {
             String fecha = formatter.format(currentDate);
             valores.put("fecha", fecha);
             valores.put("resultado", predictedCategory);
-
             bbdd.update("informes", valores, "id_informe = ?", new String[] {String.valueOf(idInforme)});
+            valores.clear();
+            valores.put("estado",Utils.switchResultado(predictedCategory));
+            bbdd.update("pacientes", valores, "dni_usuario = ?", new String[] {String.valueOf(DNI)});
             bbdd.close();
         }
 

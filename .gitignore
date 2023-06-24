@@ -1,2 +1,2 @@
-/converterKerasToTFLite/*.tflite
+/CNN-converter/*.tflite
 *.h5

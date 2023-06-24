@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
         values.put("apellido", "invitado");
         values.put("correo", "invitado");
         values.put("DNI", -1);
-        values.put("tipo_usuario", -1);
         values.put("fecha_nacimiento", "invitado");
         bbdd.insert("usuarios",null,values);
 

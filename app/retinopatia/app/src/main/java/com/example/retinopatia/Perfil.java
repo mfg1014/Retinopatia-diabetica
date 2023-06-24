@@ -123,12 +123,12 @@ public class Perfil extends AppCompatActivity {
 
     private void mostrarDatos(List<String> datosMedico ) {
 
-        nombre.setText(datosMedico.get(0));
-        apellidos.setText(datosMedico.get(1));
-        fecha.setText(datosMedico.get(2));
-        DNI.setText(datosMedico.get(3));
-        centro.setText(datosMedico.get(4));
-        password.setText(datosMedico.get(5));
+        nombre.setText("Nombre: "+datosMedico.get(0));
+        apellidos.setText("Apellidos: "+datosMedico.get(1));
+        fecha.setText("Fecha de nacimiento: "+datosMedico.get(2));
+        DNI.setText("DNI: "+datosMedico.get(3));
+        centro.setText("Centro sanitario: "+datosMedico.get(4));
+        password.setText("Contraseña: "+datosMedico.get(5));
 
         nombre.setVisibility(View.VISIBLE);
         apellidos.setVisibility(View.VISIBLE);

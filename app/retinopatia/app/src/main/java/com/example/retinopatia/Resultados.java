@@ -50,6 +50,7 @@ public class Resultados extends AppCompatActivity {
     private TextView resultados1;
     private TextView resultados2;
     private TextView resultados3;
+    private TextView contadorInformes;
     private int pestañas;
     private int pestañaActual;
     private String email;
@@ -139,6 +140,7 @@ public class Resultados extends AppCompatActivity {
         fecha3.setTextColor(textColor);
         informacion3.setTextColor(textColor);
         resultados3.setTextColor(textColor);
+        contadorInformes.setText(textColor);
     }
 
     /**
@@ -198,6 +200,7 @@ public class Resultados extends AppCompatActivity {
         fecha3 = findViewById(R.id.fecha3);
         informacion3 = findViewById(R.id.info3);
         resultados3 = findViewById(R.id.result3);
+        contadorInformes = findViewById(R.id.textViewContadorInformes);
         oscuro = getResources().getColor(R.color.background_darkmode_gray);
         textoOscuro = getResources().getColor(R.color.background_gray);
         claro = getResources().getColor(R.color.background_gray);
@@ -216,8 +219,8 @@ public class Resultados extends AppCompatActivity {
                 "ORDER BY informes.id_informe ASC";
         Cursor cursor = bbdd.rawQuery(query,new String[]{String.valueOf(DNI)});
         int contador = 0;
-
-        pestañas = (int)(cursor.getCount()/NUMERO_INFORMES_PAG);
+        contadorInformes.setText("Informes: "+Integer.toString(cursor.getCount()));
+        pestañas = (int)((cursor.getCount() - 1)/NUMERO_INFORMES_PAG);
         paginas.setText(Integer.toString(pestañaActual+1)+"/"+Integer.toString(pestañas+1));
         ocultarCambiodePagina(npag,pestañas);
         int primerInforme = (npag) * NUMERO_INFORMES_PAG;
@@ -301,7 +304,7 @@ public class Resultados extends AppCompatActivity {
                 fecha1.setText(fecha);
                 informacion1.setText("ojo "+ ojo);
                 if(Integer.valueOf(resultado) != null){
-                    resultados1.setText(switchResultado(resultado));
+                    resultados1.setText(Utils.switchResultado(resultado));
                 }
                 fecha1.setVisibility(View.VISIBLE);
                 informacion1.setVisibility(View.VISIBLE);
@@ -313,7 +316,7 @@ public class Resultados extends AppCompatActivity {
                 fecha2.setText(fecha);
                 informacion2.setText("ojo "+ ojo);
                 if(Integer.valueOf(resultado) != null){
-                    resultados2.setText(switchResultado(resultado));
+                    resultados2.setText(Utils.switchResultado(resultado));
                 }
                 fecha2.setVisibility(View.VISIBLE);
                 informacion2.setVisibility(View.VISIBLE);
@@ -325,7 +328,7 @@ public class Resultados extends AppCompatActivity {
                 fecha3.setText(fecha);
                 informacion3.setText("ojo "+ ojo);
                 if(Integer.valueOf(resultado) != null){
-                    resultados3.setText(switchResultado(resultado));
+                    resultados3.setText(Utils.switchResultado(resultado));
                 }
                 fecha3.setVisibility(View.VISIBLE);
                 informacion3.setVisibility(View.VISIBLE);
@@ -361,20 +364,4 @@ public class Resultados extends AppCompatActivity {
         }
     }
 
-    public String switchResultado(int resultado){
-        switch (resultado){
-            case 0:
-                return "NPDR";
-            case 1:
-                return "NPDR leve";
-            case 2:
-                return "NPDR moderada";
-            case 3:
-                return "NPDR severa";
-            case 4:
-                return "PDR";
-            default:
-                return "Error";
-        }
-    }
 }
