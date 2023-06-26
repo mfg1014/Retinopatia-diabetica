@@ -1,4 +1,72 @@
 \capitulo{7}{Conclusiones y Líneas de trabajo futuras}
 
-Todo proyecto debe incluir las conclusiones que se derivan de su desarrollo. Éstas pueden ser de diferente índole, dependiendo de la tipología del proyecto, pero normalmente van a estar presentes un conjunto de conclusiones relacionadas con los resultados del proyecto y un conjunto de conclusiones técnicas. 
-Además, resulta muy útil realizar un informe crítico indicando cómo se puede mejorar el proyecto, o cómo se puede continuar trabajando en la línea del proyecto realizado. 
+En este apartado, se desarrolla las conclusiones obtenidas del proyecto realizado y los futuros usos o cambios a añadir al proyecto.
+
+\section{Conclusiones}
+
+A continuación se muestra una lista de las conclusiones que se pueden obtener de este trabajo:
+
+\begin{itemize}
+    \item Se han cumplido todos los objetivos planteados al inicio del documento, descartando el objetivo de agilizar el sistema sanitario, puesto que no se ha distribuido la aplicación, y en el caso de haberlo hecho, y que el sistema sanitario español quiera esta aplicación, la agilización no se podría percibir hasta pasado un tiempo.
+
+    \item El uso de Android Studio ha aportado facilidades en el desarrollo de la aplicación, donde la documentación ha sido un factor clave. Por otro lado, el intento de que la aplicación pueda ejecutarse en el máximo número de dispositivos, ha conseguido que la aplicación no este optimizada, con herramientas especificas de ultimas versiones.
+
+    \item Muchos de los conceptos vistos en el proyecto, se han visto durante la carrera, profundizando conceptos como las redes neuronales, la interacción con la aplicación, bases de datos,...
+
+    \item Antes de la realización de este proyecto, no se miraba la documentación de las herramientas utilizadas, y en la mayoría de casos, ayudan a resolver las dudas que se tienen. 
+
+    \item La utilización de una metodología ágil en este proyecto no se ha notado, puesto que no hay cliente y no se cambian los requisitos a lo largo del tiempo, ocurre lo mismo con el SCRUM master, como no hay un equipo como tal, siendo todos los actores la misma persona, todas las reuniones se han omitido y además, la estimación de las tareas es complicada, porque no se tiene un conocimiento previo de las tareas, y porque es un proyecto individual, es decir, con más personas se podría estimar por media. Por tanto, no creo que sea recomendable esta metodología para este tipo de proyectos individuales.
+
+\end{itemize}
+
+Finalmente, se ha conseguido una aplicación funcional que permite a los médicos, o al personal identificado, obtener resultados sobre la imagen capturada. Además, se ha añadido el modelo que detecta si una imagen tiene una calidad correcta, para que de esta forma, no se generen expedientes con una calidad mala, donde el resultado puede no ser el real. 
+
+En este caso, el usuario no tiene que ser experto en aplicaciones Android, ni en redes neuronales; donde se deja elegir al médico lar red neuronal, se debería explicar en que ocasiones es mejor cada una.
+
+\section{Líneas de trabajo futuras}
+
+El origen de la aplicación surge de la utilización de esta en el sistema sanitario publico, por lo que se propone utilizar esta aplicación como base sobre la que trabajar. 
+
+\subsection{Base de datos}
+
+En primer lugar, será necesario cambiar la base de datos esto es así, porque SQLite permite crear bases de datos locales, y en caso de que se quiera acceder a un expediente creado desde otro dispositivo móvil, no existiría. Por este motivo, se debería conectar la aplicación a una base de datos online.
+
+\subsection{Redes neuronales convolucionales}
+
+Otro posible cambio, son las redes neuronales, en caso de obtener nuevas redes neuronales más precisas, o que consuman menos recursos, se pueden o añadir, cambiando la vista de la interfaz, añadiendo una nueva opción para el modelo; o también se podría cambiar una de las actuales, borrando el modelo anterior, y añadiendo el nuevo.
+
+Además, en un futuro, se aumentará el conjunto de datos, permitiendo a las redes neuronales 
+
+\subsection{Añadir versiones Android}
+
+Actualmente, la aplicación se puede ejecutar desde dispositivos Android con una API mayor a 21, se podría aumentar el número de dispositivos disponibles, y por otro lado, es posible que en estos dispositivos, al tener distinta resolución que los dispositivos actuales, sea necesario ajustar el contexto xml dinámicamente.
+
+\subsection{Aumentar el número de sistemas operativos}
+
+El proyecto ha sido creado para Android, aumentar el número de dispositivos, para que los usuarios no se vean obligados a utilizar un teléfono Android. 
+
+Siendo la opción más recomendable añadir una versión para iOS.
+
+\subsection{Distribución}
+
+Actualmente, no se ha implementado una opción para distribuir la aplicación y que el usuario pueda descargarla.
+
+Se recomienda el uso de Play Store, puesto que es la distribuidora oficial de Android y la más usada por los usuarios de Android.
+
+\subsection{Uso de la aplicación por el paciente}
+
+La aplicación ha sido desarrollada con el objetivo de ser usada por los médicos, en un futuro, se podría dar soporte también a los pacientes, donde podrían ver los informes, o incluso en caso de tener el hardware hacer la propia toma proporcionándole una guía de como hacerlo correctamente.
+
+\subsection{Idiomas}
+
+Como el proyecto surgió con la idea de ser utilizado en el servicio sanitario publico español, el único idioma implementado ha sido el castellano; en un futuro se podrían llegar a añadir las lenguas cooficiales como catalán, gallego y euskera.
+
+En caso de querer internacionalizar la aplicación, añadir en cualquier caso el inglés, y posteriormente, los idiomas oficiales de los países donde se vaya a usar la aplicación.
+
+\subsection{Actualizaciones}
+
+Como la aplicación trata sobre la salud de las personas, los cuales pertenecen al grupo de categorías especiales de datos personales según el Reglamento General de Protección de Datos; es importante que todas las actualizaciones comprueben que no se puede filtrar los datos; y en caso de que pueda ser así, sacar una nueva actualización rápidamente.
+
+\subsection{Tests unitarios}
+
+Como durante el proyecto se valoraba más la interacción del usuario con la aplicación, se realizaron test manuales. De esta forma, se podrían implementar tests automáticos para comprobar el correcto funcionamiento.
