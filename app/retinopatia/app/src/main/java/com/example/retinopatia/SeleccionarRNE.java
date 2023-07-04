@@ -91,8 +91,6 @@ public class SeleccionarRNE extends AppCompatActivity {
 
         baseDeDatosHelper = BaseDeDatosHelper.getBaseDeDatos(getApplicationContext());
 
-        //cambiar el metodo.
-
     }
     /**
      * Metodo utilizado para volver a la actividad anterior.
@@ -223,7 +221,7 @@ public class SeleccionarRNE extends AppCompatActivity {
         }
     }
     /**
-     * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar
+     * Metodo donde se inicializan los elementos de la actividad y los colores entre los que puede cambiar.
      *
      */
     private void inicializarVista(){
@@ -246,9 +244,8 @@ public class SeleccionarRNE extends AppCompatActivity {
     }
 
     /**
-     * Metodo que carga las redes neuronales
-     * TODO hay que introducir las redes neuronales de forma que al pasar a la siguiente ventana,
-     * se haya empezado el proceso. No refactorizo porque se cambiara en un futuro.
+     * Metodo que carga las redes neuronales.
+     *
      *
      */
     private void cargarRedes(){
@@ -307,7 +304,6 @@ public class SeleccionarRNE extends AppCompatActivity {
             int predictedCategory = -1;
             float maxProbability = 0;
             for (int i = 0; i < output[0].length; i++) {
-                System.out.println(output[0][i]);
                 if (output[0][i] > maxProbability) {
                     predictedCategory = i;
                     maxProbability = output[0][i];
@@ -324,7 +320,7 @@ public class SeleccionarRNE extends AppCompatActivity {
          * @param predictedCategory
          */
         private void cargarDatosBaseDeDatos(int predictedCategory) {
-            System.out.println(predictedCategory);
+
             bbdd = baseDeDatosHelper.getWritableDatabase();
             ContentValues valores = new ContentValues();
             valores.put("imagen_del_informe",bitmapToBLOB(foto,2048,2048,50));

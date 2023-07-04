@@ -9,6 +9,7 @@
 \usepackage{microtype}
 \usepackage{placeins}
 \usepackage{listings}
+\usepackage{subcaption}
 
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
@@ -355,12 +356,12 @@
   }
 \makeatother
 
-\newcommand{\nombre}{Nombre del alumno} %%% cambio de comando
+\newcommand{\nombre}{Miguel Fuente García} %%% cambio de comando
 
 % Datos de portada
-\title{título del TFG}
+\title{Aplicación Android para la detección de retinopatía diabética}
 \author{\nombre}
-\tutor{nombre tutor}
+\tutor{D. Daniel Urda Muñoz y D. Nuño Basurto Hornillos}
 \date{\today}
 
 \begin{document}
@@ -377,11 +378,11 @@
 
 \noindent\includegraphics[width=\textwidth]{cabecera}\vspace{1cm}
 
-\noindent D. nombre tutor, profesor del departamento de nombre departamento, área de nombre área.
+\noindent D. Daniel Urda Muñoz y D. Nuño Basurto Hornillos, profesores del departamento de Digitalización, área de Ciencia de la Computación e Inteligencia Artificial,
 
-\noindent Expone:
+\noindent Exponen:
 
-\noindent Que el alumno D. \nombre, con DNI dni, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado título de TFG. 
+\noindent Que el alumno D. \nombre, con DNI 71313280D, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado ``Aplicación Android para la detección de retinopatía diabética''. 
 
 \noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección del que suscribe, en virtud de lo cual se autoriza su presentación y defensa.
 
@@ -395,14 +396,14 @@ En Burgos, {\large \today}
 \begin{minipage}{0.45\textwidth}
 \begin{flushleft} %\large
 Vº. Bº. del Tutor:\\[2cm]
-D. nombre tutor
+D. Daniel Urda Muñoz
 \end{flushleft}
 \end{minipage}
 \hfill
 \begin{minipage}{0.45\textwidth}
 \begin{flushleft} %\large
 Vº. Bº. del co-tutor:\\[2cm]
-D. nombre co-tutor
+D. Nuño Basurto Hornillos
 \end{flushleft}
 \end{minipage}
 \hfill
@@ -425,9 +426,9 @@ D. nombre co-tutor
 % Abstract en castellano
 \renewcommand*\abstractname{Resumen}
 \begin{abstract}
-La retinopatía diabética es una de las mayores causas de ceguera en los países desarrollados. Para diagnosticar el grado de la complicación, se realiza una imagen de la retina del paciente, captada por un retinógrafo. Esta prueba tiene un coste elevado para la sanidad pública, e implica a su vez que el paciente se desplace a un centro médico especializado.
+La retinopatía diabética es una de las mayores causas de ceguera en los países desarrollados. Para diagnosticar el grado de la complicación, se realiza una imagen de la retina del paciente, captada por un retinógrafo. Esta prueba tiene un coste elevado para la sanidad pública, e implica a su vez que el paciente se desplace a un centro médico especializado. Así mismo, la cita con el especialista tiene una demora que puede perjudicar la situación del paciente. 
 
-Por ello, se han desarrollado unos dispositivos, para las cámaras de los teléfonos móviles, que permiten obtener las fotografías de las retinas; de esta forma, el paciente no tendría que desplazarse a un hospital que disponga de un retinógrafo y el médico de familia le realizaría la foto al paciente. 
+Por ello, se han desarrollado unos dispositivos, para las cámaras de los teléfonos móviles, que permiten obtener las fotografías de las retinas; de esta forma, el paciente no tendría que desplazarse a un hospital que disponga de un retinógrafo y el médico de familia podría realizar la fotografía al paciente, lo que facilitaría un posible cribado, anterior a la creación de la cita con el especialista. 
 
 Este trabajo tiene como objetivo desarrollar una aplicación Android que facilite el trabajo del médico; permitiendo un primer diagnóstico del paciente mediante el envío de una imagen de la retina a modelos de aprendizaje computacional. De esta forma, los pacientes que tengan algún grado de retinopatía diabética, se les realice un estudio exhaustivo. 
 
@@ -446,9 +447,9 @@ Salud, retinopatía diabética, redes neuronales, aplicación Android.
 % Abstract en inglés
 \renewcommand*\abstractname{Abstract}
 \begin{abstract}
-Diabetic retinopathy is a leading cause of blindness in developed countries. To determine the degree of abnormality, the retinographer takes a image of patient's retina, but this procedure is costly for spanish public health system, also requires the patient to travel to a medical center.
+Diabetic retinopathy is a leading cause of blindness in developed countries. To determine the degree of abnormality, the retinographer takes a image of patient's retina. This exam has a high cost for spanish public health, implying that the patient travels to a specialized medical center.
 
-To address this, there are some lenses which have been developed for mobile phone cameras to take retina photos. This way, the patient would not have to travel to a hospital that has a retinographer, and the family doctor would take the patient's photo.
+To address this, there are some lenses which have been developed for mobile phone cameras to take retina photos; this way, the patient would not have to go to a hospital that has a retinographand the family doctor could take the patient's photo, which would facilitate possible screening, prior to making an appointment with the specialist.
 
 The objective of this work is to develop an Android app that help the doctor's work by allowing for an initial diagnosis of the patient through the submission of a retina image to computational learning models. This way, patients with any degree of diabetic retinopathy can undergo a comprehensive study.
 
@@ -486,5 +487,6 @@ Health, diabetic retinopathy, neural networks, Android app.
 
 \bibliographystyle{plainnat}
 \bibliography{bibliografia}
+
 
 \end{document}

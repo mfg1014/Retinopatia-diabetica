@@ -12,7 +12,7 @@ import com.example.retinopatia.R;
 import java.io.ByteArrayOutputStream;
 
 public class BaseDeDatosHelper extends SQLiteOpenHelper {
-    private static final int VERSION_BASE_DE_DATOS = 4;
+    private static final int VERSION_BASE_DE_DATOS = 5;
     private static final String NOMBRE_BASE_DE_DATOS = "BaseDeDatosRetinopatia.sqlite";
     private static BaseDeDatosHelper bbddHelper;
     private Context context;
@@ -73,6 +73,8 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(DNI_paciente) REFERENCES pacientes(DNI)" +
                 ")";
         db.execSQL(CREATE_TABLE_INFORME);
+
+        // Se añaden los valores
         ContentValues valores = new ContentValues();
         valores.put("nombre", "Medico1");
         valores.put("apellido", "Es el medico 1");
@@ -112,7 +114,7 @@ public class BaseDeDatosHelper extends SQLiteOpenHelper {
 
         valores.clear();
         valores.put("dni_paciente",12345678);
-        valores.put("imagen_del_informe",bitmapToBLOB(BitmapFactory.decodeResource(context.getResources(), R.drawable.logo),2048,2048,50));
+        valores.put("imagen_del_informe",bitmapToBLOB(BitmapFactory.decodeResource(context.getResources(), R.drawable.foto_informe_inicial),2048,2048,50));
         valores.put("ojo_imagen","derecho");
         valores.put("resultado", 0);
         valores.put("fecha","2023-04-23");

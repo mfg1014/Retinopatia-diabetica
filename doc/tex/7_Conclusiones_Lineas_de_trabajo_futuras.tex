@@ -7,7 +7,7 @@ En este apartado, se desarrolla las conclusiones obtenidas del proyecto realizad
 A continuación se muestra una lista de las conclusiones que se pueden obtener de este trabajo:
 
 \begin{itemize}
-    \item Se han cumplido todos los objetivos planteados al inicio del documento, descartando el objetivo de agilizar el sistema sanitario, puesto que no se ha distribuido la aplicación, y en el caso de haberlo hecho, y que el sistema sanitario español quiera esta aplicación, la agilización no se podría percibir hasta pasado un tiempo.
+    \item Se han cumplido muchos de los objetivos planteados al inicio del documento, a excepción del objetivo de agilizar el sistema sanitario, puesto que no se ha distribuido la aplicación, y en el caso de haberlo hecho, y que el sistema sanitario español quiera esta aplicación, la agilización no se podría percibir hasta pasado un tiempo.
 
     \item El uso de Android Studio ha aportado facilidades en el desarrollo de la aplicación, donde la documentación ha sido un factor clave. Por otro lado, el intento de que la aplicación pueda ejecutarse en el máximo número de dispositivos, ha conseguido que la aplicación no este optimizada, con herramientas especificas de ultimas versiones.
 
@@ -21,19 +21,19 @@ A continuación se muestra una lista de las conclusiones que se pueden obtener d
 
 Finalmente, se ha conseguido una aplicación funcional que permite a los médicos, o al personal identificado, obtener resultados sobre la imagen capturada. Además, se ha añadido el modelo que detecta si una imagen tiene una calidad correcta, para que de esta forma, no se generen expedientes con una calidad mala, donde el resultado puede no ser el real. 
 
-En este caso, el usuario no tiene que ser experto en aplicaciones Android, ni en redes neuronales; donde se deja elegir al médico lar red neuronal, se debería explicar en que ocasiones es mejor cada una.
+En este caso, el usuario no tiene que ser experto en aplicaciones Android, ni en redes neuronales; donde se deja elegir al médico la red neuronal, se debería explicar en qué ocasiones es mejor cada una.
 
 \section{Líneas de trabajo futuras}
 
-El origen de la aplicación surge de la utilización de esta en el sistema sanitario publico, por lo que se propone utilizar esta aplicación como base sobre la que trabajar. 
+El origen de la aplicación surge de la utilización de ésta en el sistema sanitario público, por lo que se propone utilizar esta aplicación como base sobre la que trabajar. 
 
 \subsection{Base de datos}
 
-En primer lugar, será necesario cambiar la base de datos esto es así, porque SQLite permite crear bases de datos locales, y en caso de que se quiera acceder a un expediente creado desde otro dispositivo móvil, no existiría. Por este motivo, se debería conectar la aplicación a una base de datos online.
+En primer lugar, será necesario cambiar la base de datos. Esto es así, porque SQLite permite crear bases de datos locales, y en caso de que se quiera acceder a un expediente creado desde otro dispositivo móvil, no existiría. Por este motivo, se debería conectar la aplicación a una base de datos online.
 
 \subsection{Redes neuronales convolucionales}
 
-Otro posible cambio, son las redes neuronales, en caso de obtener nuevas redes neuronales más precisas, o que consuman menos recursos, se pueden o añadir, cambiando la vista de la interfaz, añadiendo una nueva opción para el modelo; o también se podría cambiar una de las actuales, borrando el modelo anterior, y añadiendo el nuevo.
+Otro posible cambio, son las redes neuronales, en caso de obtener nuevas redes neuronales más precisas, o que consuman menos recursos, se pueden: o añadir (cambiando la vista de la interfaz, añadiendo una nueva opción para el modelo)  o también se podría cambiar una de las actuales (borrando el modelo anterior, y añadiendo el nuevo).
 
 Además, en un futuro, se aumentará el conjunto de datos, permitiendo a las redes neuronales 
 
@@ -43,9 +43,7 @@ Actualmente, la aplicación se puede ejecutar desde dispositivos Android con una
 
 \subsection{Aumentar el número de sistemas operativos}
 
-El proyecto ha sido creado para Android, aumentar el número de dispositivos, para que los usuarios no se vean obligados a utilizar un teléfono Android. 
-
-Siendo la opción más recomendable añadir una versión para iOS.
+El proyecto ha sido creado para Android. Hay que aumentar el número de dispositivos, para que los usuarios no se vean obligados a utilizar un teléfono Android. Siendo la opción más recomendable añadir una versión para iOS.
 
 \subsection{Distribución}
 
@@ -55,17 +53,17 @@ Se recomienda el uso de Play Store, puesto que es la distribuidora oficial de An
 
 \subsection{Uso de la aplicación por el paciente}
 
-La aplicación ha sido desarrollada con el objetivo de ser usada por los médicos, en un futuro, se podría dar soporte también a los pacientes, donde podrían ver los informes, o incluso en caso de tener el hardware hacer la propia toma proporcionándole una guía de como hacerlo correctamente.
+La aplicación ha sido desarrollada con el objetivo de ser usada por los médicos. En un futuro, se podría dar soporte también a los pacientes, donde podrían ver los informes, o incluso en caso de tener el hardware hacer la propia toma proporcionándole una guía de cómo hacerlo correctamente.
 
 \subsection{Idiomas}
 
-Como el proyecto surgió con la idea de ser utilizado en el servicio sanitario publico español, el único idioma implementado ha sido el castellano; en un futuro se podrían llegar a añadir las lenguas cooficiales como catalán, gallego y euskera.
+Como el proyecto surgió con la idea de ser utilizado en el servicio sanitario público español, el único idioma implementado ha sido el castellano; en un futuro se podrían llegar a añadir las lenguas cooficiales como catalán, gallego y euskera.
 
 En caso de querer internacionalizar la aplicación, añadir en cualquier caso el inglés, y posteriormente, los idiomas oficiales de los países donde se vaya a usar la aplicación.
 
 \subsection{Actualizaciones}
 
-Como la aplicación trata sobre la salud de las personas, los cuales pertenecen al grupo de categorías especiales de datos personales según el Reglamento General de Protección de Datos; es importante que todas las actualizaciones comprueben que no se puede filtrar los datos; y en caso de que pueda ser así, sacar una nueva actualización rápidamente.
+Como la aplicación trata sobre la salud de las personas, un tema que pertenece al grupo de categorías especiales de datos personales según el Reglamento General de Protección de Datos; es importante que todas las actualizaciones comprueben que no se pueden filtrar los datos; y en caso de que pueda ser así, sacar una nueva actualización rápidamente.
 
 \subsection{Tests unitarios}
 
