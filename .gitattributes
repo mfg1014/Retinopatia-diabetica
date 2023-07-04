@@ -1,3 +1,2 @@
 app/retinopatia/app/src/main/assets/modelo2-0.009int2_0.913043498992919920230525-172156.tflite filter=lfs diff=lfs merge=lfs -text
 app/retinopatia/app/src/main/assets/BalGen_Fotos_Inpaint_Parcial_ResNet50V2_K5.tflite filter=lfs diff=lfs merge=lfs -text
-converterKerasToTFLite/BalGen_Fotos_Inpaint_Parcial_ResNet50V2_K5.h5 filter=lfs diff=lfs merge=lfs -text
